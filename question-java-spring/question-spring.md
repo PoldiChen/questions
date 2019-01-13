@@ -1,0 +1,120 @@
+# question-spring
+some questions and answers for Spring.
+
+#### 1. Spring的IoC容器如何为普通的类（非单例模式）创建单例？是线程安全的吗？
+Bean的配置有个scope属性，有5种值：singleton、prototype、request、session、global-session，默认使用singleton，比如：<br>
+```
+<bean id="p1" class="com.test.Person" />
+<bean id="p2" class="com.test.Person" scope="prototype" />
+```
+不是线程安全的。大部分的bean没有可变的状态，但View Model有多种状态，需要自行保证线程安全，一个简单的方法就是把作用域从默认的singleton改成prototype，每次请求都创建一个新的bean。
+
+#### 2. SpringMVC工作流程？
+(1) 请求request到达DispatcherServlet（DispatcherServlet能够拦截所有请求）<br>
+(2) DispatcherServlet查找HandleMapping，将功能代理给HandleMapping<br>
+(3) HandleMapping根据配置，找到Controller和HandleInterceptor<br>
+(4) 把Controller和HandleInterception制作成一个可执行的链条，也就是HandleAdapter<br>
+(5) HandleAdapter将信息返回给DispatcherServlet，DispatcherServlet开始调用这个一般化的处理器<br>
+(6) Controller生成ModelAndView，返回给DispatcherServlet<br>
+(7) DispatcherServlet调用ViewResolver视图解析器，返回到View对象<br>
+(8) ModelAndView将数据传递到View
+
+#### 3. Spring有哪些类型的依赖注入方式？
+(1) 构造器依赖注入：通过容器触发类的一个构造器，参数可以表示对其他类的依赖<br>
+(2) setter方法依赖注入：通过容器调用无参构造器或无参static工厂方法实例化bean，调用bean的set方法<br>
+(3) 接口注入
+
+#### 4. Spring框架中bean的生命周期？
+&emsp;&emsp;一个bean实例初始化时，需要执行一系列的初始化操作以达到可用状态；不再被调用时需要执行相关的析构操作，从bean容器移除。<br>
+&emsp;&emsp;BeanFactory负责管理bean的生命周期，bean的生命周期由两组回调函数组成：初始化之后调用的回调方法和销毁之前调用的回调方法。<br>
+&emsp;&emsp;Spring框架提供了4种方式来管理bean的生命周期：
+
+#### 5. Spring的bean装配？自动装配？
+bean装配是指在spring容器中把bean组装在一起，前提是容器需要知道bean的依赖关系，通过依赖注入装配到一起。<br>
+spring容器能够自动装配相互合作的bean。<br>
+自动装配的5种模式：<br>
+(1) no：默认的方式，不自动装配，通过手动设置ref属性来装配<br>
+(2) byName：通过参数名自动装配，查找和bean属性具有相同名字的其他bean<br>
+(3) byType：通过参数的类型自动装配，查找和bean属性类型相同的其他bean<br>
+(4) constructor：和byType类似<br>
+(5) autodetect：如果有默认的构造函数，则通过constructor的方式，否则通过byType的方式<br>
+
+#### 6. Spring支持的事务管理类型？
+(1) 编程式事务管理：通过编程的方式管理事务，灵活，但难维护<br>
+(2) 声明式事务管理：将业务代码和事务管理分离，只需用注解和XML配置来管理
+
+#### 7. Spring的BeanFactory和ApplicationContext的区别？
+BeanFactory是spring IoC的具体实现，提供了一种先进的配置机制，能配置任何类型的对象。<br>
+ApplicationContext对BeanFactory进行扩展，添加了其他功能，如国际化、统一的资源文件读取方式。<br>
+三种常见的ApplicationContext实现方式：<br>
+(1) ClassPathXmlApplicationContext<br>
+(2) FileSystemXmlApplicationContext<br>
+(3) XmlWebApplicationContext
+
+#### 8. Spring中使用的设计模式？
+(1) 代理模式：AOP<br>
+(2) 单例模式：实例化的bean默认是singleton的<br>
+(3) 工厂模式：BeanFactory用来创建对象的实例<br>
+(4) 模板方法：用来解决代码重复的问题，如RestTemplate
+
+#### 9. Spring的依赖注入（DI，Dependency Injection）和控制反转（IoC，Inversion of Control Container）？
+&emsp;&emsp;依赖注入：在运行时将类的依赖注入到代码中，将依赖定义为接口，将实现了这个接口的实体类注入到主类的构造器中。<br>
+&emsp;&emsp;依赖注入可以通过单一责任原则来提高代码的内聚，因为依赖的对象通常都是能独立完成一个功能的对象。<br>
+&emsp;&emsp;控制反转容器：一个支持依赖注入的中心容器，如spring框架，定义哪个依赖应该使用哪个实体类。<br>
+&emsp;&emsp;不实际生成对象，而是定义如何生成对象。<br>
+&emsp;&emsp;依赖注入和控制反转能够在运行时绑定类之间的关系，而不是编译时。<br>
+&emsp;&emsp;松耦合也更易于单元测试。
+
+#### 10. Spring如何使用ThreadLocal解决线程安全问题？
+&emsp;&emsp;ThreadLocal是线程的一个本地化对象。多线程环境的对象使用ThreadLocal维护变量时，为每个线程分配一个变量副本，每个线程可以独立的改变自己的副本，相当于线程的本地变量。<br>
+&emsp;&emsp;ThreadLocal类中有一个内部类ThreadLocalMap，key为线程对象，value为线程的变量副本。<br>
+&emsp;&emsp;数据连接和会话一般是非线程安全的，
+
+#### 11. Spring源码-IoC？
+BeanFactory：bean的管理工厂，所有bean都在其中创建、存储、销毁<br>
+DefaultListableBeanFactory：BeanFactory的实现类<br>
+Resource：spring的配置信息，可以来自xml文件、网络、数据流<br>
+BeanDefinition：封装bean的所有信息，包括参数值、方法名、是否懒加载、是否单例<br>
+BeanDefinitionReader：构建BeanDefinition，从Resource中读取信息封装成BeanDefinition<br>
+ApplicationContext：上下文，实现了各种接口，封装了各种bean对象<br>
+Environment：运行环境配置信息<br>
+Document：从xml文件中抽取出来的文本对象<br>
+Element：从Document中抽取出来的node节点<br>
+spring-test
+
+#### 12. Spring源码-AOP？在项目中的使用？和拦截器、过滤器的区别？？？
+&emsp;&emsp;两种代理的方式：默认使用JDK动态代理，目标类无接口的时候用cglib（code generation library），代码生成类库，可以在运行时时期扩展Java类实现Java接口，动态生成新的class<br>
+&emsp;&emsp;权限验证、异常处理。
+
+#### 13. Spring有哪些优点？
+轻量级。<br>
+控制反转。注入依赖的对象，实现了松耦合。<br>
+面向切面编程。将业务逻辑和系统服务分离。<br>
+容器。管理对象的配置和生命周期。<br>
+MVC框架。<br>
+事务管理。统一的事务管理接口。<br>
+异常处理。将特定技术（如JDBC、Hibernate）的异常转化为一致的unchecked异常。
+
+#### 14. 如何在Spring中注入Java集合类？
+使用集合配置元素：<br>
+list元素：注入一系列的值，允许重复<br>
+set元素：注入一系列的值，不允许重复<br>
+map元素：注入一组键值对，键和值可以是任意类型<br>
+props元素：注入一组键值对，键和值都是字符串
+
+#### 15. Spring初始化bean的过程？
+(1) 容器寻找bean的定义信息并实例化<br>
+(2) 使用依赖注入，按照bean定义信息配置其属性<br>
+(3) 如果实现了BeanNameAware接口，调用bean的setBeanName()方法传递bean的id<br>
+(4) 如果实现了BeanFactoryAware接口，调用setBeanFactory()方法传入工厂自身<br>
+(5) 如果BeanPostProcessor和bean关联，调用postProcessBeforeInitialization()方法<br>
+(6) 如果bean指定了init-method方法，将被调用
+
+#### 16. Spring如何解决类循环依赖？
+(1) setter对象的依赖。<br>
+&emsp;&emsp;A类需要设置B类，B类需要设置C类，C类需要设置A类，形成循环。<br>
+&emsp;&emsp;Spring的解决方案是，初始化A类的时间将Bean放入缓存中，然后set B类，再把B类的Bean放入缓存中，然后set C类，初始化C类的时候需要A类的Bean，这是不需要初始化，从缓存中获取。<br>
+&emsp;&emsp;这种只对single的Bean起作用，因为prototype的Bean不做缓存。<br>
+(2) 构造器中对其他类的依赖。<br>
+&emsp;&emsp;创建A类需要在构造器中初始化B类，创建B类需要在构造器中初始化C类，创建C类需要在构造器中初始化A类，形成循环。<br>
+&emsp;&emsp;Spring的解决方案是，把创建中的Bean放入到一个“当前创建Bean池”中，初始化类的时候如果发现Bean类已经存在，抛出BeanCurrentInCreationException异常。

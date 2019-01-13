@@ -1,0 +1,20 @@
+<script type="text/javascript">
+
+    // 定义回调函数
+    var resultHandler = function(result) {
+        alert(result.data);
+    };
+
+    // 定义url，声明传递的查询参数和回调的函数名resultHandler
+    var url = 'host/remoteServer.php?callback=resultHandler&id=1';
+
+    // 动态创建script 标签
+    var script = document.createElement('script');
+    script.setAttribute('src', url);
+
+    // 把script标签加入head，调用开始
+    document.getElementsByTagName('head')[0].appendChild(script);
+
+</script>
+
+

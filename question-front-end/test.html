@@ -1,0 +1,15 @@
+
+<ul>
+	<li>1</li>
+	<li>2</li>
+</ul>
+
+<script type="javascript">
+	console.log('js');
+	var ulNode = document.getElementById('ul');
+	ulNode.addEventListener('click', function(e) {
+		if (e.target && e.target.nodeName.toUpperCase() == 'LI') {
+			alert(e.target.innerHTML);
+		}
+	}, false);
+</script>

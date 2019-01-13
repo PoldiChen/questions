@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+    <script>
+
+        bind2();
+
+
+        function bind1() {
+            window.onload = function() {
+                var ul = document.getElementById('id_ul');
+                var lis = ul.getElementsByTagName('li');
+                for (var i=0; i<lis.length; i++) {
+                    lis[i].onclick = function() {
+                        alert(this.innerHTML);
+                    }
+                }
+            };
+        }
+
+        function bind2() {
+            window.onload = function() {
+                var ul = document.getElementById('id_ul');
+                ul.onclick = function(event) {
+                    var e = event || window.event;
+                    var target = e.target || e.srcElement; // 事件的目标节点，称为事件源； 兼容IE
+                    if (target.nodeName.toLowerCase() === 'li') {
+                        alert(target.innerHTML);
+                    }
+                };
+            };
+        }
+
+
+    </script>
+</head>
+<body>
+
+    <ul id="id_ul">
+        <li>111</li>
+        <li>222</li>
+    </ul>
+
+</body>
+</html>
