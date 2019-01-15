@@ -1,4 +1,4 @@
-package question018;
+package question016;
 
 /**
  * 目标类，实现了代理接口
