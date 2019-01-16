@@ -1,4 +1,4 @@
-package question067;
+package question056;
 
 public class MainWithoutStatic {
 	

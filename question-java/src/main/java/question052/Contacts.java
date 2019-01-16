@@ -1,4 +1,4 @@
-package question062;
+package question052;
 
 public final class Contacts { // ¿‡”√final–ﬁ Œ
 	  
