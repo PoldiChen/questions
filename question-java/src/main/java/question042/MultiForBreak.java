@@ -1,4 +1,4 @@
-package question049;
+package question042;
 
 public class MultiForBreak {
 	
