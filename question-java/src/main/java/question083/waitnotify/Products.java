@@ -1,4 +1,4 @@
-package question110.waitnotify;
+package question083.waitnotify;
 
 import java.util.LinkedList;
 import java.util.Queue;

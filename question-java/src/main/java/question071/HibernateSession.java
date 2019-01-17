@@ -1,4 +1,4 @@
-package question089;
+package question071;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

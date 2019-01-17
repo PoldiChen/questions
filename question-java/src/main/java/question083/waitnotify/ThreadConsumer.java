@@ -1,4 +1,4 @@
-package question110.waitnotify;
+package question083.waitnotify;
 
 public class ThreadConsumer implements Runnable {
 

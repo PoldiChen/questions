@@ -1,4 +1,4 @@
-package question074;
+package question060;
 
 public class NewInstance {
 	

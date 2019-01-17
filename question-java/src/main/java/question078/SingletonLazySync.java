@@ -1,4 +1,4 @@
-package question100;
+package question078;
 
 public class SingletonLazySync {
 	

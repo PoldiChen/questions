@@ -1,4 +1,4 @@
-package question110.blockingqueue;
+package question083.blockingqueue;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;

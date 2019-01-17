@@ -1,4 +1,4 @@
-package question110.blockingqueue;
+package question083.blockingqueue;
 
 
 public class ThreadProducer implements Runnable {
