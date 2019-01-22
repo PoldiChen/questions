@@ -1,4 +1,4 @@
-package question209;
+package question166;
 
 public class PrimeCheck {
 	

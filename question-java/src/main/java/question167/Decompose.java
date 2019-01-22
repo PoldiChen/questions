@@ -1,4 +1,4 @@
-package question210;
+package question167;
 
 public class Decompose {
 	
