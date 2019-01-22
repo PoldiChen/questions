@@ -1,4 +1,4 @@
-package question183;
+package question144;
 
 public class SingletonStaticInnerClass {
 	
