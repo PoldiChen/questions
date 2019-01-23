@@ -1,4 +1,4 @@
-package question222;
+package question179;
 
 public class StringIntern {
 	
@@ -24,9 +24,6 @@ public class StringIntern {
 
 interface Test {
 	
-	public static void test() {
-		//
-	}
-	
+	public void test();
 	public void test2();
 }
