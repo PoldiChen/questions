@@ -61,8 +61,6 @@ Java NIO中有一个选择器（selector），可以将多个通道（channel）
 1) 重写需要复制的对象的clone方法，将引用的对象也复制一遍<br>
 2) 使用序列化和反序列化的方法。
 
-
-
 #### 11. 创建对象的几种方式？
 (1) new<br>
 (2) Class类的newInstance方法<br>
