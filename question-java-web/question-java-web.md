@@ -82,3 +82,5 @@ getAttribute()和setAttribute()只在web容器内部流转，仅是处理请求�
 getAttribute()返回对象，getParameter()返回字符串。<br>
 getAttribute()和setAttribute()一起使用，先set才能get，在同一个request中才有效。<br>
 getParameter()接收表单的get或post传递过来的参数。<br>
+
+#### 10. Java实现短URL生成？code question-java-web 10
