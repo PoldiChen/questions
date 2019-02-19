@@ -19,7 +19,13 @@ Redis | Memcached
 数据一致性问题 | 没有cas命令，但提供了事务功能 | cas命令，保证多个并发访问的一致性
 集群管理 | 在服务器端构建分布式存储 | 本身不支持分布式，在客户端实现分布式存储
 
-#### 2.
+#### 2. 如何计算Memcached的命中率？
+使用stats命令，列出cmd_get和get_hits，get_hits/cmd_get即为命中率。
+
+#### 3. ElasticSearch全文搜索？
+一个基于Lucene的搜索服务器
+
+####
 
 
 
