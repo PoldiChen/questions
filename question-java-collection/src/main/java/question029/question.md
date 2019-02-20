@@ -1,0 +1,1 @@
+Enumeration接口和Iterator接口的区别？

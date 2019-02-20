@@ -12,7 +12,7 @@ public class PriorityQueueTest {
 		queue.add("c");
 		Iterator<String> iterator = queue.iterator();
 		while (iterator.hasNext()) {
-			System.out.println(iterator.next()); // Êä³ö a b c
+			System.out.println(iterator.next()); // è¾“å‡º a b c
 		}
 	}
 
