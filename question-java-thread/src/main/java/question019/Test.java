@@ -12,7 +12,7 @@ public class Test {
 		}
 		ExecutorService executorService = Executors.newCachedThreadPool();
 		for (int i=0; i<5; i++) {
-			executorService.execute(new Philosopher(chopsticks[i], chopsticks[(i+1)%5], i)); // 分配两根筷子
+			executorService.execute(new Philosopher(chopsticks[i], chopsticks[(i+1)%5], i)); // 鍒嗛厤涓ゆ牴绛峰瓙
 		}
 		executorService.shutdown();
 	}

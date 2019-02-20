@@ -1,6 +1,6 @@
 package question065;
 
-// synchronizedÊÇ¿ÉÖØÈëËø
+// synchronizedæ˜¯å¯é‡å…¥é”
 public class SynchronizedTest {
 	
 	synchronized void setA() throws Exception {

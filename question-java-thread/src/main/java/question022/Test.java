@@ -2,7 +2,7 @@ package question022;
 
 public class Test {
 	
-	// 使用jdk目录下的java visualVM可以检测到死锁
+	// 浣跨敤jdk鐩綍涓嬬殑java visualVM鍙互妫�娴嬪埌姝婚攣
 	public static void main(String[] args) throws InterruptedException {
 		Object obj1 = new Object();
 		Object obj2 = new Object();

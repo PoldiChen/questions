@@ -4,7 +4,7 @@ public class MyThread implements Runnable {
 	
 	public synchronized void get() {
 		System.out.println(Thread.currentThread().getName());
-		set(); // ¿ÉÖØÈë
+		set(); // å¯é‡å…¥
 	}
 	
 	public synchronized void set() {

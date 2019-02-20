@@ -8,7 +8,7 @@ public class ThreadB implements Runnable {
 		Thread threadA = new Thread(new ThreadA());
 		threadA.start();
 		try {
-			threadA.join(); // 等待线程A执行完，本线程才继续执行
+			threadA.join(); // 绛夊緟绾跨▼A鎵ц瀹岋紝鏈嚎绋嬫墠缁х画鎵ц
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
 		}

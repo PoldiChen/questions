@@ -2,7 +2,7 @@ package question065;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-// 自旋锁的实现
+// 鑷棆閿佺殑瀹炵幇
 public class SpinLockTest {
 	
 	private AtomicReference<Thread> cas = new AtomicReference<>();
