@@ -170,7 +170,16 @@ AQS定义了对双向队列的所有操作，只开放了tryLock和tryRelease给
 java.util.concurrent.BlockingQueue的特性是：队列是空的时，获取或删除元素的操作会被阻塞，队列是满的时，添加元素的操作会被阻塞。<br>
 不接受空值，添加空值时会抛出NullPointerException。<br>
 线程安全，所有的查询方法都是原子的。<br>
-主要用于实现生产-消费模型。
+主要用于实现生产-消费模型。<br>
+
+JDK7提供了7个阻塞队列：
+- ArrayBlockingQueue：由数组结构组成的有界阻塞队列
+- LinkedBlockingQueue：由链表结构组成的有界阻塞队列
+- PriorityBlockingQueue：支持优先级排序的无界阻塞队列
+- DelayQueue：使用优先级队列实现的无界阻塞队列
+- SynchronousQueue：不存储元素的阻塞队列
+- LinkedTransferQueue：由链表结构组成的无界阻塞队列
+- LinkedBlockingDeque：由链表结构组成的双向阻塞队列
 
 #### 25. ArrayBlockingQueue的原理和应用？
 实现了BlockingQueue接口。<br>
