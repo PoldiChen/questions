@@ -13,7 +13,7 @@ public class StackOverflowErrorTest {
 		StackOverflowErrorTest stackOverflowErrorTest = new StackOverflowErrorTest();
 		try {
 			stackOverflowErrorTest.call();
-		} catch (Throwable e) { // ²»ÊÇexception£¬StackOverflowErrorºÍOutOfMemoryError¶¼²»ÊÇexceptionµÄ×ÓÀà
+		} catch (Throwable e) { // ä¸æ˜¯exceptionï¼ŒStackOverflowErrorå’ŒOutOfMemoryErroréƒ½ä¸æ˜¯exceptionçš„å­ç±»
 			System.out.println("depth:"+index);
 			e.printStackTrace();
 		}

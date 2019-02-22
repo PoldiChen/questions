@@ -1,0 +1,1 @@
+Java内存模型的PermGen（永久代）和Metaspace（元空间）？

@@ -3,10 +3,10 @@ package question015;
 import java.util.ArrayList;
 import java.util.List;
 
-// ¶ÑÄÚ´æÒç³ö
-// -Xms20m                          ×îĞ¡¶ÑÄÚ´æ
-// -Xmx20m                          ×î´ó¶ÑÄÚ´æ
-// -XX:+HeapDumpOnOutOfMemoryError  ´òÓ¡³öÏß³ÌÎÄ¼ş
+// å †å†…å­˜æº¢å‡º
+// -Xms20m                          æœ€å°å †å†…å­˜
+// -Xmx20m                          æœ€å¤§å †å†…å­˜
+// -XX:+HeapDumpOnOutOfMemoryError  æ‰“å°å‡ºçº¿ç¨‹æ–‡ä»¶
 public class OutOfMemoryErrorTest {
 	
 	static class OOMObject {}
