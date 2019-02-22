@@ -1,7 +1,7 @@
 package question001;
 
 /**
- * �ӿڶ�̳�
+ * 接口多继承
  * @author Administrator
  *
  */
@@ -16,4 +16,4 @@ interface InterA {}
 
 interface InterB {}
 
-interface InterC extends InterA, InterB {} // �ӿ�C����ͬʱ�̳нӿ�A�ͽӿ�B
+interface InterC extends InterA, InterB {} // 接口C可以同时继承接口A和接口B

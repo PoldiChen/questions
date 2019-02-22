@@ -1,0 +1,1 @@
+String对象的intern()方法？

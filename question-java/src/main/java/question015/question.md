@@ -1,0 +1,1 @@
+子类能否覆盖（override）父类的static方法？能否覆盖private方法？
