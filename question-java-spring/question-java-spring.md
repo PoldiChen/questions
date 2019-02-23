@@ -7,7 +7,14 @@ Bean的配置有个scope属性，有5种值：singleton、prototype、request、
 <bean id="p1" class="com.test.Person" />
 <bean id="p2" class="com.test.Person" scope="prototype" />
 ```
-不是线程安全的。大部分的bean没有可变的状态，但View Model有多种状态，需要自行保证线程安全，一个简单的方法就是把作用域从默认的singleton改成prototype，每次请求都创建一个新的bean。
+不是线程安全的。大部分的bean没有可变的状态，但View Model有多种状态，需要自行保证线程安全，一个简单的方法就是把作用域从默认的singleton改成prototype，每次请求都创建一个新的bean。<br>
+
+Bean的5种作用域：<br>
+singleton：默认，在IOC容器中只有一个实例<br>
+prototype：可以有多个实例<br>
+request：每次请求都会创建一个实例<br>
+session：在一个HTTP Session中，一个bean对应一个实例<br>
+global-session：在一个全局的HTTP Session中，一个bean对应一个实例
 
 #### 2. SpringMVC工作流程？
 (1) 请求request到达DispatcherServlet（DispatcherServlet能够拦截所有请求）<br>
@@ -25,13 +32,23 @@ Bean的配置有个scope属性，有5种值：singleton、prototype、request、
 (3) 接口注入
 
 #### 4. Spring框架中bean的生命周期？
-&emsp;&emsp;一个bean实例初始化时，需要执行一系列的初始化操作以达到可用状态；不再被调用时需要执行相关的析构操作，从bean容器移除。<br>
-&emsp;&emsp;BeanFactory负责管理bean的生命周期，bean的生命周期由两组回调函数组成：初始化之后调用的回调方法和销毁之前调用的回调方法。<br>
-&emsp;&emsp;Spring框架提供了4种方式来管理bean的生命周期：
+一个bean实例初始化时，需要执行一系列的初始化操作以达到可用状态；不再被调用时需要执行相关的析构操作，从bean容器移除。<br>
+BeanFactory负责管理bean的生命周期，bean的生命周期由两组回调函数组成：初始化之后调用的回调方法和销毁之前调用的回调方法。<br>
+Spring框架提供了4种方式来管理bean的生命周期：<br>
+
+(1) Spring容器从XML文件中读取bean的定义，并实例化bean<br>
+(2) 根据bean的定义填充所有属性<br>
+(3) 如果bean实现了BeanNameAware接口，传递bean的ID到setBeanName方法<br>
+(4) 如果bean实现了BeanFactoryAware接口，传递beanFactory给setBeanFactory方法<br>
+(5) 如果有与bean关联的BeanPostProcessors，Spring会在postProcessorBeforeInitialization()方法内调用它们<br>
+(6) 如果实现了InitializingBean，调用它的afterPropertySet方法，如果bean声明了初始化方法，调用此初始化方法<br>
+(7) 如果有与bean关联的BeanPostProcessors，这些bean的postProcessorAfterInitialization()方法将被调用<br>
+(8) 如果bean实现了DisposableBean方法，它将调用destroy方法
 
 #### 5. Spring的bean装配？自动装配？
 bean装配是指在spring容器中把bean组装在一起，前提是容器需要知道bean的依赖关系，通过依赖注入装配到一起。<br>
 spring容器能够自动装配相互合作的bean。<br>
+
 自动装配的5种模式：<br>
 (1) no：默认的方式，不自动装配，通过手动设置ref属性来装配<br>
 (2) byName：通过参数名自动装配，查找和bean属性具有相同名字的其他bean<br>
@@ -39,9 +56,15 @@ spring容器能够自动装配相互合作的bean。<br>
 (4) constructor：和byType类似<br>
 (5) autodetect：如果有默认的构造函数，则通过constructor的方式，否则通过byType的方式<br>
 
+自动装配的局限性：<br>
+重写：仍需用<constructor-arg>和<property>配置来定义依赖，意味着总要重写自动装配<br>
+基本数据类型：不能自动装配简单的属性，如基本数据类型、String字符串和类<br>
+模糊特性：不如显式装配精确
+
 #### 6. Spring支持的事务管理类型？
 (1) 编程式事务管理：通过编程的方式管理事务，灵活，但难维护<br>
-(2) 声明式事务管理：将业务代码和事务管理分离，只需用注解和XML配置来管理
+(2) 声明式事务管理：将业务代码和事务管理分离，只需用注解和XML配置来管理<br>
+声明式事务对代码的影响较小，更符合无侵入轻量级容器的思想，但少了一些灵活性。
 
 #### 7. Spring的BeanFactory和ApplicationContext的区别？
 BeanFactory是spring IoC的具体实现，提供了一种先进的配置机制，能配置任何类型的对象。<br>
@@ -82,12 +105,12 @@ Document：从xml文件中抽取出来的文本对象<br>
 Element：从Document中抽取出来的node节点<br>
 spring-test
 
-#### 12. Spring源码-AOP？在项目中的使用？和拦截器、过滤器的区别？？？
-&emsp;&emsp;两种代理的方式：默认使用JDK动态代理，目标类无接口的时候用cglib（code generation library），代码生成类库，可以在运行时时期扩展Java类实现Java接口，动态生成新的class<br>
-&emsp;&emsp;权限验证、异常处理。
+#### 12. Spring的AOP？在项目中的使用？和拦截器、过滤器的区别？？？
+两种代理的方式：默认使用JDK动态代理，目标类无接口的时候用cglib（code generation library），代码生成类库，可以在运行时时期扩展Java类实现Java接口，动态生成新的class。<br>
+项目中的使用：权限验证、异常处理、日志、事务管理。
 
 #### 13. Spring有哪些优点？
-轻量级。<br>
+轻量级。基本的版本大约2MB.<br>
 控制反转。注入依赖的对象，实现了松耦合。<br>
 面向切面编程。将业务逻辑和系统服务分离。<br>
 容器。管理对象的配置和生命周期。<br>
@@ -118,3 +141,30 @@ props元素：注入一组键值对，键和值都是字符串
 (2) 构造器中对其他类的依赖。<br>
 &emsp;&emsp;创建A类需要在构造器中初始化B类，创建B类需要在构造器中初始化C类，创建C类需要在构造器中初始化A类，形成循环。<br>
 &emsp;&emsp;Spring的解决方案是，把创建中的Bean放入到一个“当前创建Bean池”中，初始化类的时候如果发现Bean类已经存在，抛出BeanCurrentInCreationException异常。
+
+#### 17. Spring的核心容器？
+应用上下文模块，提供Spring框架的基础功能，BeanFacory是任何以Spring为基础的应用的核心。<br>
+Spring框架建立在此模块之上，它使Spring成为一个容器。
+
+#### 18. Bean的生命周期方法？能否重载？？？
+setUp方法，在容器加载bean的时候被调用。<br>
+tearDown方法，容器卸载类的时候被调用
+
+#### 19. Spring常用的注解？
+@Required <br>
+bean的属性必须在配置的时候设置，通过一个bean定义的显式的属性值或通过自动装配<br>
+@Autowired <br>
+提供了更细粒度的控制，包括在何处以及如何完成自动装配<br>
+@Qualifier <br>
+有多个相同类型的bean但只有一个需要自动装配，将@Qualifier和@Autowired结合消除这种混淆，指定需要装配的确切的bean
+
+
+
+
+
+
+
+
+
+
+#### 100.
