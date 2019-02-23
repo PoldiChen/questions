@@ -83,4 +83,4 @@ getAttribute()返回对象，getParameter()返回字符串。<br>
 getAttribute()和setAttribute()一起使用，先set才能get，在同一个request中才有效。<br>
 getParameter()接收表单的get或post传递过来的参数。<br>
 
-#### 10. Java实现短URL生成？code question-java-web 10
+#### 10. Java实现短URL生成？code
