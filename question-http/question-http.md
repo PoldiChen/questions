@@ -211,6 +211,9 @@ DELETE：删除资源
 (6) server用私钥解密得到第4步的秘钥<br>
 (7) client和server通过第4步生成的对称加密的秘钥进行传输<br>
 
+#### 18. PUT和PATCH的区别？
+都是更新，PUT是全量更新，PATCH是部分更新。
+
 
 
 
