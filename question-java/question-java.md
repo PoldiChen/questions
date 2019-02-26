@@ -372,6 +372,10 @@ JDBC只面向关系型数据库，JDO更通用，提供到任何数据底层的�
 静态初始化器：加载类时运行的代码<br>
 实例初始化器：创建对象时运行的代码<br>
 
+#### 69. java.util.Date和java.sql.Date的区别？
+java.sql.Date针对sql语句，只有日期而没有时间。<br>
+都有getTime()方法，返回毫秒数。<br>
+java.sql.Date继承自java.util.Date。
 
 
 

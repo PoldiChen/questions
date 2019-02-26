@@ -330,6 +330,10 @@ PARTITION BY RANGE( YEAR(joined) ) (
 非结构化或弱结构化数据<br>
 对事务要求不强，且无太多关联操作的数据
 
+#### 37. MySQL的char和varchar的区别？
+char固定长度，varchar长度可变。<br>
+char和varchar的存储字节由具体的字符集决定。<br>
+char的值长度不够时用空格代替。
 
 
 

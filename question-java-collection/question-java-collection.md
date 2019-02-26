@@ -26,8 +26,9 @@ HashMap |	TreeMap
 适用于插入、删除、定位 |	适用于有序的遍历
 JDK 1.7：Entry<K, V>数据<br>JDK 1.8：数组+链表（链表的长度达到一个阀值8后转化为红黑树） |	红黑树
 
-&emsp;&emsp;不能完全替代。Hashtable的迭代器是强一致性的，ConcurrentHashMap是弱一致性的。<br>
-&emsp;&emsp;弱一致性是指在ConcurrentHashMap中put一个元素，对get不是立即可见的，为了提升效率，效率和一致性的权衡。<br>
+不能完全替代。Hashtable的迭代器是强一致性的，ConcurrentHashMap是弱一致性的。<br>
+弱一致性是指在ConcurrentHashMap中put一个元素，对get不是立即可见的，为了提升效率，效率和一致性的权衡。<br>
+
 多线程环境下扩容会导致Node链表形成环形（？？？）结构，next节点永远不为空，导致死循环。
 
 #### 4. Comparable和Comparator接口
