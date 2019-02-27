@@ -32,3 +32,6 @@ Spring Boot Actuator，可以访问生产环境中正在运行的应用的状态
 #### 6. 什么是YAML？
 Yet another Markup Language，一种人类可读的数据序列化语言，常用于配置文件。<br>
 能够分层配置，更加架构化，更少混淆。
+
+#### 7. Spring Cloud路由网关？
+Zuul和Gateway两个组件。
