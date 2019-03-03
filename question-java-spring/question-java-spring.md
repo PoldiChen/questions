@@ -19,12 +19,15 @@ global-session：在一个全局的HTTP Session中，一个bean对应一个实�
 #### 2. SpringMVC工作流程？
 (1) 请求request到达DispatcherServlet（DispatcherServlet能够拦截所有请求）<br>
 (2) DispatcherServlet查找HandleMapping，将功能代理给HandleMapping<br>
-(3) HandleMapping根据配置，找到Controller和HandleInterceptor<br>
-(4) 把Controller和HandleInterception制作成一个可执行的链条，也就是HandleAdapter<br>
-(5) HandleAdapter将信息返回给DispatcherServlet，DispatcherServlet开始调用这个一般化的处理器<br>
-(6) Controller生成ModelAndView，返回给DispatcherServlet<br>
-(7) DispatcherServlet调用ViewResolver视图解析器，返回到View对象<br>
-(8) ModelAndView将数据传递到View
+(3) HandleMapping找到具体的处理器，生成处理器对象及处理器拦截器一并返回给DispatcherServlet<br>
+(4) DispatcherServlet调用HandleAdapter处理器适配器<br>
+(5) HandleAdapter经过适配调用具体的处理器，找到Controller和HandleInterceptor<br>
+(6) 把Controller和HandleInterception制作成一个可执行的链条，也就是HandleAdapter<br>
+(7) HandleAdapter将信息返回给DispatcherServlet，DispatcherServlet开始调用这个一般化的处理器<br>
+(8) Controller生成ModelAndView，返回给DispatcherServlet<br>
+(9) DispatcherServlet调用ViewResolver视图解析器，返回到View对象<br>
+(10) ModelAndView将数据传递到View<br>
+(11) DispatcherServlet响应给用户
 
 #### 3. Spring有哪些类型的依赖注入方式？
 (1) 构造器依赖注入：通过容器触发类的一个构造器，参数可以表示对其他类的依赖<br>
@@ -134,13 +137,16 @@ props元素：注入一组键值对，键和值都是字符串
 (6) 如果bean指定了init-method方法，将被调用
 
 #### 16. Spring如何解决类循环依赖？
-(1) setter对象的依赖。<br>
+(1) setter对象的依赖（单例）<br>
 &emsp;&emsp;A类需要设置B类，B类需要设置C类，C类需要设置A类，形成循环。<br>
 &emsp;&emsp;Spring的解决方案是，初始化A类的时间将Bean放入缓存中，然后set B类，再把B类的Bean放入缓存中，然后set C类，初始化C类的时候需要A类的Bean，这是不需要初始化，从缓存中获取。<br>
 &emsp;&emsp;这种只对single的Bean起作用，因为prototype的Bean不做缓存。<br>
-(2) 构造器中对其他类的依赖。<br>
+(2) 构造器中对其他类的依赖<br>
 &emsp;&emsp;创建A类需要在构造器中初始化B类，创建B类需要在构造器中初始化C类，创建C类需要在构造器中初始化A类，形成循环。<br>
-&emsp;&emsp;Spring的解决方案是，把创建中的Bean放入到一个“当前创建Bean池”中，初始化类的时候如果发现Bean类已经存在，抛出BeanCurrentInCreationException异常。
+&emsp;&emsp;Spring的解决方案是，把创建中的Bean放入到一个“当前创建Bean池”中，初始化类的时候如果发现Bean类已经存在，抛出BeanCurrentInCreationException异常。<br>
+(3) setter方法原型，prototype<br>
+&emsp;&emsp;对于作用域为prototype的bean，Spring容器无法完成依赖注入，因为这种作用域的bean不进行缓存，因此无法提前暴露一个正在创建的bean。
+
 
 #### 17. Spring的核心容器？
 应用上下文模块，提供Spring框架的基础功能，BeanFacory是任何以Spring为基础的应用的核心。<br>

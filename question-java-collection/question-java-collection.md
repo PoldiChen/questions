@@ -29,7 +29,8 @@ JDK 1.7：Entry<K, V>数据<br>JDK 1.8：数组+链表（链表的长度达到�
 不能完全替代。Hashtable的迭代器是强一致性的，ConcurrentHashMap是弱一致性的。<br>
 弱一致性是指在ConcurrentHashMap中put一个元素，对get不是立即可见的，为了提升效率，效率和一致性的权衡。<br>
 
-多线程环境下扩容会导致Node链表形成环形（？？？）结构，next节点永远不为空，导致死循环。
+多线程环境下扩容会导致Node链表形成环形结构，next节点永远不为空，导致死循环。<br>
+初始容量为16，插入时如果容量不如需要扩容，整个hash表都需要重新计算，计算的时候会导致链表逆序，多线程的时候就可能导致在逆序的时候形成环形。
 
 #### 4. Comparable和Comparator接口
 Comparable接口 | Comparator接口
