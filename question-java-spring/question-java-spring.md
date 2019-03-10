@@ -3,7 +3,7 @@ some questions and answers for Spring.
 
 #### 1. Spring的IoC容器如何为普通的类（非单例模式）创建单例？是线程安全的吗？
 Bean的配置有个scope属性，有5种值：singleton、prototype、request、session、global-session，默认使用singleton，比如：<br>
-```
+```xml
 <bean id="p1" class="com.test.Person" />
 <bean id="p2" class="com.test.Person" scope="prototype" />
 ```
@@ -82,6 +82,8 @@ ApplicationContext对BeanFactory进行扩展，添加了其他功能，如国际
 (2) 单例模式：实例化的bean默认是singleton的<br>
 (3) 工厂模式：BeanFactory用来创建对象的实例<br>
 (4) 模板方法：用来解决代码重复的问题，如RestTemplate
+(5) 委派模式：Spring提供了DispatcherServlet对请求进行转发
+(6) 代理模式：AOP的底层实现，采用JDK Proxy和CgLib类库
 
 #### 9. Spring的依赖注入（DI，Dependency Injection）和控制反转（IoC，Inversion of Control Container）？
 &emsp;&emsp;依赖注入：在运行时将类的依赖注入到代码中，将依赖定义为接口，将实现了这个接口的实体类注入到主类的构造器中。<br>
@@ -122,11 +124,11 @@ MVC框架。<br>
 异常处理。将特定技术（如JDBC、Hibernate）的异常转化为一致的unchecked异常。
 
 #### 14. 如何在Spring中注入Java集合类？
-使用集合配置元素：<br>
-list元素：注入一系列的值，允许重复<br>
-set元素：注入一系列的值，不允许重复<br>
-map元素：注入一组键值对，键和值可以是任意类型<br>
-props元素：注入一组键值对，键和值都是字符串
+使用集合配置元素：
+<list\>：注入一系列的值，允许重复
+<set\>：注入一系列的值，不允许重复
+<map\>：注入一组键值对，键和值可以是任意类型
+<props\>：注入一组键值对，键和值都是字符串
 
 #### 15. Spring初始化bean的过程？
 (1) 容器寻找bean的定义信息并实例化<br>
@@ -163,7 +165,11 @@ bean的属性必须在配置的时候设置，通过一个bean定义的显式的
 提供了更细粒度的控制，包括在何处以及如何完成自动装配<br>
 @Qualifier <br>
 有多个相同类型的bean但只有一个需要自动装配，将@Qualifier和@Autowired结合消除这种混淆，指定需要装配的确切的bean
+@Resource @PostConstruct @PreDestroy
 
+#### 20. Spring的controller是单例还是多例？如何保证线程安全？
+单例。<br>
+不要在controller中定义成员变量。如果需要定义一个非静态成员变量，通过注解@Scope("prototype")设置为多例。
 
 
 

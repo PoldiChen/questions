@@ -335,10 +335,22 @@ char固定长度，varchar长度可变。<br>
 char和varchar的存储字节由具体的字符集决定。<br>
 char的值长度不够时用空格代替。
 
+#### 38. MySQL不同引擎自增ID的维护方式？插入17条记录后，删除掉15，16，17，再次插入，ID是15还是18？
+如果是MyISAM引擎，ID是18。MyISAM会把自增ID的最大值记录在文件中，重启也不会丢失。<br>
+如果是InnoDB，ID是15。最大ID记录在内存中，重启或者对表进行OPTIMIZE操作，都会导致最大ID丢失。
 
+#### 39. MySQL中CHAR_LENGTH和LENGTH的区别？
+CHAR_LENGTH是字符数，LENGTH是字节数。
+Latin编码中这两个值是相同的，Unicode和其他编码中两个值不同。
 
+#### 40. MySQL中BLOB和TEXT的区别？
+对BLOB值进行排序和比较时区分大小写，对TEXT值不区分大小写。
 
+#### 41. select for update会锁表还是锁行？
+Oracle锁行？？？<br>
+MySQL通过索引条件检索时InnoDB使用行级锁，否则使用表锁。
 
+#### 42. MySQL查询的in和exists的区别？
 
 
 
