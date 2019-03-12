@@ -219,8 +219,14 @@ LinkedHashMap维护的是元素插入的顺序。
 HashMap中有modCount和expectedModCount的比较，for循环删除没有对modCount进行更新，导致expectedModCount == modCount不成立，抛出异常。<br>
 Iterator在remove时实现了对modCount的同步，所以不会抛出异常。
 
+#### 33. HashMap的容量为什么是2的幂？
+key值计算得到的hash大于容量，可以通过求余得到插入的数组位置，但求余运算较慢。<br>
+通过(n-1)&hash，其中n是容量，n-1是低位全1的二进制，与运算后hash的高位全部为0，保证结果小于n。
 
 
 
 
-111
+
+
+
+#### 100. question 100.
