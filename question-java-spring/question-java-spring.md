@@ -170,6 +170,7 @@ bean的属性必须在配置的时候设置，通过一个bean定义的显式的
 #### 20. Spring的controller是单例还是多例？如何保证线程安全？
 单例。<br>
 不要在controller中定义成员变量。如果需要定义一个非静态成员变量，通过注解@Scope("prototype")设置为多例。
+Service也是单例。
 
 
 
