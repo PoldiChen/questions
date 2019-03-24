@@ -28,36 +28,37 @@ Full GC触发条件：<br>
 (4) 通过Minor GC后进入老年代的平均大小>老年代的可用空间<br>
 (5) 由Eden区、From Space区向To Space区复制时，对象大小>To Space区可用空间，则把该对象转到老年代，且老年代可用的空间小于该对象大小。<br>
 
-并行收集器（Parallel Collector, Throughput Collector）：使用多线程的方式，利用多CPU提高GC的效率，以达到一定吞吐量为目标。<br>
-并发收集器（Concurrent Low Pause Colllector）：？？？<br>
-CMS收集器（Concurrent Mark Sweep，老年代收集器）：以获取最短回收停顿时间为目的，基于标记-清除算法。
+并行收集器（Parallel Collector, Throughput Collector）：使用多线程的方式，利用多CPU提高GC的效率，以达到一定吞吐量为目标。用户线程处于等待状态。<br>
+并发收集器（Concurrent Low Pause Colllector）：垃圾回收线程和用户线程同时执行。<br>
+CMS收集器（Concurrent Mark Sweep，老年代收集器）：以获取最短回收停顿时间为目的，基于标记-清除算法。<br>
+G1（Garbage-First）：垃圾收集器的最新成果，将堆分成多个大小相等的独立区域（Region），跟踪各个区域的垃圾堆积的价值大小，维护一个优先级表，优先回收价值最大的区域。
 
 #### 4. 什么是Java内存模型？code
-a) 程序计数器
+a) 程序计数器<br>
 一个数据结构，用于保存当前正在执行的程序的内存地址。
 Java虚拟机的多线程就是通过线程轮流切换并分配处理器时间来实现的，为了线程切换后能恢复到原来的位置，每个线程需要一个独立的程序计数器，该区域为线程私有。
 在Java虚拟机规范中唯一没有规定OutOfMemoryError的区域。
 
-b) 虚拟机栈
+b) 虚拟机栈<br>
 线程私有，与线程生命周期相同，用于存储局部变量表，操作栈，方法返回值。
 局部变量表存放基本数据类型和对象的引用。
 当栈的调用深度大于JVM虚拟机允许的范围，会抛出StackOverflowError错误，这个深度不是一个固定的值。
 动态扩展时无法申请足够的内存，会抛出OutOfMemoryeError。
 
-c) 本地方法栈
+c) 本地方法栈<br>
 和虚拟机栈很像，为虚拟机使用的Native方法服务。
 也会抛出StackOverflowError和OutOfMemoryError。
 
-d) Java堆
+d) Java堆<br>
 虚拟机中最大的一块内存，所有线程共享的内存区域，存放对象实例。
 垃圾收集器管理的主要区域。
 申请不到空间时会抛出OutOfMemoryError。
 
-e) 方法区
+e) 方法区<br>
 各个线程共享的区域。
 存储虚拟机加载的类信息、常量、静态变量，编译后的代码。
 
-f) 运行时常量池
+f) 运行时常量池<br>
 运行时每个class文件中的常量表，包括编译时的数字常量、方法、	域的引用。
 
 Java内存模型定义了一种多线程访问Java内存的规范。主要有几个部分：<br>
@@ -83,7 +84,8 @@ Java内存模型定义了一种多线程访问Java内存的规范。主要有几
    永久代：存放java中的类和加载类的类加载器本身<br>
 (7) GC Roots有哪些：<br>
    虚拟机栈中的引用的对象<br>
-   方法区中静态属性引用的对象，常量引用的对象<br>
+   方法区中静态属性引用的对象<br>
+   方法区中常量引用的对象<br>
    本地方法栈中JNI（Native方法）引用的对象
 
 #### 6.Java 8和Java 9的内存模型，有什么新的地方？？？

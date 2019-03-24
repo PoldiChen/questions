@@ -105,13 +105,16 @@ ArrayList | LinkedList
 #### 14. synchronized和ReentrantLock的区别？为什么要设计可重入锁ReentrantLock？？？
 重入性：同一个线程多次试图获取它占有的锁，都会成功。相应的，释放锁时，重入计数为零才释放成功。
 
-synchronized | ReentrantLock
--|-
-阻塞式 | 阻塞式
-Java的关键字，原生语法层面的互斥，需要jvm实现 | JDK 1.5之后提供的API层面的互斥锁
-执行完同步块的代码后自动释放锁 | 需要手动lock和unlock，配合try/finally
-释放锁的顺序必须和获得锁的顺序相反 | 释放锁的顺序自由
-不能中断 | 可中断
+项 | synchronized | ReentrantLock
+- | - | -
+/ | 阻塞式 | 阻塞式
+/ | Java的关键字，原生语法层面的互斥，需要jvm实现 | JDK 1.5之后提供的API层面的互斥锁
+API | 可修饰方法和代码块 | 只可修饰方法
+公平锁 | 非公平锁 | 默认也是非公平锁，可通过布尔值参数的构造函数使用公平锁
+自动释放 | 执行完同步块的代码后自动释放锁 | 需要手动lock和unlock，配合try/finally
+释放顺序 | 释放锁的顺序必须和获得锁的顺序相反 | 释放锁的顺序自由
+可中断 | 不能中断 | 可中断
+可重入 | 可重入 | 可重入
 
 #### 15. 使用Collections的最佳实践？
 (1) 使用正确的集合类，比如不需要同步列表时，使用ArrayList而不是Vector。<br>

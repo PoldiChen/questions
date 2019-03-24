@@ -83,7 +83,7 @@ ApplicationContext对BeanFactory进行扩展，添加了其他功能，如国际
 (3) 工厂模式：BeanFactory用来创建对象的实例<br>
 (4) 模板方法：用来解决代码重复的问题，如RestTemplate
 (5) 委派模式：Spring提供了DispatcherServlet对请求进行转发
-(6) 代理模式：AOP的底层实现，采用JDK Proxy和CgLib类库
+(6) 代理模式：AOP的底层实现，采用JDK Proxy（目标类实现了接口）和CgLib类库（目标类没有实现接口）
 
 #### 9. Spring的依赖注入（DI，Dependency Injection）和控制反转（IoC，Inversion of Control Container）？
 &emsp;&emsp;依赖注入：在运行时将类的依赖注入到代码中，将依赖定义为接口，将实现了这个接口的实体类注入到主类的构造器中。<br>

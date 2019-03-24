@@ -1,5 +1,5 @@
 # question-nosql
-some questions and answers for NoSql, like Redis, Memcached, MongoDB and so on.
+some questions and answers for NoSql, like Memcached, MongoDB and so on.
 
 #### 1. Redis和Memcached的区别？
 Redis | Memcached
@@ -25,7 +25,9 @@ Redis | Memcached
 #### 3. ElasticSearch全文搜索？
 一个基于Lucene的搜索服务器
 
-####
+#### 4. Kibana？
+ELK
+Elasticsearch+Logstash+Kibana
 
 
 
