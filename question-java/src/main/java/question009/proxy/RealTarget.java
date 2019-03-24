@@ -1,4 +1,4 @@
-package question009;
+package question009.proxy;
 
 /**
  * 目标类，实现了代理接口

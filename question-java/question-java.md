@@ -52,7 +52,25 @@ BIO | NIO | AIO
 Java NIO中有一个选择器（selector），可以将多个通道（channel）注册到一个选择器上，然后使用一个线程来监视这些线程：如果这些通道中有某个可以进行读写操作，则进行相应的读写操作。在等待通道变为可读写的时候，请求的线程可以去做别的事情。
 
 #### 9. Java静态代理和动态代理？动态代理的实现方式？实际的应用？？？code
-应用：spring框架的AOP
+**静态代理**：自己创建一个代理类。定义一个抽象角色（接口），真实角色和代理角色都去实现这个接口，将真实角色的对象传入到代理角色中。<br>
+**动态代理**：程序自动生成代理，JDK动态代理和CGlib动态代理。<br>
+**JDK动态代理**：实现一个动态代理器，真正的代理对象由JDK在运行时动态创建，动态代理器主要提供获取代理对象实例的方法。被代理的类必须通过接口提供业务方法。
+```java
+public Object getProxyInstance() {
+    // 传入三个参数，目标对象的类加载器、目标对象实现的接口的类型、动态处理器
+    return Proxy.newProxyInstance(realStar.getClass().getClassLoader(),
+        realStar.getClass().getInterfaces(),
+        (proxy, method, args) -> {
+            System.out.println("before sing");
+            Object object = method.invoke(realStar, args);
+            System.out.println("after sing");
+            return object;
+        }
+    );
+}
+```
+**CGlib动态代理**：通过底层的字节码技术为目标类创建一个子类，在子类中拦截父类的方法调用，织入横切逻辑。<br>
+**应用**：spring框架的AOP。如果目标对象实现了接口，默认用JDK动态代理，否则用CGlib动态代理。
 
 #### 10. 深复制和浅复制？code
 浅复制：被复制的对象的所有变量都与原对象有相同的值，而对其他对象的引用仍指向原对象。即只考虑要复制的对象，不考虑该对象引用的其他对象。<br>
@@ -377,6 +395,22 @@ java.sql.Date针对sql语句，只有日期而没有时间。<br>
 都有getTime()方法，返回毫秒数。<br>
 java.sql.Date继承自java.util.Date。
 
+#### 70. Java内存结构、内存模型、对象模型的概念？
+内存结构：JVM虚拟机运行时的内存区域<br>
+内存模型：Java并发编程的一些抽象概念<br>
+对象模型：Java对象在虚拟机中的表现形式
+
+#### 71. Java常量池？code
+Integer内部维护了一个IntegerCache静态内部类，默认创建了-128~127的对象，在这个范围内的整数对象不用创建，直接从cache数组获取，超出的则创建对象。
+```java
+Integer a1 = 20;
+Integer a2 = 20;
+System.out.println(a1 == a2); // true
+Integer a3 = 200;
+Integer a4 = 200;
+System.out.println(a3 == a4); // false
+```
+从JDK 1.7开始，字符串常量池放在堆中。
 
 
 

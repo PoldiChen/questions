@@ -1,4 +1,4 @@
-package question009;
+package question009.proxy;
 
 public class Main {
 	

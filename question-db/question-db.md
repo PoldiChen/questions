@@ -3,10 +3,12 @@ some questions and answers for database.
 
 #### 1. MySQL存储引擎？哪些应用使用了MyISAM引擎？
 MyISAM：较快的插入、查询速度，但不支持事务，不支持外键，不支持行级锁（支持表级锁）<br>
-InnoDB：MySQL默认的事务型数据库引擎，支持ACID事务，支持行级锁<br>
+InnoDB：MySQL默认的事务型数据库引擎，支持ACID事务，支持行级锁（默认）<br>
 Cluster/NDB：高冗余的存储引擎，用多台数据机器联合提供服务以提高整体性能和安全性，适合数据量大，安全和性能要求高的应用。
 
 #### 2. MySQL开启慢查询日志？
+slow_query_log：是否开启慢查询日志，1开启，0不开启
+long_query_time：慢查询阈值，默认10秒
 
 #### 3. MySQL查看执行计划？
 explain结果的各个item的含义：
@@ -351,6 +353,12 @@ Oracle锁行？？？<br>
 MySQL通过索引条件检索时InnoDB使用行级锁，否则使用表锁。
 
 #### 42. MySQL查询的in和exists的区别？
+
+#### 43. MySQL中ENUM的用法？
+ENUM是一个字符串对象，用于指定一组预定义的值：
+```sql
+create table tbl (sex ENUM('male', 'female'));
+```
 
 
 

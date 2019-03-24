@@ -1,4 +1,4 @@
-package question009;
+package question009.proxy;
 
 /**
  * 代理接口
@@ -7,6 +7,6 @@ package question009;
  */
 public interface ProxyInter {
 	
-	public void action();
+	void action();
 
 }
