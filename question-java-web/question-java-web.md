@@ -59,8 +59,11 @@ NIO：可以用少量的线程处理大量的请求。同步阻塞或同步非�
 APR：tomcat以JNI的形式调用Apache HTTP服务器的核心动态链接库来处理文件读取或网络传输的操作，大大提高tomcat对静态文件的处理性能，从操作系统级别解决异步IO的问题。
 
 #### 7.Tomcat原理？
-由两个模块协同合作，Connector和Container。<br>
+最顶层的容器是Server，代表着整个服务器。一个Server可以包含一个或多个Service。<br>
+Service主要包含两个部分，由两个模块协同合作：Connector和Container。<br>
+
 Connector负责解析HTTP请求，生成HttpRequest和HttpResponse后交给Container，由它调用响应的servlet。<br>
+Container用于封装和管理Servlet，以及具体处理Request请求。<br>
 Tomcat默认的Container为HttpContainer。<br>
 Tomcat启动后会开启一个线程，做死循环，通过ServerSocket来等待请求，得到请求后生成socket，交给HttpProcessor处理。每个processor处理都是一个单独的线程。（多个processor就实现了多线程？？？）<br>
 
