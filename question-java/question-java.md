@@ -79,7 +79,7 @@ public Object getProxyInstance() {
 1) 重写需要复制的对象的clone方法，将引用的对象也复制一遍<br>
 2) 使用序列化和反序列化的方法。
 
-#### 11. 创建对象的几种方式？
+#### 11. 创建对象的几种方式？code
 (1) new<br>
 (2) Class类的newInstance方法<br>
 (3) Constructor类的newInstance方法<br>
@@ -140,7 +140,7 @@ protected | √ | √ | √ | ×
 friendly | √ | √ | × | ×
 private | √ | × | × | ×
 
-#### 23. IO操作的两种方式？
+#### 23. IO操作的两种方式？InputStream、OutputStream、Writer、Reader的类关系？？？
 面向字节（Byte） | 面向字符（Character）
 -|-
 以8位为单位对二进制数据进行操作 | 以字符为单位对数据进行操作

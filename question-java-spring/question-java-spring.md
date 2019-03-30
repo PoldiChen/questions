@@ -159,6 +159,11 @@ setUp方法，在容器加载bean的时候被调用。<br>
 tearDown方法，容器卸载类的时候被调用
 
 #### 19. Spring常用的注解？
+@Configuration
+@Bean
+@Component
+@Service
+@ComponentScan
 @Required <br>
 bean的属性必须在配置的时候设置，通过一个bean定义的显式的属性值或通过自动装配<br>
 @Autowired <br>
@@ -166,6 +171,7 @@ bean的属性必须在配置的时候设置，通过一个bean定义的显式的
 @Qualifier <br>
 有多个相同类型的bean但只有一个需要自动装配，将@Qualifier和@Autowired结合消除这种混淆，指定需要装配的确切的bean
 @Resource @PostConstruct @PreDestroy
+
 
 #### 20. Spring的controller是单例还是多例？如何保证线程安全？
 单例。<br>

@@ -35,3 +35,18 @@ Yet another Markup Language，一种人类可读的数据序列化语言，常�
 
 #### 7. Spring Cloud路由网关？
 Zuul和Gateway两个组件。
+
+#### 8. Spring Boot的@SpringBootApplication注解？
+一个复合的注解，将三个组合在一起。SpringBoot根据应用的依赖、自定义的bean、classpath的类识别需要的bean。
+```java
+@Configuration // Spring框架的注解，标明该类是JavaConfig配置类
+@ComponentScan // 启用组件扫描
+@EnableAutoConfiguration // 开启SPringBoot自动配置功能
+```
+
+
+
+
+
+
+#### 100.
