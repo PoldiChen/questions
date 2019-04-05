@@ -16,13 +16,13 @@ explain结果的各个item的含义：
 item | 含义
 -|-
 select_type | 查询中每个select字句的类型
-type | 在表中找到所需行的方式，又称“访问类型”
+type | 在表中找到所需行的方式，又称“访问类型”。<br>index表示全索引扫描；ALL表示全表扫描，性能最差
 possible_keys | 能使用哪个索引在表中找到行。查询涉及到的字段如果有索引，该索引会被列出，但不一定被查询使用
 key | 查询的时候实际使用的索引
 key_len | 索引中使用的字节数，可以计算出查询中使用的索引的长度。<br>数字等于索引列类型的字节数，int类型4 bytes，bigint类型8 bytes。<br>字符串类型和字符集相关，char(30) UTF-8至少是90 bytes。<br>允许null，加1 byte<br>varchar，加2 bytes
 ref | 上述表的连接匹配条件，即哪些列或常量被用于查找索引列上的值
 rows | /
-Extra | 十分重要的额外信息
+Extra | 十分重要的额外信息。<br>using index表示覆盖索引扫描，说明性能较好。
 
 #### 4. MySQL索引原理？索引的类型？如何合理创建索引？索引的缺点？
 索引是一种数据结构，由B树或B+树实现。

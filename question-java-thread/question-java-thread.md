@@ -257,7 +257,7 @@ TERMINATED：终止状态，表示线程已执行完毕。<br>
 
 #### 44. 3个线程A、B、C，循环打印ABCABCABC......，使用进程间通信？？？code
 
-#### 45. 线程池java.util.concurrent.ThreadPoolExecutor的实现原理？源码？和ExecutorService的关系？
+#### 45. 线程池java.util.concurrent.ThreadPoolExecutor的实现原理？源码？和ExecutorService的关系？code
 ThreadPoolExecutor继承自抽象类AbstractExecutorService，AbstractExecutorService实现了ExecutorService接口，ExecutorService接口继承自Executor接口。<br>
 不提倡直接使用ThreadPoolExecutor，而是使用Executors的newPool的方法创建一个ExecutorService。<br>
 

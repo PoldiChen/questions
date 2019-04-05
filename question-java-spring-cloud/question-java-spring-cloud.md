@@ -30,6 +30,9 @@ Zuul和Gateway两个组件。
 集群选主 | Spring Cloud Cluster | 无
 分布式消息 | Spring Cloud Stream | 无
 
+#### 5. Eureka和Zookeeper的比较？
+Zookeeper CP原则
+Eureka AP原则
 
 
 
