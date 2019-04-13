@@ -32,6 +32,7 @@ mkdir
 touch
 rm
 cp
+df -h 查看磁盘空间
 
 
 
