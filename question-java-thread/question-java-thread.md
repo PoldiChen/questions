@@ -281,11 +281,12 @@ shutdownNow()：关闭线程池。
 
 定义了一个volatile变量runState，表示线程池的状态，volatile保证这个变量对所有线程可见。取值有0（RUNNING）、1（SHUTDOWN）、2（STOP）、3（TERMINATED）
 
-如果当前池大小poolSize小于corePoolSize，则创建新线程执行任务
-如果当前池大小poolSize大于corePoolSize，且等待队列未满，则进入等待队列
-如果当前池大小poolSize大于corePoolSize且小于maximumPoolSize，且等待队列已满，则创建新线程执行任务
-如果当前池大小poolSize大于corePoolSize且大于maximumPoolSize，且等待队列已满，则钓鱼拒绝策略处理该任务
-线程池里的每个线程执行完任务不会立即退出，而是检查等待队列是否有任务需要执行，如果在keepAliveTime内等不到新任务，则退出
+线程池处理任务的策略：<br>
+(1) 如果当前池大小poolSize小于corePoolSize，则创建新线程执行任务<br>
+(2) 如果当前池大小poolSize大于corePoolSize，且等待队列未满，则进入等待队列<br>
+(3) 如果当前池大小poolSize大于corePoolSize且小于maximumPoolSize，且等待队列已满，则创建新线程执行任务<br>
+(4) 如果当前池大小poolSize大于corePoolSize且大于maximumPoolSize，且等待队列已满，则钓鱼拒绝策略处理该任务<br>
+(5) 线程池里的每个线程执行完任务不会立即退出，而是检查等待队列是否有任务需要执行，如果在keepAliveTime内等不到新任务，则退出
 
 #### 46. 调用线程start()方法和run()方法的区别？
 start()方法启动新创建的线程，使创建的线程的状态变成可运行状态。<br>

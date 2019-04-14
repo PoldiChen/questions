@@ -360,7 +360,15 @@ ENUM是一个字符串对象，用于指定一组预定义的值：
 create table tbl (sex ENUM('male', 'female'));
 ```
 
-
+#### 44. MySQL执行update修改数据和原数据相同，是否会执行？
+```
+// 不更新
+binlog_format = row
+binlog_row_image = FULL
+// 更新
+binlog_format = statement
+binlog_row_image = FULL
+```
 
 
 
