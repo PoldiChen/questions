@@ -32,12 +32,34 @@ SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(input
 (5) SqlSessionFactoryBuilder根据Configuration对象创建一个DefaultSessionFactory对象<br>
 (6) SqlSessionFactoryBuilder返回DefaultSessionFactory给调用者
 
+#### 3. MyBatis使用的设计模式？
+(1) Builder模式<br>
+比如SqlSessionFactoryBuilder，XMLConfigBuilder，XMLMapperBuilder，XMLStatementBuilder，CacheBuilder<br>
+Builder模式是将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示，属于创建类模式。<br>
+(2) 工厂模式<br>
+SqlSessionFactory，ObjectFactory，MapperProxyFactory<br>
+(3) 单例模式<br>
+ErrorContext（每个线程范围内），LogFactory（整个MyBatis使用的日志工厂）<br>
+(4) 代理模式<br>
+MyBatis实现的核心，只需要编写Mapper.java接口，不需要实现。比如MapperFactory，ConnectionLogger，用的是JDK的动态代理。还有executor.loader包使用了CGLib或者javassist达到延迟加载的效果。<br>
+(5) 组合模式<br>
+SqlNode和各个子类ChooseSqlNode<br>
+(6) 模板方法模式<br>
+BaseExecutor和SimpleExecutor，BaseTypeHandler和所有子类，比如IntegerTypeHandler<br>
+(7) 适配器模式<br>
+Log的MyBatis接口，以及对JDBC，Log4j等各种日志框架的适配实现<br>
+(8) 装饰者模式<br>
+Cache包中的cache.decorators子包中各个装饰者的实现<br>
+(9) 迭代器模式<br>
+PropertyTokenizer
 
-
-
-
-
-
-
-
+<br>
+<br>
+#### 100.
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 #### 100.
