@@ -260,7 +260,7 @@ enum类型的值是通过运行时构造出对象来表示的，所以在cluster
 
 #### 46. JDK如何保证try-catch-finally中的finally块一定会被执行？？？
 
-#### 47. 数组的length属性和字符串的length()方法？
+#### 47. 数组的length属性和字符串的length()方法？code
 数组是一个容器对象，包含固定数量的同一类型的值，创建后长度固定，final的长度可以作为一个属性。<br>
 String的数据结构是一个char数组，长度已经在char数组的length属性中提供。
 
@@ -356,7 +356,8 @@ Java 9新特性：<br>
 (5) 默认GC修改为更复杂、更全面、性能更好的G1（Garbage-First）。？？？<br>
 
 Java 10新特性：<br>
-(1) 本地变量类型推断<br>
+(1) 本地变量（局部变量）类型推断<br>
+使用var保留类型名称
 (2) 统一JDK仓库<br>
 (3) 垃圾回收器接口<br>
 (4)

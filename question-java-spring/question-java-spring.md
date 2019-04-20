@@ -64,10 +64,12 @@ spring容器能够自动装配相互合作的bean。<br>
 基本数据类型：不能自动装配简单的属性，如基本数据类型、String字符串和类<br>
 模糊特性：不如显式装配精确
 
-#### 6. Spring支持的事务管理类型？
+#### 6. Spring支持的事务管理类型？抛出异常时事务是否会回滚？
 (1) 编程式事务管理：通过编程的方式管理事务，灵活，但难维护<br>
 (2) 声明式事务管理：将业务代码和事务管理分离，只需用注解和XML配置来管理<br>
 声明式事务对代码的影响较小，更符合无侵入轻量级容器的思想，但少了一些灵活性。
+
+编译时异常不会回滚，运行时异常会回滚。
 
 #### 7. Spring的BeanFactory和ApplicationContext的区别？
 BeanFactory是spring IoC的具体实现，提供了一种先进的配置机制，能配置任何类型的对象。<br>
@@ -148,7 +150,6 @@ MVC框架。<br>
 &emsp;&emsp;Spring的解决方案是，把创建中的Bean放入到一个“当前创建Bean池”中，初始化类的时候如果发现Bean类已经存在，抛出BeanCurrentInCreationException异常。<br>
 (3) setter方法原型，prototype<br>
 &emsp;&emsp;对于作用域为prototype的bean，Spring容器无法完成依赖注入，因为这种作用域的bean不进行缓存，因此无法提前暴露一个正在创建的bean。
-
 
 #### 17. Spring的核心容器？
 应用上下文模块，提供Spring框架的基础功能，BeanFacory是任何以Spring为基础的应用的核心。<br>

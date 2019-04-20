@@ -12,10 +12,34 @@ some questions and answers for architecture.
 分析用户行为，让失效时间点均匀分布。<br>
 缓存服务器备份。
 
-#### 3. 什么是缓存穿透？如何解决？
+#### 3. 什么是缓存穿透？如何解决？布隆过滤器原理？？？
 恶意请求缓存中不存在的数据，导致所有请求落在数据库上，造成数据库压力过大而崩溃。<br>
 常见的解决办法是采用布隆过滤器。将所有可能存在的数据哈希到一个足够大的bitmap中，一个一定不存在的数据会被这个bitmap拦截，从而避免对底层数据库的查询压力。<br>
 另外一种简单的办法：即使查询结果为空，也进行缓存，但设置较短的过期时间。
+
+#### 4. 什么是缓存击穿？如何解决？
+热点数据过期瞬间，解决方式有两种：
+(1) 互斥锁
+缓存过期后，程序去更新缓存前，先获取锁，获取到锁的线程才能更新，没有获取到锁的线程休眠一段时间后再次尝试获取缓存。同一时刻只有一个线程去读数据库，避免大量数据库请求对数据库的冲击。
+比如Redis，可以用SETNX命令对key加锁。
+```java
+public String get(String key) {
+    String value = redis.get(key);
+    if (value == null) { // 缓存过期
+        if (redis.getnx(key_mutex, 1, 1 ** 60) == 1) {
+            value = db.get(key);
+            redis.set(key, value, expire_time);
+            redis.del(key_mutex);
+        } else { // 没有获取到锁，休眠后获取缓存
+            sleep(50);
+            redis.get(value);
+        }
+    } else {
+        return value;
+    }
+}
+```
+(2) 永不过期
 
 #### 4. 如何提高缓存的命中率？
 缓存的命中率越高，说明缓存的效益越高，应用的性能越好，抗并发的能力越强。<br>

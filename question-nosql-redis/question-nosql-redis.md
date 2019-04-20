@@ -1,5 +1,5 @@
 # question-nosql-redis
-some questions and answers for Redis.
+some questions and answers for Redis(Remote Dictionary Server).
 
 #### 1. Redis和Memcached的区别？
 Redis | Memcached
