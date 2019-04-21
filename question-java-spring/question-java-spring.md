@@ -70,6 +70,7 @@ spring容器能够自动装配相互合作的bean。<br>
 声明式事务对代码的影响较小，更符合无侵入轻量级容器的思想，但少了一些灵活性。
 
 编译时异常不会回滚，运行时异常会回滚。
+默认只把Runtime, Unchecked Exception标记为回滚，即RuntimeException及其子类，Error默认也会回滚。Checked Exception默认不会回滚。
 
 #### 7. Spring的BeanFactory和ApplicationContext的区别？
 BeanFactory是spring IoC的具体实现，提供了一种先进的配置机制，能配置任何类型的对象。<br>
