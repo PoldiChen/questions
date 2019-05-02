@@ -180,7 +180,12 @@ bean的属性必须在配置的时候设置，通过一个bean定义的显式的
 不要在controller中定义成员变量。如果需要定义一个非静态成员变量，通过注解@Scope("prototype")设置为多例。
 Service也是单例。
 
-
+#### 21. Spring事务隔离级别？
+ISOLATION_DEFAULT：使用后端数据库默认的隔离级别
+ISOLATION_READ_UNCOMMITTED：允许读取未提交的数据变更，可能会导致脏读、幻读或不可重复读
+ISOLATION_READ_COMMITTED：允许读取未提交的数据，可以阻止脏读，但是幻读和不可重复读仍可能发生
+ISOLATION_REPEATABLE_READ：对同一字段多次读取结果是一样的，除非数据是被本事务修改，可以阻止脏读、幻读，但不可重复读仍可能发生。
+ISOLATION_SERIALIZABLE：完全服从ACID
 
 
 
