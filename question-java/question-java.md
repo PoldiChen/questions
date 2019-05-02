@@ -24,7 +24,7 @@ PreparedStatement使用预编译机制，参数用占位符?代替，setXX传入
 PreparedStatement不允许在插入参数时改变查询的逻辑结构，只是把输入参数作为数据处理，不需要再进行解析。
 
 #### 5. 数据库连接池有哪些？各自的优缺点？
-C3P0、DBCP、tomcat-jdbc-pool<br>
+C3P0、DBCP、tomcat-jdbc-pool、Druid<br>
 C3P0和DBCP是单线程的，tomcat-jdbc-pool支持高并发
 
 #### 6. 类加载器的双亲委派模型？
@@ -76,8 +76,8 @@ public Object getProxyInstance() {
 浅复制：被复制的对象的所有变量都与原对象有相同的值，而对其他对象的引用仍指向原对象。即只考虑要复制的对象，不考虑该对象引用的其他对象。<br>
 深复制：被复制的对象的所有变量都与原对象有相同的值，对其他对象的引用指向新复制的对象。即把要复制的对象引用的其他对象也复制了一遍。<br><br>
 深复制有两种方式：<br>
-1) 重写需要复制的对象的clone方法，将引用的对象也复制一遍<br>
-2) 使用序列化和反序列化的方法。
+(1) 重写需要复制的对象的clone方法，将引用的对象也复制一遍<br>
+(2) 使用序列化和反序列化的方法。
 
 #### 11. 创建对象的几种方式？code
 (1) new<br>
@@ -118,7 +118,7 @@ JDK：Java development kit，开发工具，如编译器，也包括jre<br>
 JVM：Java virutal machine，Java虚拟机，运行java程序<br>
 JIT：Just In Time compilation，即时编译，将热点代码的字节码转化为本地代码，提高性能
 
-#### 19. 怎样获取Java程序使用的内存？
+#### 19. 怎样获取Java程序使用的内存？code
 java.lang.Runtime类，freeMemory()、totalMemory()、totalMemory()等方法
 
 #### 20. 编译期常量？
@@ -128,7 +128,8 @@ public static final修饰的成员。<br>
 
 #### 21. 什么时候用享元模式？
 享元模式通过共享对象来避免创建过多的对象。需确保对象是不可变的。<br>
-JDK中的String池、Integer池都是享元模式的例子。
+JDK中的String池、Integer池都是享元模式的例子。<br>
+数据库连接池、线程池。
 
 #### 22. 访问修饰符的作用范围由大到小：
 public > protected > default > private
@@ -161,6 +162,21 @@ floor：向下取整<br>
 round：加0.5后再向下取整<br>
 
 #### 27. 注册jdbc驱动程序的三种方式？
+```java
+Class.forName("com.mysql.jdbc.Driver"); // 不会对具体的驱动类产生依赖，将Driver类加载到JVM中
+DriverManager.registerDriver(new com.mysql.jdbc.Driver()); // DriverManager中有两个同样的驱动，对具体的驱动类产生依赖，不方便扩展
+System.setProperty("jdbc.drivers", "com.mysql.jdbc.Driver"); // 通过系统的属性设置注册驱动，很少使用
+```
+Driver类静态代码块：
+```java
+static {
+    try {
+        java.sql.DriverManager.registerDriver(new Driver());
+    } catch (SQLException e) {
+        throw new RuntimeException("can't regist driver!");
+    }
+}
+```
 
 #### 28. 如何创建一个不可变（immutable class）对象？JDK有哪些不可变对象？？？
 (1) 类用final修饰<br>

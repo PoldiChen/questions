@@ -1,7 +1,5 @@
 package question031;
 
-import java.util.concurrent.ConcurrentHashMap;
-
 public class ExchangeTwoNumber {
 	
 	public static void main(String[] args) {
