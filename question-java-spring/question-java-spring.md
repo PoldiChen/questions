@@ -128,10 +128,12 @@ MVC框架。<br>
 
 #### 14. 如何在Spring中注入Java集合类？
 使用集合配置元素：
-<list\>：注入一系列的值，允许重复
-<set\>：注入一系列的值，不允许重复
-<map\>：注入一组键值对，键和值可以是任意类型
-<props\>：注入一组键值对，键和值都是字符串
+```xml
+<list></list><!-- 注入一系列的值，允许重复 -->
+<set></set><!-- 注入一系列的值，不允许重复 -->
+<map></map><!-- 注入一组键值对，键和值可以是任意类型 -->
+<props></props><!-- 注入一组键值对，键和值都是字符串 -->
+```
 
 #### 15. Spring初始化bean的过程？
 (1) 容器寻找bean的定义信息并实例化<br>
@@ -161,31 +163,32 @@ setUp方法，在容器加载bean的时候被调用。<br>
 tearDown方法，容器卸载类的时候被调用
 
 #### 19. Spring常用的注解？
-@Configuration
-@Bean
-@Component
-@Service
-@ComponentScan
-@Required <br>
+- @Configuration
+- @Bean
+- @Component
+- @Service
+- @ComponentScan
+- @Required<br>
 bean的属性必须在配置的时候设置，通过一个bean定义的显式的属性值或通过自动装配<br>
-@Autowired <br>
+- @Autowired <br>
 提供了更细粒度的控制，包括在何处以及如何完成自动装配<br>
-@Qualifier <br>
+- @Qualifier <br>
 有多个相同类型的bean但只有一个需要自动装配，将@Qualifier和@Autowired结合消除这种混淆，指定需要装配的确切的bean
-@Resource @PostConstruct @PreDestroy
-
+- @Resource
+- @PostConstruct
+- @PreDestroy
 
 #### 20. Spring的controller是单例还是多例？如何保证线程安全？
 单例。<br>
-不要在controller中定义成员变量。如果需要定义一个非静态成员变量，通过注解@Scope("prototype")设置为多例。
+不要在controller中定义成员变量。如果需要定义一个非静态成员变量，通过注解@Scope("prototype")设置为多例。<br>
 Service也是单例。
 
 #### 21. Spring事务隔离级别？
-ISOLATION_DEFAULT：使用后端数据库默认的隔离级别
-ISOLATION_READ_UNCOMMITTED：允许读取未提交的数据变更，可能会导致脏读、幻读或不可重复读
-ISOLATION_READ_COMMITTED：允许读取未提交的数据，可以阻止脏读，但是幻读和不可重复读仍可能发生
-ISOLATION_REPEATABLE_READ：对同一字段多次读取结果是一样的，除非数据是被本事务修改，可以阻止脏读、幻读，但不可重复读仍可能发生。
-ISOLATION_SERIALIZABLE：完全服从ACID
+- ISOLATION_DEFAULT：使用后端数据库默认的隔离级别
+- ISOLATION_READ_UNCOMMITTED：允许读取未提交的数据变更，可能会导致脏读、幻读或不可重复读
+- ISOLATION_READ_COMMITTED：允许读取未提交的数据，可以阻止脏读，但是幻读和不可重复读仍可能发生
+- ISOLATION_REPEATABLE_READ：对同一字段多次读取结果是一样的，除非数据是被本事务修改，可以阻止脏读、幻读，但不可重复读仍可能发生。
+- ISOLATION_SERIALIZABLE：完全服从ACID
 
 
 

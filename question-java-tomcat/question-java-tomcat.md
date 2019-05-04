@@ -3,18 +3,18 @@ some questions and answers for Java Web.
 
 #### 1. 部署在tomcat的web项目启动的过程？
 tomcat有三种加载程序的方式：<br>
-1) 配置在conf/server.xml中<br>
-2) 配置在conf/Catalina/localhost下<br>
-3) 配置在webapps下
+(1) 配置在conf/server.xml中<br>
+(2) 配置在conf/Catalina/localhost下<br>
+(3) 配置在webapps下
 <br><br>
 web.xml加载过程：<br>
 context-param->listener->filter->servlet<br>
-1) 读取web.xml文件的两个节点&lt;listener&gt;和&lt;context-param&gt;<br>
-2) 创建一个ServletContext上下文，为web项目共享<br>
-3) 将<context-param>转化为键值对，赋给ServletContext<br>
-4) 创建<listener>中的类实例，即创建监听<br>
-5) 创建filter<br>
-6) 创建servlet<br>
+(1) 读取web.xml文件的两个节点&lt;listener&gt;和&lt;context-param&gt;<br>
+(2) 创建一个ServletContext上下文，为web项目共享<br>
+(3) 将<context-param>转化为键值对，赋给ServletContext<br>
+(4) 创建<listener>中的类实例，即创建监听<br>
+(5) 创建filter<br>
+(6) 创建servlet<br>
 
 #### 2. servlet的生命周期？tomcat servlet生命周期？tomcat如何创建servlet类实例？
 加载--实例化--服务--销毁<br>

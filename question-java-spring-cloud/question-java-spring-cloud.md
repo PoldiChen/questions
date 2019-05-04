@@ -19,7 +19,7 @@ Zuul和Gateway两个组件。
 
 #### 4. Spring Cloud和Dubbo的对比？
 微服务功能 | Spring Cloud | Dubbo
-- | - | -
+-| - | -
 服务注册和发现 | Eureka | Zookeeper
 服务调用方式 | RESTful API | RPC
 断路器 | Hystrix | 有
@@ -31,8 +31,8 @@ Zuul和Gateway两个组件。
 分布式消息 | Spring Cloud Stream | 无
 
 #### 5. Eureka和Zookeeper的比较？
-Zookeeper CP原则
-Eureka AP原则
+Zookeeper：CP原则<br>
+Eureka：AP原则
 
 
 
