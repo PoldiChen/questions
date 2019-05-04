@@ -197,7 +197,19 @@ JDK的不可变类有String、Integer和其他包装类型。
 
 #### 31. 不使用临时变量的情况下交换两个整数的值？code
 
-#### 32. main方法不用static修饰会怎样？
+#### 32. main方法不用static修饰会怎样？为什么是公有的（public）、静态的（static）、无返回值的（void）？code
+错误: 找不到或无法加载主类。
+
+public：
+main方法是公有的，才能被JVM访问执行。
+
+static：
+JVM调用静态方法不需要创建包含这个main方法的实例。
+main方法作为程序的入口，如果不是静态，JVM不知道去哪个类中寻找main方法。
+C/C++中有一个main的全局方法。
+
+void：
+返回值对程序没有意义。
 
 #### 33. 请求转发和请求重定向？
 转发 | 重定向
@@ -208,12 +220,12 @@ request.getRequestDispatcher().forward() | response.sendRedirect()
 客户端url地址不变 | 客户端url地址改变
 
 #### 34. 反射的作用是什么？什么是动态语言？Java是不是动态语言？
-动态语言是指在运行时可以改变其结构：引进或删除函数。如javascript、Python、Ruby<br>
+动态语言是指在运行时可以改变其结构：引进或删除函数。如JavaScript、Python、Ruby<br>
 动态语言在运行时才检查类型，静态语言在运行前检查，如编译阶段。<br>
 动态语言不需要写过多关于类型的代码，方便阅读，但不易调试；静态语言结构规范，易于调试，但需要写更多的类型代码。<br>
 Java是静态语言，或“准动态语言”，主要体现在反射和动态编译、动态类型转换、动态字节码操作。<br>
 
-反射机制是java被视为准动态语言的关键特质。允许程序在运行时通过反射得到一个已知名称的类的内部信息。<br>
+反射机制是Java被视为准动态语言的关键特质。允许程序在运行时通过反射得到一个已知名称的类的内部信息。<br>
 
 反射的作用：<br>
 (1) 在运行时判断任意一个对象所属的类<br>
@@ -233,7 +245,24 @@ Java是静态语言，或“准动态语言”，主要体现在反射和动态�
 (4) clone<br>
 (5) 反序列化
 
-#### 36. 注解的作用？自定义注解？（项目中的使用，参数检查）
+#### 36. 注解的原理？作用？自定义注解？（项目中的使用，参数检查）code
+注解是一种元数据，一种描述数据的数据，和业务逻辑无关，用户（其他代码）读取定义的属性并实现必要的逻辑。<br>
+四种元注解，用于注解其他的注解：
+- @Documented - 注解是否包含在JavaDoc中
+- @Retention - 什么时候使用该注解（生命周期）
+  - RetentionPolicy.SOURCE：在编译阶段丢弃，不会写入字节码，如@Override @SuperssWarnings
+  - RetentionPolicy.CLASS：在类加载的时候丢弃，在字节码的处理中有用，默认的方式
+  - RetentionPolicy.RUNTIME：始终不丢弃，运行期也保留，因此可以用反射机制读取注解信息，自定义的注解使用的方式
+- @Target - 注解用于什么地方
+  - ElementType.TYPE：用于描述类、接口或enum声明
+  - ElementType.FIELD：用于描述实例变量
+  - ElementType.METHOD：用于描述方法
+  - ElementType.PARAMETER
+  - ElementType.CONSTRUCTOR
+  - ElementType.LOCAL_VARIABLE
+  - ElementType.ANNOTATION_TYPE 另一个注释
+  - ElementType.PACKAGE 用于记录java文件的package信息
+- @Inherited - 是否允许子类继承该注解
 
 #### 37. Socket服务端、客户端实例。code
 
@@ -241,7 +270,7 @@ Java是静态语言，或“准动态语言”，主要体现在反射和动态�
 单例模式能保证一个类只有一个实例，而静态变量只是保证该类在当前的类中只有一个实例，其他类可以重新创建该类的实例。<br>
 单例模式的类完成自身的初始化。
 
-#### 39. 如何自定义注解？
+#### 39. 如何自定义注解？question036
 
 #### 40. 为什么String是不可变的？
 (1) 字符串常量池的需要。<br>
@@ -274,13 +303,16 @@ Java中的string使用的是unicode编码，而UTF-8和GBK是编码格式，stri
 enum类型的构造方法只能是private或friendly，不能是public或protected，所以枚举对象不能再程序中通过调用其构造方法来初始化。<br>
 enum类型的值是通过运行时构造出对象来表示的，所以在cluster环境下，每个虚拟机会构造出一个同义的enum对象，可能出现同一个对象值不等的情况。
 
-#### 46. JDK如何保证try-catch-finally中的finally块一定会被执行？？？
+#### 46. JDK如何保证try-catch-finally中的finally块一定会被执行？
+通过冗余。在每个catch语句块后面都finally块的字节码。
 
 #### 47. 数组的length属性和字符串的length()方法？code
 数组是一个容器对象，包含固定数量的同一类型的值，创建后长度固定，final的长度可以作为一个属性。<br>
 String的数据结构是一个char数组，长度已经在char数组的length属性中提供。
 
 #### 48. Java代码优化实践？code
+(1) 比较高效的遍历HashMap的方法：取出Entry集合，对Entry集合遍历
+(2) 遍历集合，不要在for循环中每次都调用size()方法获取集合个数
 
 #### 49. equals()方法和==的区别？
 ==比较两个对象的地址是否相同。<br>
@@ -291,22 +323,15 @@ boolean类型的数据编译之后都使用int类型代替，boolean数据会被
 使用int的原因是32位的CPU一次进行32位的数据交换更高效。
 
 #### 51.Object类定义了哪些方法？
-&emsp;&emsp;clone()：native方法，用于创建并返回当前对象的一份拷贝。一般情况下，对于任何对
-象x，x.clone() != x为true，x.clone().getClass() == x.getClass()为true。Object本身没有实现Cloneable接口，所以不重写clone方法且进行调用的话会抛出CloneNotSupportedException异常。<br>
-&emsp;&emsp;equals()：用于比较两个对象的内存地址是否相等，String类对该方法进行了重写所以比
-较的是字符串的值是否相等。<br>
-&emsp;&emsp;hashcode()：native方法，用于返回对象的hash码，主要使用在哈希表中，比如JDK中
-的HashMap。<br>
-&emsp;&emsp;toString()：返回类的名字@对象的哈希码的十六进制字符串。建议Object的所有子类都
-重写这个方法。<br>
-&emsp;&emsp;wait()：native方法，不能重写。暂停线程的执行。sleep方法没有释放锁，wait方法释
-放了锁。<br>
-&emsp;&emsp;notify()：native方法，不能重写。唤醒一个在此对象监视器（相当于锁的概念）上等待
-的线程，如果有多个线程在等待只会唤醒一个。<br>
-&emsp;&emsp;notifyAll()：native方法，不能重写。和notify一样，唯一区别是唤醒所有等待的线程。<br>
-&emsp;&emsp;finalize()：对象被垃圾回收器回收时触发的操作。<br>
-&emsp;&emsp;getClass()；native方法，用于返回当前运行时对象的Class对象，使用了final关键字修
-饰，不允许子类重写。
+- clone()：native方法，用于创建并返回当前对象的一份拷贝。一般情况下，对于任何对象x，x.clone() != x为true，x.clone().getClass() == x.getClass()为true。Object本身没有实现Cloneable接口，所以不重写clone方法且进行调用的话会抛出CloneNotSupportedException异常。
+- equals()：用于比较两个对象的内存地址是否相等，String类对该方法进行了重写所以比较的是字符串的值是否相等。<br>
+- hashcode()：native方法，用于返回对象的hash码，主要使用在哈希表中，比如JDK中的HashMap。<br>
+- toString()：返回类的名字@对象的哈希码的十六进制字符串。建议Object的所有子类都重写这个方法。<br>
+- wait()：native方法，不能重写。暂停线程的执行。sleep方法没有释放锁，wait方法释放了锁。<br>
+- notify()：native方法，不能重写。唤醒一个在此对象监视器（相当于锁的概念）上等待的线程，如果有多个线程在等待只会唤醒一个。<br>
+- notifyAll()：native方法，不能重写。和notify一样，唯一区别是唤醒所有等待的线程。<br>
+- finalize()：对象被垃圾回收器回收时触发的操作。<br>
+- getClass()；native方法，用于返回当前运行时对象的Class对象，使用了final关键字修饰，不允许子类重写。
 
 #### 52. Java动态绑定的内部实现机制？？？
 动态绑定是实现“多态”的关键。
@@ -330,7 +355,8 @@ MappedByteBuffer map(int mode, long position, long size); //
 引用传递是对于对象类型而言，传递的是对象地址的一个副本，并不是原对象本身，对引用对象的修改会改变原对象。<br>
 一般认为，Java内的传递都是值传递。如果是基本类型，传递的是值的拷贝，如果是对象类型，传递的是引用地址的拷贝。
 
-#### 57. Java类可以定义析构函数（finalization）吗？？？
+#### 57. Java类可以定义析构函数（finalization）吗？
+没有真正的析构函数，可以重写finalize方法来自定义额外的操作。
 
 #### 58. finalize()方法什么时候被调用？
 垃圾回收器（garbage colector）回收某对象的时候，会调用其finalize()方法。<br>
@@ -341,7 +367,8 @@ MappedByteBuffer map(int mode, long position, long size); //
 (2) 封装子类中重复定义的内容<br>
 (3) 定义抽象方法，子类中虽然有不同的实现，但定义是一致的。
 
-#### 60. Java 8，接口中可以有方法实现？？？
+#### 60. Java 8，接口中可以有方法实现？code
+Java 8在接口中引入了默认方法，在方法前加default关键字就可以在接口中写方法的默认实现。
 
 #### 61. 静态变量和实例变量的区别？
 静态变量存储在方法区，实例变量存储在堆，其引用存储在当前线程栈中。
@@ -358,14 +385,14 @@ Java 7新特性：<br>
 
 Java 8新特性：<br>
 (1) Lambda表达式，允许像对象一样传递匿名函数<br>
-(2) Stream API，充分利用现代多核CPU，可以写出很简洁的代码<br><br>
+(2) Stream API，充分利用现代多核CPU，可以写出很简洁的代码<br>
 (3) Optional类，解决空指针异常？？？<br>
 (4) Date和Time API，线程安全吗？？？<br>
-(5) 扩展方法，接口中可以有静态、默认方法？？？带有实现的方法？？？<br>
+(5) 扩展方法，接口中可以有静态、默认方法、带有实现的方法<br>
 (6) 重复注解，相同的注解在同一类型上多次使用。<br>
 
 Java 9新特性：<br>
-(1) Jigsaw项目，模块化源码<br><br>
+(1) Jigsaw项目，模块化源码<br>
 (2) 轻量级JSON API<br>
 (3) 钱和货币的API<br>
 (4) HTTP 2.0客户端<br>
@@ -377,6 +404,16 @@ Java 10新特性：<br>
 (2) 统一JDK仓库<br>
 (3) 垃圾回收器接口<br>
 (4)
+
+Java 11新特性：<br>
+(1) 本地变量类型推断（使用var关键字定义）<br>
+(2) 字符串加强<br>
+(3) 集合加强<br>
+(4) Stream加强<br>
+(5) Optional加强<br>
+(6) InputStream加强<br>
+(7) HTTP Client API<br>
+(8) 一个命令编译运行源码，java JavaClass.java
 
 #### 64. 父类、子类、static修饰执行顺序？
 (1) 父类静态变量和静态代码块<br>

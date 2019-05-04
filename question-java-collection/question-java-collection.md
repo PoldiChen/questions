@@ -1,7 +1,7 @@
 # question-java-collection
 some questions and answers for Java Collection.
 
-#### 1. Iterator和ListIterator？
+#### 1. Iterator和ListIterator？code
 Iterator可以遍历Set和List集合，ListIterator只能遍历List集合。<br>
 Iterator只能向前遍历，ListIterator可以双向遍历。<br>
 ListIterator实现了Iterator接口，并包含其他功能，比如增加元素、替换元素、获取前一个和后一个元素的索引。<br>
@@ -56,14 +56,18 @@ Collection | Collections
 -|-
 接口 | 工具类，提供了很多静态方法
 
-#### 8. 创建只读集合、同步集合？
+#### 8. 创建只读的集合、同步的集合？
 Collections.unmodifiableCollection(Collection c);<br>
 Collections.synchronizedCollection(Collection c);
 
-#### 9. 遍历ArrayList时删除一个元素，什么时候会抛出ConcurrentModificationException？
+#### 9. 遍历ArrayList时删除一个元素，什么时候会抛出ConcurrentModificationException？code
+直接调用ArrayList的remove方法，导致内部维护的modCount(修改次数)和expectedModCount(预期修改次数)不等，抛出异常。<br>
+调用Iterator的remove方法不会抛出异常，有一步设置expectedModCount = modCount。<br>
+只有两个元素，删除任一不会报异常。内部维护一个cursor的变量，指向下一个元素，删除一个元素后，cursor == size，hasNext()为false，循环结束，不会执行到检查modCount == expectedModCount.<br>
+for(Object obj : list)循环等价于Iterator，也会抛出异常。for(int i = 0; i < list.size(); i++)循环不依赖于Iterator，不会抛出异常。<br>
 
 #### 10. 哈希表中处理冲突的方法？
-线性探测、二次哈希、链接<br>
+线性探测、二次哈希、链接。<br>
 线性探测：如果桶已经被占据了，则线性的查找下一个桶，直到找到一个空位<br>
 链接：多个元素可以存储在同一个桶中
 
@@ -77,36 +81,34 @@ Lock接口可以尝试非阻塞的获取锁，在指定的时间内无法获取�
 #### 12. ArrayList和Vector的区别？
 ArrayList | Vector
 -|-
-相同点 | 都是基于索引，内部有一个数组支持<br>有序的集合，允许重复<br>迭代器都是fail-fast的
+相同点 | 都是基于索引，内部有一个数组支持<br>有序的集合，允许重复<br>迭代器都是fail-fast的<br>都继承自AbstractList
 非线程安全 | 线程安全
 每次扩容为1.5倍 | 每次扩容为2倍
 
-Vector可以看做是线程安全版的ArrayList。<br><br>
-Array和ArrayList的区别？什么时候用Array而不是ArrayList？
-
+Vector可以看做是线程安全版的ArrayList。<br>
+#### Array和ArrayList的区别？什么时候用Array而不是ArrayList？
 Array | ArrayList
 -|-
 可以包含基本类型和对象类型 | 只能包含对象类型
 大小固定 | 大小动态变化
 
-处理基本数据类型的时候应该使用Array。<br><br>
-
-ArrayList和LinkedList的区别？源码？？？
-
+处理基本数据类型的时候应该使用Array。<br>
+#### ArrayList和LinkedList的区别？源码？？？
 ArrayList | LinkedList
 -|-
 数组，允许元素为null | 双向循环链表，允许元素为null
 随机访问快，增删慢 | 随机访问慢，增删快
 / | 根据下标访问的时候会判断在前半段还是后半段，决定顺序遍历还是逆序
 
-#### 13. 如何去除Vector、ArrayList、LinkedList中重复的元素？
-使用HashSet，将数组的实例作为参数传入HashSet的构造函数中。
+#### 13. 如何去除Vector、ArrayList、LinkedList中重复的元素？code
+使用HashSet，将数组的实例作为参数传入HashSet的构造函数中。<br>
+HashSet内部维护了一个HashMap，将集合作为构造函数的参数时，会调用HashMap的put方法，通过hash值检查是否重复。
 
 #### 14. synchronized和ReentrantLock的区别？为什么要设计可重入锁ReentrantLock？？？
 重入性：同一个线程多次试图获取它占有的锁，都会成功。相应的，释放锁时，重入计数为零才释放成功。
 
 项 | synchronized | ReentrantLock
-- | - | -
+-| - | -
 / | 阻塞式 | 阻塞式
 / | Java的关键字，原生语法层面的互斥，需要jvm实现 | JDK 1.5之后提供的API层面的互斥锁
 API | 可修饰方法和代码块 | 只可修饰方法
@@ -165,6 +167,7 @@ ReentrantLock、CountDownLatch、Semaphore等都用到了AQS。<br>
 AQS定义了对双向队列的所有操作，只开放了tryLock和tryRelease给开发者重写。
 
 #### 22. Set集合通过什么方法来判断元素相同？equals还是==？源码？
+将元素作为HashMap的key，借助HashMap的key不能重复来判断。
 
 #### 23. ConcurrentHashMap的并发度是什么？实现原理？
 &emsp;&emsp;ConcurrentHashMap把map分成若干部分来实现可扩展性和线程安全，这种划分是使用并发度获得的，是构造函数的一个可选参数，默认值是16。<br>
