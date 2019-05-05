@@ -288,6 +288,8 @@ shutdownNow()：关闭线程池。
 (4) 如果当前池大小poolSize大于corePoolSize且大于maximumPoolSize，且等待队列已满，则钓鱼拒绝策略处理该任务<br>
 (5) 线程池里的每个线程执行完任务不会立即退出，而是检查等待队列是否有任务需要执行，如果在keepAliveTime内等不到新任务，则退出
 
+![avator](image/question-java-thread-045.png)
+
 #### 46. 调用线程start()方法和run()方法的区别？
 start()方法启动新创建的线程，使创建的线程的状态变成可运行状态。<br>
 调用run()方法的时候，只会在原来的线程中调用，没有创建新的线程，行为和普通的方法一样。

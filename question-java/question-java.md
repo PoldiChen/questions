@@ -14,6 +14,8 @@ ClassCastException<br>NullPointerException<br>IndexOutOfBoundsException<br>Arith
 RuntimeException继承自Exception;<br>
 Error和RuntimeException及其子类是unchecked exception，其他的Exception类都是checked exception
 
+![avatar](image/question-java-002.png)
+
 #### 3. 数据库语句Statement、PreparedStatement和CallableStatement
 Statement | PreparedStatement | CallableStatement
 -|-|-
@@ -146,6 +148,10 @@ private | √ | × | × | ×
 -|-
 以8位为单位对二进制数据进行操作 | 以字符为单位对数据进行操作
 InputStream和OutputStream的子类 | Reader和Writer的子类
+
+![avator](image/question-java-023.png)
+<br><br>
+![avator](image/question-java-023-Reader.png)
 
 #### 24. 如何跳出当前的多重嵌套循环？code
 使用标号。
