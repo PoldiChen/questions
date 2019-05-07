@@ -480,7 +480,24 @@ System.out.println(a3 == a4); // false
 能够进行编译期的类型检查，避免不必要的类型错误，加强安全性验证。<br>
 Java的泛型是伪泛型。使用泛型的时候加上的类型参数，会在编译的时候去掉，这个过程称为类型擦除。泛型只在编译器有效。
 
+#### 74. 一个Java对象占多大内存？code
+一个对象包括三部分：对象头、实例数据、对齐填充。
+- 对象头：<br>
+32位系统，占8字节<br>
+64位系统，开启UseCompressedOops，占12字节，否则占16字节。
+- 实例数据：<br>
+原生类型：boolean，byte，short，char，int，float，long，double<br>
+引用类型：32位系统，4字节；64位系统，开启UseCompressedOops 4字节，否则8字节<br>
+- 对齐填充：<br>
+8字节对齐，不足的填充
 
+分析相关命令:<br>
+(1) jsp<br>
+查看进程ID<br>
+(2) jmap -dump:format=b,file=heap.bin &lt;pid&gt;<br>
+将内存结构以二进制的形式dump到heap.bin文件<br>
+(3) jhat -J-Xmx512m heap.bin<br>
+解析内存结果，通过localhost:7000查看<br>
 
 
 
