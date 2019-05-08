@@ -39,5 +39,147 @@ ipstream simple.com {
 }
 ```
 
+#### 3. Nginx的主要用途？
+(1) 反向代理<br>
+(2) 负载均衡<br>
+(3) HTTP服务器<br>
+(4) 正向代理<br>
 
+#### 4. Nginx反向代理配置？
+```
+server {
+    listen               80;
+    server_name          localhost;
+    client_max_body_size 1024M;
+    location {
+        proxy_pass       http://localhost:8080;
+        proxy_set_header Host $host:$server_port;
+    }
+}
+```
+
+#### 5. Nginx配置负载均衡？
+一般需要同时配置反向代理。<br>
+(1) 轮询
+```
+upstream test {
+    server localhost:8080;
+    server localhost:8081;
+}
+server {
+    listen 81;
+    server_name localhost;
+    client_max_body_size 1024M;
+    location {
+        proxy_pass http://test;
+        proxy_set_header Host $host:$server_port;
+    }
+}
+```
+(2) 权重
+```
+upstream test {
+    server localhost:8080 weight=9;
+    server localhost:8081 weight=1;
+}
+```
+(3) ip_hash
+```
+upstream test {
+    ip_hash;
+    server localhost:8080;
+    server localhost:8081;
+}
+```
+(4) fair（第三方模块）。按后端服务器响应时间来分配，响应时间短的优先分配。
+```
+upstream backend {
+    fair;
+    server localhost:8080;
+    server localhost:8081;
+}
+```
+(5) url_hash（第三方模块）。每个url定向到同一个后端服务器，适用于后端服务器有缓存。
+```
+upstream backend {
+    hash $request_url;
+    hash_method crc32;
+    server localhost:8080;
+    server localhost:8081;
+}
+```
+
+#### 6. Nginx配置动静分离？
+```
+server {
+    listen 80;
+    server_name localhost;
+
+    location / {
+        root /var/www;
+        index index.html;
+    }
+
+    # 所有静态请求由Nginx处理，目录为/var/www
+    location ~ \.(gif|jpg|png|css|js)$ {
+        root /var/www;
+    }
+
+    # 所有动态请求转发到后端处理
+    location ~ \.(jsp|do)$ {
+        proxy_pass http://test;
+    }
+
+    error_page 500 502 503 504 /50x.html;
+    location = /50x.html {
+        root /var/www;
+    }
+}
+```
+
+#### 7. Nginx热启动？
+修改配置文件后，不用重启就能生效。
+```
+nginx -s reload
+```
+
+#### 8. Nginx负载均衡健康监测？
+(1) 被动监测：
+fail_timeout：停止分发请求至该服务器的时间
+max_fails：访问失败的最大次数
+```
+http {
+    upstream backend {
+        server 192.168.1.1;
+        server 192.168.1.2 max_fails=3 fail_timeout=30s;
+        server 192.168.1.3 max_fails=2;
+    }
+    server {
+        listen 80;
+        location / {
+            proxy_pass http://backend
+        }
+    }
+}
+```
+(2) 主动监测：health_check，只有商业版支持。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#### 100. question 100
+#### 100. question 100
+#### 100. question 100
+#### 100. question 100
+#### 100. question 100
 #### 100. question 100
