@@ -40,6 +40,8 @@ Redis保存的都是二进制数据，本质是字节数组（byte[]），字节
 
 #### 6. Redis常用命令？
 - 连接：redis-cli
+- 关闭服务：redis-cli shutdown
+- 启动服务：redis-server
 - 列出所有key：keys *
 - 取值：get key
 - 赋值：set key value
