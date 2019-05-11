@@ -499,6 +499,8 @@ Java的泛型是伪泛型。使用泛型的时候加上的类型参数，会在�
 (3) jhat -J-Xmx512m heap.bin<br>
 解析内存结果，通过localhost:7000查看<br>
 
+#### 75. transient关键字的作用？code
+transient修饰的变量不能被序列化。不能修饰方法或类。
 
 
 

@@ -146,7 +146,7 @@ MySQL InnoDB默认使用行级锁，行级锁基于索引，如果SQL语句用�
 类型 | DML（data maintain language） | DDL（data define language）
 恢复 | 删除操作作为事务记录在日志中，可以回滚 | 删除所有数据，不记录日志，不能恢复
 空间 | 不会减少表或索引所占空间 | 表和索引所占空间恢复到初始大小
-/ | / | 不会触发触发器
+触发器 | / | 不会触发触发器
 
 #### 19. 数据库三范式？
 第一范式（1NF）：关系型数据库的基本要求，表的每一列都是不可分割的基本数据项，同一列不能有多个值。第一范式就是无重复的列。<br>
@@ -166,6 +166,7 @@ MySQL InnoDB默认使用行级锁，行级锁基于索引，如果SQL语句用�
 项 | InnoDB | MyISAM
 -|-|-
 事务 | 支持 | 不支持
+数据存储 | 共享表空间 | 文件
 锁 | 行级锁 | 表级锁
 MVCC | 支持 | 不支持
 外键 | 支持 | 不支持
@@ -238,7 +239,7 @@ inner join：A inner join B on A.id = B.id;取出两张表都有的数据
 Oracle的索引有聚集索引、非聚集索引、唯一索引。<br>
 查询时可以提高效率，但插入时需要重新排序，降低了效率。
 
-#### 33. sql查找第二大的值？
+#### 33. sql查找第二大的值？question045 (1)
 
 #### 34. MySQL的union和union all的区别？
 将两个查询子集进行合并，union和自动去除重复的记录，union不去除
@@ -387,6 +388,12 @@ binlog_row_image = FULL
 // 更新
 binlog_format = statement
 binlog_row_image = FULL
+```
+
+#### 45. MySQL查询语句？
+(1) 查询第n高的工资
+```sql
+select distinct(salary) from employee order by salary desc limit n-1, 1;
 ```
 
 

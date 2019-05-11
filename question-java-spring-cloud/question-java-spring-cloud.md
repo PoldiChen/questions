@@ -17,6 +17,14 @@ Spring Cloud是关注全局的微服务协调整理治理框架，它将Spring B
 #### 3. Spring Cloud路由网关？
 Zuul和Gateway两个组件。
 
+项 | Zuul | Spring Cloud Gateway
+-|-|-
+开源组织 | Netflix公司开源项目 | Spring Cloud微服务平台的子项目，属于Spring开源社区
+底层实现 | 构建于servlet 2.5，阻塞式API，不支持长连接 | 构建于Spring 5+，基于Spring Boot 2.x响应式的、非阻塞式的API。支持websocket
+性能 | / | /
+
+
+
 #### 4. Spring Cloud和Dubbo的对比？
 微服务功能 | Spring Cloud | Dubbo
 -| - | -

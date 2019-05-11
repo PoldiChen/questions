@@ -28,6 +28,27 @@ some questions and answers for Java source code.
 #### 13. ConcurrentHashMap（Java 8）
 
 #### 14. CopyOnWriteArrayList
+volatile修饰的数组，写入后对其他线程立即可见。
+```java
+public class CopyOnWriteArrayList<E> implements List<E>, RandomAccess, Cloneable, java.io.serializable {
+    final transient ReentrantLock lock = new ReentrantLock();
+    private transient volatile Object[] array;
+    public boolean add(E e) {
+        final ReentrantLock lock = this.lock;
+        lock.lock();
+        try {
+            Object[] elements = getArray();
+            int len = elements.length;
+            Object[] newElements = Arrays.copyOf(elements, len + 1); // 复制原来的数组
+            newElements[len] = e;
+            setArray(newElements); // 设置array变量，该变量用volatile修饰，对其他线程可见
+            return true;
+        } finally {
+            lock.unlock();
+        }
+    }
+}
+```
 
 #### 15. Spring，getBean()方法如何实现单例
 
@@ -36,3 +57,5 @@ some questions and answers for Java source code.
 #### 17. ThreadLocal
 
 #### 18. Integer
+
+#### 19. Iterator
