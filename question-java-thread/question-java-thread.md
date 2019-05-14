@@ -14,7 +14,7 @@ Object类的实例方法 | Thread的静态方法 | Thread的静态方法
 放弃对象的锁 | 保持对象的锁 | ？？
 进入阻塞状态<br>notify或notifyAll后进入等锁池，重新获得锁后进入就绪态 | 进入阻塞状态<br> | sleep时间结束后自动回到就绪状态	进入就绪状态
 
-#### 3. volatile的作用？
+#### 3. volatile的作用？实现原理？
 (1) 提供顺序（happens-before）保证：阻止JVM对语句重排、确保一个线程对变量的修改对其他线程可见。<br>
 (2) 提供可见性保证：CPU缓存（线程工作内存）和主存一致（解决缓存一致性问题）<br>
 实例化一个对象的时候也可能发生语句重排，三个步骤：<br>
@@ -24,7 +24,12 @@ c. 将内存空间的地址赋给对应的引用<br>
 指令重排后可能先将地址赋给引用，再初始化对象，多线程环境下可能会将未初始化的对象暴露出来。<br>
 (3) 将非原子操作变为原子操作（对单个变量的读写具有原子性）（不能保证++操作的原子性）：如double、long类型，64位，每次只能读取32位，不是原子操作，volatile能将其变成原子操作（内存屏障）。<br>
 (4) 和CAS结合保证原子性（volatile本身不能保证原子性），如java.util.concurrent.atomic包下的类，AtomicInteger<br>
-(5) 常用于标记状态量和double check。
+(5) 常用于标记状态量和double check。<br>
+
+实现原理：lock前缀指令，相当于一个内存屏障，提供以下功能：<br>
+a. 重排时不能把屏障后面的指令排到屏障之前<br>
+b. 使得本CPU的cache写入主存<br>
+c. 写入会使得其他CPU或内核无效化其cache，相当于让新写入的值对其他线程可见<br>
 
 #### 4. 时间处理类SimpleDateFormat非线程安全，用ThreadLocal封装成线程安全。
 &emsp;&emsp;SimpleDateFormat内部引用了一个Calendar对象来处理时间，parse方法有一个clear的操作和一个getTime的操作，多线程环境下不同线程如果共享一个SimpleDateFormat对象，调用parsr方法时在clear和getTime之间就会存在冲突。<br>
@@ -413,6 +418,12 @@ java.util.concurrent.atomic下面的原子变量类就是乐观锁，使用CAS�
 &emsp;&emsp;ThreadLocal有一个ThreadLocalMap的内部类，由一个个Entry组成，Entry继承自WeakReference<ThreadLocal<?>>，一个Entry由Threadlocal（key，弱引用）和Object构成，没有指向key的强引用时，key就会被回收。<br>
 &emsp;&emsp;Key是弱引用，但value是强引用，当线程的ThreadLocal使用完，没有强引用指向key时，key的对象会被回收，变成null，但value和value指向的对象仍是强引用关系，不会被回收。<br>
 &emsp;&emsp;每次调用ThreadLocal的get，set，remove方法时，会将key为null的Entry删除，避免内存泄露。但如果将对象放入ThreadLocalMap后就不再调用这些方法，仍可能导致内存泄露，需要在使用完ThreadLocal后手动remove。
+
+#### 67. happens-before规则：
+程序顺序规则：一个线程中的每个操作，happens-before于该线程的任意后续操作<br>
+监视器锁规则：对一个对象的解锁，happens-before于对这个对象的加锁<br>
+volatile变量规则：对于一个volatile域的写，happens-before于对这个域的读<br>
+传递性：如果A happens-before 于B，B happens-before 于C，则A happens-before 于C。
 
 
 

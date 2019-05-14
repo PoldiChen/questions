@@ -2,6 +2,7 @@
 some questions and answers for Java source code.
 
 #### 1. BlockingQueue
+![avator](image/question-java-source-code-001.png)
 
 #### 2. Collection和Collections
 

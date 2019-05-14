@@ -31,7 +31,7 @@ some questions and answers for Message Queue, like RabbitMQ, ActiveMQ, Kafka and
 
 #### 3. 两种消息队列协议？
 项 | JMS (Java Message Service) | AMQP (Advanced Message Queuing Protocol)
-- | - | -
+-| - | -
 定义 | Java API | 协议
 跨语言 | 否 | 是
 跨平台 | 否 | 是
