@@ -396,6 +396,10 @@ binlog_row_image = FULL
 select distinct(salary) from employee order by salary desc limit n-1, 1;
 ```
 
+#### 46. MySQL最大连接数？
+16384.默认是100.
+
+
 
 
 
