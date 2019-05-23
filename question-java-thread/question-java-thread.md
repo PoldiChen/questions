@@ -425,6 +425,8 @@ java.util.concurrent.atomic下面的原子变量类就是乐观锁，使用CAS�
 volatile变量规则：对于一个volatile域的写，happens-before于对这个域的读<br>
 传递性：如果A happens-before 于B，B happens-before 于C，则A happens-before 于C。
 
+#### 68. JVM最多支持多少个线程？code
+
 
 
 
