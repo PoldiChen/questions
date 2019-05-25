@@ -33,7 +33,11 @@ C3P0和DBCP是单线程的，tomcat-jdbc-pool支持高并发
 &emsp;&emsp;除了顶层的启动类加载器，其他的类加载器都有自己的父类加载器。<br>
 &emsp;&emsp;如果一个类加载器收到了加载类的请求，首先会将请求委派给父类加载器，所有的请求最终都会传递到顶层的启动类加载器。父类加载器反馈无法加载时，子类加载器才自己去加载类。<br>
 &emsp;&emsp;Java类随着它的类加载器具备了一个优先级的层次关系，比如Object类只能由顶层的启动类加载器加载。<br>
-&emsp;&emsp;类加载器的层级关系：启动类加载器（Bootstrap ClassLoader）->扩展类加载器（Extension ClassLoader）->应用程序类加载器（Application ClassLoader）->自定义类加载器（User ClassLoader）。
+&emsp;&emsp;类加载器的层级关系：启动类加载器（Bootstrap ClassLoader）->扩展类加载器（Extension ClassLoader）->应用程序类加载器（Application ClassLoader）->自定义类加载器（User ClassLoader）。<br>
+- Bootstrap ClassLoader: 启动类加载器，是Java类加载层次中最顶层的加载器，负责加载JDK中的核心类库，如rt.jar, resources.jar, charsets.jar等。<br>
+- Extension ClassLoader: 扩展类加载器，负载加载Java的扩展类库，默认加载JAVA_HOME/jre/lib/ext目录下的所有jar.<br>
+- Application ClassLoader: 系统类加载器，负责加载应用程序classpath目录下的所有jar和class文件。
+- 自定义ClassLoader: 用户自定义，必须继承自java.lang.ClassLoader
 
 #### 7. 类实例化的顺序？code
 (1)	初始化父类的静态代码块，包括静态变量<br>
@@ -382,7 +386,7 @@ Java 8在接口中引入了默认方法，在方法前加default关键字就可�
 #### 62. String对象的intern()方法？code
 先从常量池中查找是否存在该常量值，不存在则创建，已存在则直接返回。
 
-#### 63. Java 7、8、9、10的新特性？？？
+#### 63. Java 7、8、9、10的新特性？？？code
 Java 7新特性：<br>
 (1) try-with-resource语句，使用流或者资源的时候不用手动关闭，Java会自动关闭。<br>
 (2) Fork-Join，实现了Java版的Map-Reduce。<br>
