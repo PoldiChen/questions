@@ -15,7 +15,7 @@ public class VolatileSingleton {
 	
 	public static VolatileSingleton getInstance() {
 		if (singleton == null) {
-			synchronized(VolatileSingleton.class) {
+			synchronized (VolatileSingleton.class) {
 				if (singleton == null) {
 					singleton = new VolatileSingleton();
 				}

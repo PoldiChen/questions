@@ -9,7 +9,7 @@ public class Main {
 //		VolatileSingleton singleton = VolatileSingleton.getInstance();
 //		System.out.println(singleton.hashCode());
 		ExecutorService service = Executors.newCachedThreadPool();
-		for (int i=0; i<2; i++) {
+		for (int i=0; i<10; i++) {
 			service.execute(new Thread(new MyThread()));
 		}
 		service.shutdown();

@@ -7,7 +7,7 @@ InnoDB：MySQL默认的事务型数据库引擎，支持ACID事务，支持行�
 Cluster/NDB：高冗余的存储引擎，用多台数据机器联合提供服务以提高整体性能和安全性，适合数据量大，安全和性能要求高的应用。
 
 #### 2. MySQL开启慢查询日志？
-slow_query_log：是否开启慢查询日志，1开启，0不开启
+slow_query_log：是否开启慢查询日志，1开启，0不开启<br>
 long_query_time：慢查询阈值，默认10秒
 
 #### 3. MySQL查看执行计划？
@@ -133,6 +133,7 @@ Serializable | × | × | ×
 事务日志是通过redo和innodb的日志缓冲（Innodb log buffer）来实现的。开始一个事务的时候，会记录该事务的lsn（log sequence number）号，事务执行时，往innodb的日志缓存写入事务日志，事务提交时，将日志缓存写入磁盘（通过innodb_flush_log_at_trx_commit来控制），也就是写数据前需要先写日志，这种方式称为“预写日志方式”。
 
 #### 16. MySQL profile
+show profiles;
 
 #### 17. MySQL InnoDB引擎的行锁是如何实现的？
 基于索引来实现行锁。<br>
