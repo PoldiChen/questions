@@ -45,6 +45,8 @@ Redis保存的都是二进制数据，本质是字节数组（byte[]），字节
 - 列出所有key：keys *
 - 取值：get key
 - 赋值：set key value
+- 设置过期时间：expire key seconds
+- 删除：del key
 
 #### 7. Redis的数据淘汰策略？
 volatile-lru：从已经设置过期时间的数据集中，挑选最近最少使用的数据淘汰<br>

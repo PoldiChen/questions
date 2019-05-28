@@ -1,4 +1,4 @@
-package question003;
+package question004;
 
 public class VolatileSingleton {
 	
@@ -12,7 +12,7 @@ public class VolatileSingleton {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static VolatileSingleton getInstance() {
 		if (singleton == null) {
 			synchronized (VolatileSingleton.class) {

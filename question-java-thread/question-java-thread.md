@@ -328,7 +328,10 @@ execute() | submit()
 返回类型是void | 可以返回持有计算结果的FutureTask对象
 定义在Executor接口中 | 定义在ExecutorService接口中，扩展了Executor接口
 
-#### 54. String对象为什么不适合做锁对象？？？
+#### 54. 同步方法的锁对象是什么？String对象为什么不适合做锁对象？？？code
+静态方法的锁对象是class的meta对象；
+非静态方法的锁对象是当前对象this。
+String的常量池的影响，，，？？？
 
 #### 55. ExecutorService类的execute()方法和submit()方法的区别？？？
 

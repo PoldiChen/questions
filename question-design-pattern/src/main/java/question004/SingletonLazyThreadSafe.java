@@ -1,4 +1,4 @@
-package question003;
+package question004;
 
 public class SingletonLazyThreadSafe {
 	
