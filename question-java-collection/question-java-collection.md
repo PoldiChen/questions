@@ -231,6 +231,10 @@ key值计算得到的hash大于容量，可以通过求余得到插入的数组�
 
 #### 34. Java集合stream的聚合操作？code
 
+#### 35. Java集合类图？
+![avator](image/question-java-collection-035-collection.png)
+<br><br>
+![avator](image/question-java-collection-035-map.png)
 
 
 
