@@ -61,6 +61,14 @@ SQL注入 | 能防止sql注入 | 不能防止sql注入
 用途 | 尽量用# | 一般用于传入数据库对象，如表名
 参数替换 | 发生在DBMS中 | 发生在动态解析过程中
 
+#### 5. MyBatis动态SQL？
+if
+choose
+trim
+foreach
+bind
+
+
 
 <br>
 <br>

@@ -39,7 +39,7 @@ C3P0和DBCP是单线程的，tomcat-jdbc-pool支持高并发
 - Application ClassLoader: 系统类加载器，负责加载应用程序classpath目录下的所有jar和class文件。
 - 自定义ClassLoader: 用户自定义，必须继承自java.lang.ClassLoader
 
-#### 7. 类实例化的顺序？code
+#### 7. 类实例化的顺序？code question041 question064
 (1)	初始化父类的静态代码块，包括静态变量<br>
 (2)	初始化子类的静态代码块<br>
 (3)	初始化父类的非静态代码，包括非静态变量<br>
@@ -288,7 +288,7 @@ Java是静态语言，或“准动态语言”，主要体现在反射和动态�
 (3) 安全性，调用系统级的操作之前可能有一些校验，如果是可变类，校验之后内部值被改变，可能引起严重的问题。<br>
 (4) 线程安全
 
-#### 41. 父类与子类之间的调用顺序。code
+#### 41. 父类与子类之间的调用顺序。code question007 question064
 父类静态代码块<br>
 子类静态代码块<br>
 父类构造函数<br>
@@ -321,7 +321,7 @@ enum类型的值是通过运行时构造出对象来表示的，所以在cluster
 String的数据结构是一个char数组，长度已经在char数组的length属性中提供。
 
 #### 48. Java代码优化实践？code
-(1) 比较高效的遍历HashMap的方法：取出Entry集合，对Entry集合遍历
+(1) 比较高效的遍历HashMap的方法：取出Entry集合，对Entry集合遍历<br>
 (2) 遍历集合，不要在for循环中每次都调用size()方法获取集合个数
 
 #### 49. equals()方法和==的区别？
@@ -425,7 +425,7 @@ Java 11新特性：<br>
 (7) HTTP Client API<br>
 (8) 一个命令编译运行源码，java JavaClass.java
 
-#### 64. 父类、子类、static修饰执行顺序？
+#### 64. 父类、子类、static修饰执行顺序？question007 question041
 (1) 父类静态变量和静态代码块<br>
 (2) 子类静态变量和静态代码块<br>
 (3) 父类成员变量和非静态代码块<br>

@@ -57,6 +57,18 @@ public class CopyOnWriteArrayList<E> implements List<E>, RandomAccess, Cloneable
 
 #### 17. ThreadLocal
 
-#### 18. Integer
+#### 18. Integer IntegerCache
+```java
+public final class Integer extends Number implements Comparable<Integer> {
+    private static class IntegerCache { // 静态内部类
+        static final int low = -128;
+        static final int high;
+        static {
+            int h = 127;
+        }
+    }
+}
+
+```
 
 #### 19. Iterator
