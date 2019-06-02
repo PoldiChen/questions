@@ -39,6 +39,7 @@ Redis保存的都是二进制数据，本质是字节数组（byte[]），字节
 #### 5. Redis如何持久化？为什么不能做专门的持久化存储？
 
 #### 6. Redis常用命令？
+- 查看版本：redis-server --version或redis-server -v
 - 连接：redis-cli
 - 关闭服务：redis-cli shutdown
 - 启动服务：redis-server
@@ -47,6 +48,7 @@ Redis保存的都是二进制数据，本质是字节数组（byte[]），字节
 - 赋值：set key value
 - 设置过期时间：expire key seconds
 - 删除：del key
+- 查看key对应value的类型：type key
 
 #### 7. Redis的数据淘汰策略？
 volatile-lru：从已经设置过期时间的数据集中，挑选最近最少使用的数据淘汰<br>
