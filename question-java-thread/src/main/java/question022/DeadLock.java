@@ -13,6 +13,7 @@ public class DeadLock implements Runnable {
 	@Override
 	public void run() {
 		String threadName = Thread.currentThread().getName();
+		System.out.println(threadName + " start");
 		synchronized (obj1) {
 			work();
 			synchronized (obj2) {

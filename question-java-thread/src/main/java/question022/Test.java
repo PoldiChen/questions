@@ -3,6 +3,7 @@ package question022;
 public class Test {
 	
 	// 使用jdk目录下的java visualVM可以检测到死锁
+	// jstack -l {pid} > {file} 打印当前时刻的线程快照，thread dump文件
 	public static void main(String[] args) throws InterruptedException {
 		Object obj1 = new Object();
 		Object obj2 = new Object();

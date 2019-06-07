@@ -139,7 +139,7 @@ Semaphore，信号量，限制某段代码块的并发数，由构造函数的�
 #### 21. 多线程Lock和Condition类的使用？code
 生产-消费模型
 
-#### 22. 死锁的条件？实例？如何避免死锁？code
+#### 22. 死锁的条件？实例？如何避免死锁？写一段死锁的代码？code
 (1) 互斥条件：一个资源每次只能被一个进程使用<br>
 (2) 请求与保持条件：一个进程因请求资源而阻塞时，已获得的资源不释放<br>
 (3) 不剥夺条件：进程已获得的资源，在使用完之前，不能强行剥夺<br>
@@ -416,6 +416,8 @@ java.util.concurrent.atomic下面的原子变量类就是乐观锁，使用CAS�
 一个线程在获取锁的时候，如果该锁已经被其他线程获取，将会循环等待，直到获取到锁才退出循环。<br>
 优点：不会使线程状态发生切换，一直处于用户态，减少了上下文切换，执行速度快。<br>
 问题：某个线程持有锁的时间过长，会导致其他线程进入循环，消耗CPU。不公平的锁会存在线程饥饿的问题。
+(9) 可中断锁<br>
+在等待获取锁的过程中可以中断
 
 #### 66. ThreadLocal内存泄露问题？
 &emsp;&emsp;ThreadLocal有一个ThreadLocalMap的内部类，由一个个Entry组成，Entry继承自WeakReference<ThreadLocal<?>>，一个Entry由Threadlocal（key，弱引用）和Object构成，没有指向key的强引用时，key就会被回收。<br>
@@ -429,6 +431,16 @@ volatile变量规则：对于一个volatile域的写，happens-before于对这�
 传递性：如果A happens-before 于B，B happens-before 于C，则A happens-before 于C。
 
 #### 68. JVM最多支持多少个线程？code
+
+#### 69. synchronized关键字和Lock接口的区别？
+项 | synchronized | Lock
+-|-|-
+存在层次 | Java的关键字，在JVM层面 | Java实现
+锁的释放 | 获取锁的代码块执行完毕释放，异常时JVM会让线程释放锁 | 必须手动在finally中释放，否则会造成死锁
+锁的阻塞 | 若A获得锁，则B等待；若A阻塞，则B一直阻塞 | 线程可以尝试获得锁，不用一直等待
+锁状态 | 无法判断 | 可判断，通过tryLock()得知当前线程是否获得锁
+锁类型 | 可重入、非公平、不可中断 | 可重入、公平（可不公平）、可中断
+性能 | 少量同步？？？ | 大量同步？？？
 
 
 

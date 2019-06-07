@@ -58,6 +58,8 @@ ConcreteFactory
 AbstractProduct
 Product
 
+#### 7. 建造者模式（Builder模式）？code
+将一个复杂对象的构造与它的表示分离，使同样的构建过程可以构建不同的对象。
 
 
 

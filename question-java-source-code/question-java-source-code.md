@@ -299,4 +299,47 @@ public class Log4jImpl implements Log {
 ```
 装饰器模式<br>
 迭代器模式
+
+#### 22. Lock, ReentrantLock,
+```java
+public interface Lock {
+    void lock();
+    void lockInterruptibly() throws InterruputedException;
+    boolean tryLock();
+    boolean tryLock(long time, TimeUnit unit) throws InterruptedException;
+    void unlock();
+    Condition newCondition();
+}
+```
+```java
+public class ReentrantLock implements Lock, Serializable {
+    private final ReentrantLock.Sync sync;
+    public ReentrantLock() {
+        this.sync = new ReentrantLock.NonfairSync(); // 默认的是非公平锁
+    }
+    public ReentrantLock(boolean var1) { // 重载构造函数，可传入参数指定公平/非公平
+        this.sync = (ReentrantLock.Sync)(var1 ? new ReentrantLock.FairSync() : new ReentrantLock.NonfairSync());
+    }
+    abstract static class Sync extends AbstractQueuedSynchronizer {}
+    static final class FairSync extends ReentrantLock.Sync {}
+    static final class NonfairSync extends ReentrantLock.Sync {}
+}
+```
+![avator](image/question-java-source-code-022.png)
+
+#### 23. AbstractQueuedSynchronizer，抽象队列同步器（应用：CountDownLatch, Semephore, ThreadPoolExecutor, ReentrantLock, ReentrantReadWriteLock）
+```java
+public abstract class AbstractQueuedSynchronizer extends AbstractOwnableSynchronizer implements java.io.Serializable {}
+```
+
+#### 24. ThreadPoolExecutor
+
+
+
+
+
+
+
+
+
 #### 100.
