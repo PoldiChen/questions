@@ -6,5 +6,6 @@ public class Test {
         IStar realStar = new RealStar();
         IStar proxy = (IStar) new JdkProxyHandler(realStar).getProxyInstance();
         proxy.sing();
+        proxy.dance();
     }
 }

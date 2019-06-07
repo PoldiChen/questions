@@ -91,7 +91,7 @@ Comparable是排序接口，一个类实现了Comparable接口，意味着该类
 Comparator是比较器，如果需要控制某个类的顺序，可以建立一个该类的比较器来排序。
 Comparable相当于内部比较器，Comparator相当于外部比较器。
 
-#### 21. MyBatis
+#### 21. MyBatis设计模式
 Builder模式
 ```java
 public class SqlSessionFactoryBuilder {
@@ -200,7 +200,18 @@ public class ErrorContext {
 代理模式
 ```java
 public class MapperRegistry {
-    //
+    private Set<Class> knownMappers = new HashSet<>();
+    public <T> T getMapper(Class<T> type, SqlSession sqlSession) {
+        if (!this.knownMappers.contains(type)) {
+            throw new BindingException("Type" + type + "is not known to MapperRegistry");
+        } else {
+            try {
+                return MapperProxy.newMapperProxy(type, sqlSession);
+            } catch (Exception var4) {
+                throw new BindingException("Error getting mapper instance, casuse:" + var4, var4);
+            }
+        }
+    }
 }
 ```
 ```java
@@ -215,13 +226,29 @@ public class MapperProxy implements InvocationHandler {
             this.add("notify");
             this.add("notifyAll");
         }
+    };
+
+    public static <T> T new MapperProxy(Class<T> mapperInterface, SqlSession sqlSession) {
+        ClassLoader classLoader = mapperInterface.getClassLoader();
+        Class[] interfaces = new Class[]{mapperInterface};
+        MapperProxy mapperProxy = new MapperProxy(sqlSession);
+        return Proxy.newProxyInstance(classLoader, interfaces, mapperProxy);
     }
+
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         try {
             if (!OBJECT_METHODS.contains(method.getName())) {
-
+                Class declaringInterface = this.findDeclaringInterface(proxy, method);
+                MapperMethod mapperMethod = new MapperMethod(declaringInterface, method, this.sqlSession);
+                Object result = mapperMethod.execute(args);
+                if (result == null && method.getReturnType().isPrimitive()) {
+                    throw new BindingException();
+                }
+                return result;
             }
+        } catch (SqlException var7) {
+            var7.printStackTrace();
         }
     }
     private Class findDeclaringInterface(Object proxy, Method method) {
@@ -229,9 +256,47 @@ public class MapperProxy implements InvocationHandler {
     }
 }
 ```
-组合模式
-模板方法模式
-适配器模式
-装饰器模式
+```java
+public class MapperMethod {
+    //
+}
+```
+组合模式（动态sql）
+```java
+public interface SqlNode {
+    boolean apply(DynamicContext var1);
+}
+public class ChooseSqlNode implements SqlNode {}
+public class ForEachSqlNode implements SqlNode {}
+public class IfSqlNode implements SqlNode {}
+public class MixedSqlNode implements SqlNode {}
+public class SetSqlNode implements SqlNode {}
+public class TextSqlNode implements SqlNode {}
+public class TrimSqlNode implements SqlNode {}
+public class WhereSqlNode implements SqlNode {}
+```
+模板方法模式<br>
+适配器模式（日志）
+```java
+public interface Log {
+    boolean isDebugEnabled();
+    void error(String var1, Throwable var2);
+    void error(String var1);
+    void debug(String var1);
+    void warn(String var1);
+}
+```
+```java
+public class Log4jImpl implements Log {
+    private Logger log;
+    public Log4jImpl(Class clazz) {
+        this.log = Logger.getLogger(clazz);
+    }
+    public boolean isDebugEnabled() {
+        return this.log.isDebugEnabled();
+    }
+}
+```
+装饰器模式<br>
 迭代器模式
 #### 100.
