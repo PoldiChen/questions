@@ -290,7 +290,7 @@ shutdownNow()：关闭线程池。
 (1) 如果当前池大小poolSize小于corePoolSize，则创建新线程执行任务<br>
 (2) 如果当前池大小poolSize大于corePoolSize，且等待队列未满，则进入等待队列<br>
 (3) 如果当前池大小poolSize大于corePoolSize且小于maximumPoolSize，且等待队列已满，则创建新线程执行任务<br>
-(4) 如果当前池大小poolSize大于corePoolSize且大于maximumPoolSize，且等待队列已满，则钓鱼拒绝策略处理该任务<br>
+(4) 如果当前池大小poolSize大于corePoolSize且大于maximumPoolSize，且等待队列已满，则调用拒绝策略处理该任务<br>
 (5) 线程池里的每个线程执行完任务不会立即退出，而是检查等待队列是否有任务需要执行，如果在keepAliveTime内等不到新任务，则退出
 
 ![avator](image/question-java-thread-045.png)
@@ -316,7 +316,7 @@ start()方法启动新创建的线程，使创建的线程的状态变成可运�
 &emsp;&emsp;运算结束的时候结果才能取回，如果未结束的时候调用get会阻塞。<br>
 &emsp;&emsp;实现了Runnable接口，可以通过线程池来执行，或传递给Thread对象执行。如果主线程遇到比较耗时的操作，又不想阻塞时，可以交给FutureTask执行，将结果返回。
 
-#### 52. 线程池ThreadPoolExecutor已满的时候，提交一个任务，会发生什么？question 172
+#### 52. 线程池ThreadPoolExecutor已满的时候，提交一个任务，会发生什么？question 45
 &emsp;&emsp;ThreadPoolExecutor的构造函数可以传入一个BlockingQueue workQueue。<br>
 &emsp;&emsp;如果使用的是无界队列LinkedBlockingQueue，近乎认为是无限大的队列，任务可以添加到阻塞队列中。<br>
 &emsp;&emsp;如果使用的是有界队列ArrayBlockingQueue，会使用拒绝策略RejectedExceptionHandler处理，默认是AbortPolicy，submit()方法将会抛出一个RejectedExecutionException。

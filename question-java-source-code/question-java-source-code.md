@@ -332,9 +332,112 @@ public class ReentrantLock implements Lock, Serializable {
 public abstract class AbstractQueuedSynchronizer extends AbstractOwnableSynchronizer implements java.io.Serializable {}
 ```
 
-#### 24. ThreadPoolExecutor
+#### 24. ThreadPoolExecutor, Executors, ExecutorService
+```java
+public class ThreadPoolExccutor extends AbstractExecutorService {
+    // 32位，前3位记录线程池状态，后29位记录线程数量
+    private final AtomicInteger ctl = new AtomicInteger(ctlOf(RUNNING, 0));
+    // 用于位运算的位数，32-3=29
+    private static final COUNT_BITS = Integer.SIZE - 3;
+    // 容量 536870911
+    private static final CAPACITY = (1 << COUNT_BITS) - 1;
+    // 1110 0000 0000 0000 0000 0000 0000 0000 运行中，最高三位111
+    private static final int RUNNING = -1 << COUNT_BITS;
+    // 0000 0000 0000 0000 0000 0000 0000 0000 关闭，最高三位000
+    private static final int SHUTDOWN = 0 << COUNT_BITS;
+    // 0010 0000 0000 0000 0000 0000 0000 0000 停止，最高三位001
+    private static final int STOP = 1 << COUNT_BITS;
+    // 0100 0000 0000 0000 0000 0000 0000 0000 整理，最高三位010
+    private static final int TIDYING = 2 << COUNT_BITS;
+    // 0110 0000 0000 0000 0000 0000 0000 0000 终止，最高三位011
+    private static final int TERMINATED = 3 << COUNT_BITS;
+    // 获取线程池状态，截取前三位
+    private static int runStateOf(int c) { return c & ~CAPACITY; }
+    // 获取线程个数，截取后29位
+    private static int workerCountOf(int c) { return c & CAPACITY; }
+    private static int ctlOf(int rs, int wc) { return rs | wc; }
 
+    private final BlockingQueue<Runnable> workQueue; // 阻塞队列，存放待执行的任务
+    private int largestPoolSize; // 曾经达到的最大线程数，小于等于maximumPoolSize
+    private ThreadFactory threadFactory;
+    private RejectedExecutionHandler handler;
+    private volatile long keepAliveTime; // 一个线程执行完后不立即结束，而是等待一段时间去执行新的任务
+    private volatile int corePoolSize; // 核心线程数
+    private volatile int maximumPoolSize; // 最大线程数
+    private static final RejectedExecutionHandler defaultHandler = new AbortPolicy(); // 拒绝策略
 
+    private final class Worker extends AbstractQueuedSynchronizer implements Runnable {
+        //
+    }
+
+    // 没有传入ThreadFactory和RejectedExecutionHandler
+    public ThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue) {
+        this(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, Executors.defaultThreadFactory(), defaultHandler);
+    }
+
+    // 没有传入RejectedExecutionHandler
+    public ThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue, ThreadFactory threadFactory) {
+        this(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, defaultHandler);
+    }
+
+    // 没有传入ThreadFactory
+    public ThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue, RejectedExecutionHandler handler) {
+        this(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, Executors.defaultThreadFactory, handler);
+    }
+
+    public ThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue, ThreadFactory threadFactory, RejectedExecutionHandler handler) {
+        if (corePoolSize < 0 || maximumPoolSize <= 0 || maximumPoolSize < corePoolSize || keepAliveTime < 0) { // 检查最小线程数和最大线程数
+            throw new IllegalArgumentException();
+        }
+        if (workQueue == null || threadFactory == null || handler == null) {
+            throw new NullPointerException();
+        }
+        this.acc = System.getSecurityManager() == null ? null : AccessController.getContext();
+        this.corePoolPoolSize = corePoolSize;
+        this.maximumPoolSize = maximumPoolSize;
+        this.workQueue = workQueue;
+        this.keepAliveTime = util.tuNanos(keepAliveTime);
+        this.threadFactory = threadFactory;
+        this.handler = handler;
+    }
+
+    public void execute(Runnable command) {
+        if (command == null) {
+            throw new NullPointerException();
+        }
+        int c = ctl.get();
+        if (workerCountOf(c) < corePoolSize) { // 当前线程数小于核心线程数，创建新线程运行任务
+            if (addWorker(command, true)) { // 创建新线程成功，返回
+                return;
+            }
+            c = ctl.get();
+        }
+        if (isRunning(c) && workQueue.offer(command)) { // 线程池处于RUNNING状态，往队列中添加任务
+            int recheck = ctl.get();
+            if (!isRunning(recheck) && remove(command)) { // 线程池不是RUNNING状态，则从队列中删除任务，并拒绝
+                reject(command);
+            } else if (workerCountOf(recheck) == 0) { // 线程池为空，则添加创建一个线程
+                addWorker(null, true);
+            }
+        } else if (!addWorker(command, false)) { // 往队列中添加失败（队列已满？），创建新线程执行任务。创建失败（线程池已满？）则拒绝
+            reject(command);
+        }
+    }
+
+    private boolean addWorker(Runnable firstTask, boolean core) {
+        //
+    }
+
+    final void runWorker(Worker w) {
+        //
+    }
+
+    private Runnable getTask() {
+        //
+    }
+}
+```
+![avator](image/question-java-source-code-024.png)
 
 
 

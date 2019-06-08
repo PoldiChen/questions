@@ -28,9 +28,13 @@ some questions and answers for Message Queue, like RabbitMQ, ActiveMQ, Kafka and
 功能特性 | 成熟的产品，在很多公司得到应用；<br>有较多的文档；<br>各种协议支持较好 | 基于erlang开发，并发能力很强，性能极好，延时很低；<br>管理界面比较丰富 | MQ功能比较完备，扩展性好 | 只支持主要的MQ功能；为大数据准备，在大数据领域应用较广
 
 #### 2. 系统架构引入消息中间件的缺点？
-系统可用性降低<br>
-系统稳定性降低（重复消费、消息丢失、消息顺序正确性）<br>
-分布式一致性问题（消息没有被消费）
+- 系统可用性降低<br>
+解决：集群
+- 系统稳定性降低<br>
+重复消费：全局唯一ID<br>
+消息丢失：生产者丢失（MQ事务回滚）、消费者丢失（修改自动确认为手动确认）<br>
+消息顺序正确性<br>
+- 分布式一致性问题（消息没有被消费）
 
 #### 3. 两种消息队列协议？
 项 | JMS (Java Message Service) | AMQP (Advanced Message Queuing Protocol)
