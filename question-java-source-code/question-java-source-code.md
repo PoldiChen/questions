@@ -8,13 +8,70 @@ some questions and answers for Java source code.
 
 #### 3. InputStream、OutputStream、Reader、Writer
 
-#### 4. String，substring()方法，不同版本的区别（1.6和1.7）
+#### 4. String，intern()方法，substring()方法不同版本的区别（1.6和1.7）
+```java
+public final class String implements java.io.Serializable, Comparable<String>, CharSequence {
+    private final char[] value;
+    public native String intern(); // 使用C++实现的native方法
+}
+```
 
 #### 5. Properties
 
 #### 6. Queue和Stack
 
-#### 7. WeakHashMap
+#### 7. HashMap, ConcurrentHashMap(Java 8), WeakHashMap
+```java
+public class HashMap<K, V> extends AbstractMap<K, V> implements Map<K, V>, Cloneable, Serializable {
+    static final int DEFAULT_INITIAL_CAPACITY = 1 << 4; // 16
+    static final int MAXIMUM_CAPACITY = 1 << 30;
+    static final float DEFAULT_LOAD_FACTOR = 0.75f;
+    static final int TREEIFY_THRESHOLD = 8; // 从列表转换为树的阈值
+    static final int UNTREEIFY_THRESHOLD = 6; // 从树转换为列表的阈值
+    static final int MIN_TREEIFY_CAPACITY = 64;
+
+    static class Node<K, V> implements Map.Entry<K, V> {
+        //
+    }
+
+    transient Node<K, V>[] table;
+    transient Set<Map.Entry<K, V>> entrySet;
+    transient int size;
+    transient int modCount;
+    int thrshold;
+    final float loadFactor;
+
+    static final int hash(Object key) {
+        int h;
+        return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16); // 高16位不变，低16位与高16位异或
+    }
+
+    public V get(Object key) {
+        Node<K, V> e;
+        return (e == getNode(hash(key), key)) == null ? null: e.value;
+    }
+
+    final Node<K, V> getNode(int hash, Object key) {
+        //
+    }
+
+    public V put(K key, V value) {
+        return putVal(hash(key), key, value, false, true);
+    }
+
+    final V putValue(int hash, K key, V value, boolean onlyIfAbsent, boolean evict) {
+        //
+    }
+
+    final Node<K, V>[] resize() {
+        //
+    }
+
+    final void treeifyBin(Node<K, V>[] tab, int hash) {
+        //
+    }
+}
+```
 
 #### 8. Runtime
 
@@ -25,8 +82,6 @@ some questions and answers for Java source code.
 #### 11. BigInteger，如何使用位运算实现算数运算
 
 #### 12. Hibernate，缓存，getCurrentSession()，ThreadLocal使用
-
-#### 13. ConcurrentHashMap（Java 8）
 
 #### 14. CopyOnWriteArrayList
 volatile修饰的数组，写入后对其他线程立即可见。
@@ -439,9 +494,51 @@ public class ThreadPoolExccutor extends AbstractExecutorService {
 ```
 ![avator](image/question-java-source-code-024.png)
 
+#### 25. SpringBoot
 
-
-
+#### 26. 注解
+```java
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.ANNOTATION_TYPE)
+public @interface Retention {
+    RetentionPolicy value();
+}
+```
+```java
+public enum RetentionPolicy {
+    SOURCE, // 保留在源码
+    CLASS, // 保留在编译后的class文件
+    RUNTIME // 保留至运行时，可以被反射读取
+}
+```
+```java
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.ANNOTATION_TYPE)
+public @interface Target {
+    ElementType[] value();
+}
+```
+```java
+public enum ElementType {
+    TYPE,
+    FIELD,
+    METHOD,
+    PARAMETER,
+    CONSTRUCTOR,
+    LOCAL_VARIABLE,
+    ANNOTATION_TYPE,
+    PACKAGE,
+    TYPE_PARAMETER
+}
+```
+```java
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.ANNOTATION_TYPE)
+public @interface Documented {}
+```
 
 
 
