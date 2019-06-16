@@ -31,7 +31,7 @@ a. 重排时不能把屏障后面的指令排到屏障之前<br>
 b. 使得本CPU的cache写入主存<br>
 c. 写入会使得其他CPU或内核无效化其cache，相当于让新写入的值对其他线程可见<br>
 
-#### 4. 时间处理类SimpleDateFormat非线程安全，用ThreadLocal封装成线程安全。
+#### 4. 时间处理类SimpleDateFormat非线程安全，用ThreadLocal封装成线程安全。code
 &emsp;&emsp;SimpleDateFormat内部引用了一个Calendar对象来处理时间，parse方法有一个clear的操作和一个getTime的操作，多线程环境下不同线程如果共享一个SimpleDateFormat对象，调用parsr方法时在clear和getTime之间就会存在冲突。<br>
 &emsp;&emsp;项目实例：<br>
 &emsp;&emsp;一个并发较大的接口服务，使用账号+秘钥+时间戳做身份和权限认证，认证的中间件接口定义了一个SimpleDateFormat单例，用于检查时间戳和系统当前时间的差，并发情况下得到的时间差不正确。
