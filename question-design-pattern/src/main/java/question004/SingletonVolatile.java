@@ -1,10 +1,10 @@
 package question004;
 
-public class VolatileSingleton {
+public class SingletonVolatile {
 	
-	private static VolatileSingleton singleton;
+	private static SingletonVolatile singleton;
 	
-	private VolatileSingleton() {
+	private SingletonVolatile() {
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
@@ -13,11 +13,11 @@ public class VolatileSingleton {
 		}
 	}
 
-	public static VolatileSingleton getInstance() {
+	public static SingletonVolatile getInstance() {
 		if (singleton == null) {
-			synchronized (VolatileSingleton.class) {
+			synchronized (SingletonVolatile.class) {
 				if (singleton == null) {
-					singleton = new VolatileSingleton();
+					singleton = new SingletonVolatile();
 				}
 			}
 		}

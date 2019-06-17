@@ -1,5 +1,8 @@
 package question004;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class SingletonLazyThreadSafe {
 	
 	private static SingletonLazyThreadSafe instance;
@@ -17,6 +20,16 @@ public class SingletonLazyThreadSafe {
 			instance = new SingletonLazyThreadSafe();
 		}
 		return instance;
+	}
+
+	public static void main(String[] args) {
+		ExecutorService service = Executors.newCachedThreadPool();
+		for (int i = 0; i < 10; i++) {
+			service.submit(new Thread(() ->
+					System.out.println(SingletonLazyThreadSafe.getInstance().hashCode()))
+			);
+		}
+		service.shutdown();
 	}
 
 }
