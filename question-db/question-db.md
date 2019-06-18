@@ -4,13 +4,17 @@ some questions and answers for database.
 #### 1. MySQL存储引擎？哪些应用使用了MyISAM引擎？
 MyISAM：较快的插入、查询速度，但不支持事务，不支持外键，不支持行级锁（支持表级锁）<br>
 InnoDB：MySQL默认的事务型数据库引擎，支持ACID事务，支持行级锁（默认）<br>
-Cluster/NDB：高冗余的存储引擎，用多台数据机器联合提供服务以提高整体性能和安全性，适合数据量大，安全和性能要求高的应用。
+Cluster/NDB：高冗余的存储引擎，用多台数据机器联合提供服务以提高整体性能和安全性，适合数据量大，安全和性能要求高的应用。<br>
+绝大多数是查询的时候可以使用MyISAM
 
 #### 2. MySQL开启慢查询日志？
 slow_query_log：是否开启慢查询日志，1开启，0不开启<br>
 long_query_time：慢查询阈值，默认10秒
 
 #### 3. MySQL查看执行计划？
+```sql
+explain select xx from xx where xx;
+```
 explain结果的各个item的含义：
 
 item | 含义
@@ -21,7 +25,7 @@ possible_keys | 能使用哪个索引在表中找到行。查询涉及到的字�
 key | 查询的时候实际使用的索引
 key_len | 索引中使用的字节数，可以计算出查询中使用的索引的长度。<br>数字等于索引列类型的字节数，int类型4 bytes，bigint类型8 bytes。<br>字符串类型和字符集相关，char(30) UTF-8至少是90 bytes。<br>允许null，加1 byte<br>varchar，加2 bytes
 ref | 上述表的连接匹配条件，即哪些列或常量被用于查找索引列上的值
-rows | /
+rows | 预估需要检测的行数
 Extra | 十分重要的额外信息。<br>using index表示覆盖索引扫描，说明性能较好。
 
 #### 4. MySQL索引原理？索引的类型？如何合理创建索引？索引的缺点？
@@ -31,7 +35,7 @@ Extra | 十分重要的额外信息。<br>using index表示覆盖索引扫描，
 (1) 最左前缀匹配原则。MySQL会一直向右匹配直到范围查询（>、<、like、between）<br>
 (2) =和in可以乱序。<br>
 (3) 选择区分度高的列建索引。<br>
-(4) 索引列不参与计算。比如from_unixtime(create_time) = ‘2018-01-20’，无法利用索引，应写成create_time = from_unixtime(‘2018-01-20’)<br>
+(4) 索引列不要参与计算。比如from_unixtime(create_time) = ‘2018-01-20’，无法利用索引，应写成create_time = from_unixtime(‘2018-01-20’)<br>
 (5) 尽量扩展索引，不新建索引。<br>
 
 ##### 适合建索引的列：
@@ -229,6 +233,15 @@ Hash索引的缺点：<br>
 (3) 借助第三方缓存，将经常查询的结果缓存起来。<br>
 (4) 如果查询需要扫描大量的数据但返回少量的行，可以使用索引覆盖扫描，把需要的行放到索引中。
 
+(1) 对where, group by字段建立索引
+(2) 不用select \*，用具体的字段
+(3) 模糊查询只在右边加%，不要在两边都加%
+(4) 尽量不用in和not in，会造成全表扫描。对于连续的值，用between；对于子查询，用exists代替
+(5) 尽量不用or，会造成全表扫描。可以用union代替。
+(6) 尽量不要在where字句中对字段进行表达式操作，会造成全表扫描。
+(7) 尽量不要在where字句中进行null值判断，给字段设置默认值。
+(8) 尽量不要使用where 1 = 1的条件
+
 #### 28. 事务的数据读问题，数据脏读、幻读和不可重复读？数据更新问题，第一类丢失更新，第二类丢失更新？
 
 #### 29. 数据库查询left join、right join和inner join？
@@ -252,7 +265,7 @@ Oracle的索引有聚集索引、非聚集索引、唯一索引。<br>
 #### 33. sql查找第二大的值？question045 (1)
 
 #### 34. MySQL的union和union all的区别？
-将两个查询子集进行合并，union和自动去除重复的记录，union不去除
+将两个查询子集进行合并，union和自动去除重复的记录，union all不去除
 
 #### 35. 数据库的三大范式？
 第一范式：每列都是不可分割的原子值，所有关系型数据库都满足<br>
@@ -383,6 +396,10 @@ Oracle锁行？？？<br>
 MySQL通过索引条件检索时InnoDB使用行级锁，否则使用表锁。
 
 #### 42. MySQL查询的in和exists的区别？
+```sql
+select * from A where exists (select * from B where A.id = B.id); # 对A遍历，每次循环对内表查询
+select * from A where A.id in (select id from B);
+```
 
 #### 43. MySQL中ENUM的用法？
 ENUM是一个字符串对象，用于指定一组预定义的值：
@@ -439,7 +456,7 @@ MySQL在启动的时候，会向内存申请一块连续的空间，命名为Buf
 通过LRU算法将不常用的数据淘汰掉。
 
 #### 49. 数据库中间件MyCat？
-组织数据库的读写分离和分库分表，客户端通过它来返回下层数据库。
+组织数据库的读写分离和分库分表，客户端通过它来访问下层数据库。
 
 #### 50. MySQL查看事务隔离级别、查看行锁
 查看事务隔离级别

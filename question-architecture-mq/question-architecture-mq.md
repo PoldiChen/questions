@@ -45,7 +45,12 @@ some questions and answers for Message Queue, like RabbitMQ, ActiveMQ, Kafka and
 支持消息模型 | 两种消息模型：<br>(1)Peer-to-Peer<br>(2)Pub/sub | 五种消息模型：
 支持消息类型 | 多种消息类型：<br>StreamMessage<br>MapMessage<br>TextMessage<br>ObjectMessage<br>BytesMessage | 二进制
 
+AMQP协议定义了publisher consumer exchange queue
+RabbitMQ是AMQP协议的一种实现。
+
 #### 4. 如何保证消息的有序性？
+消费者内部用队列实现
+对消息进行编号，消费者根据编号判断
 业务逻辑中自己实现？
 
 #### 5. 如何实现消息的重发？
@@ -56,6 +61,68 @@ some questions and answers for Message Queue, like RabbitMQ, ActiveMQ, Kafka and
 
 #### 7. 如何利用消息队列实现最终一致性？
 
+#### 8. RabbitMQ的基本概念？
+生产者、
+生产者发送一个消息，需要指定交换器名称、路由键、消息内容、额外参数
+交换器名称指定消息要发送到哪个交换器
+路由键用于交换器如何路由该消息到队列
+消息内容是字节流
+额外参数：是否需要持久化，contentType，存活时间
+
+消费者、
+
+交换器
+消息路由，决定如何将消息传递到队列或其他交换器
+一个交换器的组成：名称、路由方式
+四种路由方式：直接路由direct、广播路由fanout、话题路由topic、header
+默认交换器：名称为空字符串，路由方式为直接路由
+定时交换器时可以指定候补交换器，指定是否持久化、是否自动删除
+
+队列
+存放消息的容器
+消息存活时间，取决于队列设定和消息自身设定的最小值
+队列和消息都可以持久化
+队列可以设定最大长度和最大容量，超出时可舍弃即将入队的消息或最早的消息
+队列可以设定消息优先级
+
+路由绑定
+将一个队列绑定/解绑到另一个交换器
+将一个交换器绑定/解绑到另一个交换器
+
+死信
+(1) 被消费者拒绝
+(2) 队列长度超出限制后被舍弃
+(3) 消息超时
+队列可以设置消息成为死信后的处理方式：
+x-dead-letter-exchange：死信投入到交换器
+x-dead-letter-routing-key：死信投入到死信交换器的路由键
+
+生产消息确认机制
+中间件通知生产者消息已被记录，是一个异步确认过程
+
+事务性消息发布
+与消息确认互斥
+
+消费者两种获取消息的模式：push、pull
+
+消费消息确认机制：autoAck
+true：消息在接收时直接自动返回确认
+false：程序在消息处理完后手动返回确认
+
+push：
+消费者有未确认的消息时，队列不会再推送消息给消费者
+消费者可以设置perfetch参数，设置自身同时处理消息的最大数量
+
+多个消费者订阅同一个队列，以轮询的方式发送消息给消费者
+
+消息确认机制和事务性消息发布会降低吞吐量
+
+exchange、queue、message均可以持久化到磁盘
+
+集群：
+每一个节点都保存了所有的exchange和queue
+每个队列的消息仅保存在一个节点
+可以为节点上的队列设置镜像，对于每个队列来说，其中一个节点上的是master，其他的是slave
 
 
 

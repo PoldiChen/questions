@@ -1,7 +1,5 @@
 package question003;
 
-import java.util.Arrays;
-
 public class Bubble {
 	
 	public static void main(String[] args) {

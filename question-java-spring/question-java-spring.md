@@ -191,6 +191,9 @@ Service也是单例。
 - ISOLATION_REPEATABLE_READ：对同一字段多次读取结果是一样的，除非数据是被本事务修改，可以阻止脏读、幻读，但不可重复读仍可能发生。
 - ISOLATION_SERIALIZABLE：完全服从ACID
 
+#### 22. Spring 5新特性？
+JDK基准版本为8.
+响应式编程、函数式web框架、Kotlin支持
 
 
 

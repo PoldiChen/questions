@@ -1,64 +1,64 @@
-package question010;
+package question005;
 
 import java.util.Date;
 
 public interface UrlShortener {
 	
 	/**
-     * ÉèÖÃ²úÉú¶ÌÁ´½Ó³¤¶È
+     * è®¾ç½®äº§ç”ŸçŸ­é“¾æ¥é•¿åº¦
      * @param length
      * @return
      */
     void setLength(int length);
  
     /**
-     * ·µ»Ø¶ÌÁ´½Ó³¤¶È
+     * è¿”å›çŸ­é“¾æ¥é•¿åº¦
      * @return
      */
     int getLength();
  
     /**
-     * ·µ»ØÖ¸¶¨µØÖ·¶ÔÓ¦µÄ¶ÌÁ´½Ó
+     * è¿”å›æŒ‡å®šåœ°å€å¯¹åº”çš„çŸ­é“¾æ¥
      * @param url
      * @return
      */
     String get(String url);
  
     /**
-     * ´æ´¢¶ÔÓ¦¹ØÏµ
+     * å­˜å‚¨å¯¹åº”å…³ç³»
      * @param url
      * @param shortUrl
      */
     void put(String url, String shortUrl);
     /**
-     * µ½¿âÀï²é¿´ÊÇ²»ÊÇ´æÔÚÓ³Éä£¬Èç¹û²»´æÔÚ·µ»Ønull
+     * åˆ°åº“é‡ŒæŸ¥çœ‹æ˜¯ä¸æ˜¯å­˜åœ¨æ˜ å°„ï¼Œå¦‚æœä¸å­˜åœ¨è¿”å›null
      * @param shortUrl
      * @return
      */
     String seek(String shortUrl);
  
     /**
-     * ¾İµØÖ·²úÉú¶ÌµØÖ·
+     * æ®åœ°å€äº§ç”ŸçŸ­åœ°å€
      * @param url
      * @return
      */
     String generate(String url);
  
     /**
-     * ¸ù¾İµØÖ·ºÍÖÖ×Ó²úÉúÒ»¸ö¶ÌµØÖ·
+     * æ ¹æ®åœ°å€å’Œç§å­äº§ç”Ÿä¸€ä¸ªçŸ­åœ°å€
      * @param url
      * @param seed
      * @return
      */
     String generate(String url, int seed);
     /**
-     * Çå³ıÖ¸¶¨URLµÄ¶ÌÁ´½ÓĞÅÏ¢
+     * æ¸…é™¤æŒ‡å®šURLçš„çŸ­é“¾æ¥ä¿¡æ¯
      * @param url
      */
     void clean(String url);
  
     /**
-     * Çå³ıÖ¸¶¨Ê±¼äÒÔÇ°Ã»ÓĞÊ¹ÓÃµÄËùÓĞ¶ÌÁ´½Ó
+     * æ¸…é™¤æŒ‡å®šæ—¶é—´ä»¥å‰æ²¡æœ‰ä½¿ç”¨çš„æ‰€æœ‰çŸ­é“¾æ¥
      * @param date
      */
     void clean(Date date);
