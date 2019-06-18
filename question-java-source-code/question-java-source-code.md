@@ -2,6 +2,40 @@
 some questions and answers for Java source code.
 
 #### 1. BlockingQueue
+LinkedBlockingQueue
+```java
+public class LinkedBlockingQueue<E> extends AbstractQueue<E> implements BlockingQueue<E>, java.io.Serializable {
+    private final AtomicInteger count = new AtomicInteger(); // 当前元素个数
+    private final int capacity; // 最大容量，构造时未指定则为Integer.MAX_VALUE
+    private final ReentrantLock takeLock = new ReentrantLock();
+    private final Condition notEmpty = takeLock.newCondition();
+    private final ReentrantLock putLock = new ReentrantLock();
+    private final Condition notFull = putLock.newCondition();
+
+    public void put(E e) throws InterruptedException {
+        int c = -1;
+        Node<E> node = new Node<E>(e);
+        final ReentrantLock putLock = this.putLock;
+        final AtomicInteger count = this.count;
+        putLock.lockInterruptibly();
+        try {
+            while (count.get() == capacity) { // 如果队列已满，在notFull条件上等待
+                notFull.await();
+            }
+            enqueue(node);
+            c = count.getAndIncrement(); // 这里的c是未添加元素时的数量
+            if (c + 1 < capacity) { // 添加元素后仍未满，唤醒在notFull条件等待的某个线程
+                notFull.signal();
+            }
+        } finally {
+            putLock.unlock();
+        }
+        if (c == 0) { // 添加元素前个数为0，已有线程在notEmpty条件等待，需要唤醒
+            signalNotEmpty();
+        }
+    }
+}
+```
 ![avator](image/question-java-source-code-001.png)
 
 #### 2. Collection和Collections
@@ -495,6 +529,30 @@ public class ThreadPoolExccutor extends AbstractExecutorService {
 ![avator](image/question-java-source-code-024.png)
 
 #### 25. SpringBoot
+```java
+@Target(ElementType.Type)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Inherited
+@SpringBootConfiguration
+@EnableAutoConfiguration
+@ComponentScan(excludeFilters = {
+    @Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class),
+    @Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExculdeFilter.class)
+})
+public @interface SpringBootApplication {
+    //
+}
+```
+```java
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Configuration
+public @interface SpringBootConfiguration {
+    //
+}
+```
 
 #### 26. 注解
 ```java

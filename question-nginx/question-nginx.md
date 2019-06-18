@@ -108,6 +108,20 @@ upstream backend {
     server localhost:8081;
 }
 ```
+(6) 会话粘滞
+```
+upstream backend {
+    sticky;
+    server 172.19.88.84;
+    server 172.19.88.93;
+}
+```
+客户端首次发起请求，没有cookie，以轮询的方式将请求发送给后端服务器。<br>
+后端服务器处理完请求后响应给nginx。<br>
+nginx生成带route的cookie，返回给客户端。route的值与后端服务器对应，可能是明文、md5、sha1或hash。<br>
+客户端接收到响应，保存带route的cookie。<br>
+客户端再次请求，带上带route的cookie，nginx根据route转发到对应的后端服务器。<br>
+![avator](image/question-nginx-005.png)
 
 #### 6. Nginx配置动静分离？
 ```
@@ -163,6 +177,17 @@ http {
 }
 ```
 (2) 主动监测：health_check，只有商业版支持。
+
+#### 9. 配置应用节点超时？
+```
+http {
+    server {
+        proxy_connect_timeout 30;
+        proxy_read_timeout 30;
+        proxy_send_timeout 300;
+    }
+}
+```
 
 
 

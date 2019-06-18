@@ -28,6 +28,26 @@ Spring Cloud是关注全局的微服务协调整理治理框架，它将Spring B
 
 #### 4. Spring Boot的监视器是什么？
 Spring Boot Actuator，可以访问生产环境中正在运行的应用的状态。
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+```
+```
+management:
+    endpoints:
+        web:
+            exposure:
+                include: "*"
+```
+/health
+/conditions
+/configprops
+/beans
+/heapdump
+/threaddump
+/env
 
 #### 5. 什么是YAML？
 Yet another Markup Language，一种人类可读的数据序列化语言，常用于配置文件。<br>

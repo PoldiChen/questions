@@ -45,7 +45,14 @@ dir 列出文件
 - 红色闪烁：链接的文件有问题
 - 黄色：设备文件
 
+#### 7. 压缩包tar.xz
+```shell
+tar -cvf file.tar dir
+xz -z file.tar
 
+xz -d file.tar.xz
+tar -xvf file.tar
+```
 
 
 

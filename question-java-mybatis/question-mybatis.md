@@ -68,6 +68,8 @@ trim
 foreach
 bind
 
+#### 6. MyBatis一对多？多对一？多对多？
+
 
 
 <br>

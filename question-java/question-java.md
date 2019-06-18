@@ -520,6 +520,11 @@ transient修饰的变量不能被序列化。不能修饰方法或类。
 Direct Buffer
 Native Library
 
+#### 78. Lombok
+getter setter 编译结果？
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 
 
 

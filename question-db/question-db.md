@@ -25,7 +25,7 @@ rows | /
 Extra | 十分重要的额外信息。<br>using index表示覆盖索引扫描，说明性能较好。
 
 #### 4. MySQL索引原理？索引的类型？如何合理创建索引？索引的缺点？
-索引是一种数据结构，由B树或B+树实现。
+索引是一种数据结构，由B树或B+树实现（hash、full-text）。
 
 ##### 索引创建原则：
 (1) 最左前缀匹配原则。MySQL会一直向右匹配直到范围查询（>、<、like、between）<br>
@@ -59,6 +59,15 @@ Extra | 十分重要的额外信息。<br>using index表示覆盖索引扫描，
 (5) 普通索引。<br>
 (6) 最左索引（组合索引）。更好的提高效率，创建索引时将最常用的放在最左边，依次递减。
 主键索引存放的值是整行字段的数据，非主键索引存放的值是主键字段的值，即对非主键字段的查询，如果用了非主键字段索引，需要二次查询，系统根据索引基数判断出二次查询更慢，直接采用全表扫描。
+
+```sql
+CREATE TABLE `eval_table` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `user` int(10) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user` (`user`) USING BTREE, // 指定索引类型为B树
+) ENGINE=ndbcluster AUTO_INCREMENT=7345 DEFAULT CHARSET=utf8;
+```
 
 #### 5. 聚集索引和非聚集索引？
 &emsp;&emsp;聚集索引：用于决定数据表中的物理存储顺序，一张表最多有一个聚集索引，字段值尽量不修改，因为修改后物理顺序需要重写排序。通常主键就是聚集索引。<br>
@@ -432,8 +441,74 @@ MySQL在启动的时候，会向内存申请一块连续的空间，命名为Buf
 #### 49. 数据库中间件MyCat？
 组织数据库的读写分离和分库分表，客户端通过它来返回下层数据库。
 
+#### 50. MySQL查看事务隔离级别、查看行锁
+查看事务隔离级别
+```sql
+mysql> select @@tx_isolation;
++-----------------+
+| @@tx_isolation  |
++-----------------+
+| REPEATABLE-READ |
++-----------------+
+1 row in set (0.00 sec)
+```
+查看行锁
+```sql
+mysql> show status like '%innodb_row_lock%';
++-------------------------------+-------+
+| Variable_name                 | Value |
++-------------------------------+-------+
+| Innodb_row_lock_current_waits | 0     |
+| Innodb_row_lock_time          | 8928  |
+| Innodb_row_lock_time_avg      | 0     |
+| Innodb_row_lock_time_max      | 36    |
+| Innodb_row_lock_waits         | 19247 |
++-------------------------------+-------+
+5 rows in set (0.00 sec)
+```
+查看引擎状态，检测最近一次死锁和当前的事务
+```sql
+mysql> show engine innodb status;
+```
+查看超时参数
+```sql
+mysql> show variables like '%wait_timeout%';
++--------------------------+----------+
+| Variable_name            | Value    |
++--------------------------+----------+
+| innodb_lock_wait_timeout | 50       |
+| lock_wait_timeout        | 31536000 |
+| wait_timeout             | 28800    |
++--------------------------+----------+
+3 rows in set (0.00 sec)
+```
+查看事务是否自动提交
+```sql
+mysql> select @@autocommit;
++--------------+
+| @@autocommit |
++--------------+
+|            1 |
++--------------+
+1 row in set (0.00 sec)
+```
 
+查看锁表
+```sql
+mysql> select * from information_schema.innodb_locks;
+```
 
+#### 51. Oracle查看触发器
+SELECT NAME
+FROM USER_SOURCE
+WHERE TYPE='TRIGGER'
+GROUP BY NAME
+
+#### 52. Oracle数值类型字段
+NUMBER
+INTEGER
+BINARY_FLOAT
+BINARY_DOUBLE
 
 
 #### 100. question 100
