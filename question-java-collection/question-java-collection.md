@@ -172,7 +172,7 @@ AQS定义了对双向队列的所有操作，只开放了tryLock和tryRelease给
 #### 23. ConcurrentHashMap的并发度是什么？实现原理？
 &emsp;&emsp;ConcurrentHashMap把map分成若干部分来实现可扩展性和线程安全，这种划分是使用并发度获得的，是构造函数的一个可选参数，默认值是16。<br>
 &emsp;&emsp;将一个map分为多个Hashtable，根据key.hashCode()决定将key放到哪个Hashtable中。<br>
-&emsp;&emsp;JDK 1.8中不再使用segment锁分离，而是使用乐观锁CAS算法来实现同步。底层还是数据+链表->红黑树。不需要对segment或者全局加锁，只需对单行加锁（hashCode相同）。对单个值的修改使用CAS。
+&emsp;&emsp;JDK 1.8中不再使用segment锁分离，而是使用乐观锁CAS算法来实现同步。底层还是数组+链表->红黑树。不需要对segment或者全局加锁，只需对单行加锁（hashCode相同）。对单个值的修改使用CAS。
 
 #### 24. 阻塞队列BlockingQueue的作用？
 java.util.concurrent.BlockingQueue的特性是：队列是空的时，获取或删除元素的操作会被阻塞，队列是满的时，添加元素的操作会被阻塞。<br>

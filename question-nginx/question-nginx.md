@@ -189,6 +189,16 @@ http {
 }
 ```
 
+#### 10. 配置文件上传大小限制？
+默认是1M，超出大小会报HTTP 413。
+```
+http {
+    server {
+        client_max_body_size 1024M;
+    }
+}
+```
+
 
 
 
