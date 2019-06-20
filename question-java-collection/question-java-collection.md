@@ -236,7 +236,9 @@ key值计算得到的hash大于容量，可以通过求余得到插入的数组�
 <br><br>
 ![avator](image/question-java-collection-035-map.png)
 
-
+#### 36. 空接口RandomAccess的作用？
+接口中没有任何方法，只是起标记作用。
+ArrayList实现了这个接口，表明是支持根据下标快速随机访问的
 
 
 #### 100. question 100.
