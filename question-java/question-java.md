@@ -103,6 +103,9 @@ public Object getProxyInstance() {
 因为Java的垃圾回收时机是不可控的，所以使用不同的引用类型来适当控制对象被回收的时机。<br>
 通过软引用实现Java对象的高速缓存：软引用和HashMap的结合。？？？
 
+WeadHashMap的key使用WeakReference引用，key被标记为垃圾的时候，key对应的条目会自动被移除。
+
+
 #### 13. 连接MySQL数据库的语句？code
 
 #### 14. JDK 1.6和JDK 1.7的substring方法的区别？
