@@ -94,8 +94,8 @@ public Object getProxyInstance() {
 (5) 反序列化<br>
 前三种调用了构造函数。两种newInstance就是反射，Class的newInstance方法内部调用了Constructor的newInstance方法，众多框架如Spring、Hibernate使用的是Constructor。
 
-#### 12.Java的四种引用，强引用、软引用、弱引用、虚引用？？？？？？？？？？
-强引用 |	软引用 | 弱引用 | 虚引用
+#### 12.Java的四种引用，强引用、软引用、弱引用、虚引用？code
+强引用 | 软引用 | 弱引用 | 虚引用
 -|-|-|-
 引用存在则永远不会回收，即使内存不足，也是抛出OutOfMemory。<br>通过赋值为null可以中断强引用和对象的关联。 | 内存溢出之前回收 | 第二次垃圾回收时回收。<br>一旦发现就会回收？？？ | 每次垃圾回收都会被回收
 / | 实现图片缓存功能，内存不足时回收不再使用的Bitmap | / | 用来跟踪对象被垃圾回收的回收活动
@@ -104,7 +104,6 @@ public Object getProxyInstance() {
 通过软引用实现Java对象的高速缓存：软引用和HashMap的结合。？？？
 
 WeadHashMap的key使用WeakReference引用，key被标记为垃圾的时候，key对应的条目会自动被移除。
-
 
 #### 13. 连接MySQL数据库的语句？code
 

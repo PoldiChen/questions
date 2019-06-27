@@ -20,6 +20,7 @@ epoll模型：基于内核的反射机制，有活跃的socket时，系统会调
 
 #### 5. 常用的Linux命令？
 资源使用情况：
+uptime 查看负载load average，1分钟、5分钟、15分钟内系统的平均负载
 top
 netstat
 ps 查看进程（process）

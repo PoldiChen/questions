@@ -50,6 +50,38 @@ public final class String implements java.io.Serializable, Comparable<String>, C
 }
 ```
 
+#### 5. StringBuilder和StringBuffer
+```java
+public final class StringBuffer extends AbstractStringBuilder implements Serializable, CharSequence {
+    @Override
+    public synchronized StringBuffer append(Object obj) { // 同步的方法
+        toStringCache = null;
+        super.append(String.valueOf(obj));
+        return this;
+    }
+
+    @Override
+    public synchronized StringBuffer append(String str) { // 同步的方法
+        toStringCache = null;
+        super.append(str);
+        return this;
+    }
+}
+```
+```java
+public final class StringBuilder extends AbstractStringBuilder implements Serializable, CharSequence {
+    @Override
+    public StringBuilder append(Object obj) {
+        return append(String.valueOf(obj));
+    }
+
+    @Override
+    public StringBuilder append(String str) {
+        super.append(str);
+        return this;
+    }
+}
+```
 #### 5. Properties
 
 #### 6. Queue和Stack

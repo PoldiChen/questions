@@ -76,3 +76,5 @@ windows系统：catalina.bat，linux系统：catalina.sh<br>
 set JAVA_OPTS = -server -Xms512m -Xmx1024m<br>
 默认为128m。<br>
 JVM默认的最大最小堆内存分别是物理内存的1/4和1/64。
+
+#### 7. 手动部署一个servlet到tomcat？code
