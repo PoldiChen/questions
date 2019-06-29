@@ -126,7 +126,7 @@ API | 可修饰方法和代码块 | 只可修饰方法
 (5) 使用泛型，类型安全、可读性、健壮性，避免运行时的ClassCastException。<br>
 (6) 元素个数固定且事先知道，应该用Array而不是ArrayList。<br>
 (7) 指定容器初始容量，避免重新计算hash或者扩容。<br>
-(8) 使用JKD的不变类（immutable class）作为Map的key值，避免自己定义的类去实现hashCode()和equals()方法。<br>
+(8) 使用JDK的不变类（immutable class）作为Map的key值，避免自己定义的类去实现hashCode()和equals()方法。<br>
 (9) 容器为空的时候返回长度是0的集合或者数组，不要返回null。
 
 #### 16. Java同步集合和并发集合的区别？

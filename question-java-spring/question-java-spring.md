@@ -195,7 +195,16 @@ Service也是单例。
 JDK基准版本为8.
 响应式编程、函数式web框架、Kotlin支持
 
-
+#### 23. Spring加载bean的过程？
+(1) 转换beanName
+(2) 从缓存中加载实例
+一个实例在同一个容器中只会创建一次，再次获取的时候会尝试从缓存中获取，获取不到再从singletonFactories中加载
+(3) 实例化bean
+(4) 检测parentBeanFactory
+(5) 存储XML配置文件的GenericBeanDefinition转换成RootBeanDefinition
+(6) 初始化依赖的bean
+(7) 创建bean
+https://weknow619.iteye.com/blog/2367637
 
 
 
