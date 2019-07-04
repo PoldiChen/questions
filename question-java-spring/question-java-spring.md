@@ -196,16 +196,28 @@ JDK基准版本为8.
 响应式编程、函数式web框架、Kotlin支持
 
 #### 23. Spring加载bean的过程？
-(1) 转换beanName
-(2) 从缓存中加载实例
-一个实例在同一个容器中只会创建一次，再次获取的时候会尝试从缓存中获取，获取不到再从singletonFactories中加载
-(3) 实例化bean
-(4) 检测parentBeanFactory
-(5) 存储XML配置文件的GenericBeanDefinition转换成RootBeanDefinition
-(6) 初始化依赖的bean
-(7) 创建bean
+(1) 转换beanName<br>
+(2) 从缓存中加载实例<br>
+一个实例在同一个容器中只会创建一次，再次获取的时候会尝试从缓存中获取，获取不到再从singletonFactories中加载<br>
+(3) 实例化bean<br>
+(4) 检测parentBeanFactory<br>
+(5) 存储XML配置文件的GenericBeanDefinition转换成RootBeanDefinition<br>
+(6) 初始化依赖的bean<br>
+(7) 创建bean<br>
 https://weknow619.iteye.com/blog/2367637
 
+#### 24. Spring的事务传播机制？
+7种类型的事务传播行为：
+
+类型 | 说明
+-|-
+PROPAGATION_REQUIRED | 如果当前没有事务，就新建一个事务；如果已经存在一个事务，则加到这个事务中。最常见的选择
+PROPAGATION_SUPPORTS | 支持当前事务，如果当前没有事务，就以非事务方式执行
+PROPAGATION_MANDATORY | 使用当前的事务，如果没有事务，则抛出异常
+PROPAGATION_REQUIRES_NEW | 新建事务，如果当前存在事务，则将事务挂起
+PROPAGATION_NOT_SUPORTED | 以非事务方式执行，如果当前存在事务，则将事务挂起
+PROPAGATION_NEVER | 以非事务方式执行，如果当前存在事务，则抛出异常
+PROPAGATION_NESTED | 如果当前存在事务，则在嵌套事务内执行。如果没有事务，则执行与PROPAGATION_REQUIRED类型的操作
 
 
 
