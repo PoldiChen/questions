@@ -11,17 +11,17 @@ some questions and answers for Spring Boot.
 (7) 基于环境的配置<br>
 
 #### 2. 如何理解Spring Boot的“约定大于配置”？是如何实现的？
-(1) 开发人员仅需规定应用中不符合约定的部分
-(2) 在没有规定配置的地方，采用默认配置，以力求最简配置为核心
+(1) 开发人员仅需规定应用中不符合约定的部分<br>
+(2) 在没有规定配置的地方，采用默认配置，以力求最简配置为核心<br>
 
-有以下约定：
-maven的目录结构，src-main-java源代码, src-main-resource资源配置文件, target编译结果
-Spring Boot的配置文件，application.properties/yml
-application配置文件的默认属性，比如数据库连接spring:datasource
+有以下约定：<br>
+Maven的目录结构，src-main-java源代码, src-main-resource资源配置文件, target编译结果<br>
+Spring Boot的配置文件，application.properties/yml<br>
+application配置文件的默认属性，比如数据库连接spring:datasource<br>
 
-实现：
-核心注解@SpringBootApplication = @SpringBootConfiguration + @EnableAutoConfiguration + @ComponentScan
-@EnableAutoConfiguration引入了@AutoConfigurationImportSelector，selectImports方法，调用getCandidateConfigurations方法方法，读取工程项目下的jar包的META-INF/spring.factories文件，加载相关的bean到IOC容器
+实现：<br>
+核心注解@SpringBootApplication = @SpringBootConfiguration + @EnableAutoConfiguration + @ComponentScan <br>
+@EnableAutoConfiguration引入了@AutoConfigurationImportSelector，selectImports方法，调用getCandidateConfigurations方法，读取工程项目下的jar包的META-INF/spring.factories文件，加载相关的bean到IOC容器
 
 #### 2. Spring Cloud和Spring Boot的关系？
 Spring Cloud是分布式微服务架构下的一站式解决方案，是各个微服务架构落地技术的集合体，俗称微服务栈解决方案。<br>
@@ -54,26 +54,68 @@ management:
             exposure:
                 include: "*"
 ```
-/health
-/conditions
-/configprops
-/beans
-/heapdump
-/threaddump
-/env
+/health<br>
+/conditions<br>
+/configprops<br>
+/beans<br>
+/heapdump<br>
+/threaddump<br>
+/env<br>
 
 #### 5. 什么是YAML？
 Yet another Markup Language，一种人类可读的数据序列化语言，常用于配置文件。<br>
 能够分层配置，更加架构化，更少混淆。
 
 #### 6. Spring Boot的@SpringBootApplication注解？
-一个复合的注解，将三个组合在一起。SpringBoot根据应用的依赖、自定义的bean、classpath的类识别需要的bean。
+一个复合的注解，将三个组合在一起。<br>
+SpringBoot根据应用的依赖、自定义的bean、classpath的类识别需要的bean。
 ```java
 @SpringBootConfiguration // Spring框架的注解，标明该类是JavaConfig配置类，用来代替applicationContext.xml配置文件
-@ComponentScan // 启用组件扫描
 @EnableAutoConfiguration // 开启SpringBoot自动配置功能
+@ComponentScan // 启用组件扫描
+public @interface SpringBootApplication {
+    //
+}
+```
+```java
+@AutoConfigurationPackage
+@Import({AutoConfigurationImportSelector.class})
+public @interface EnableAutoConfiguration {
+    //
+}
+```
+```java
+public class AutoConfigurationImportSelector {
+    public String[] selectImports(AnnotationMetadata annotationMetadata) {
+        getAutoConfigurationEntity();
+    }
+
+    protected AutoConfigurationImportSelector.AntuConfigurationEntity getAutoConfigurationEntity() {
+        getCandidateConfigurations();
+    }
+
+    protected List<String> getCandidateConfigurations(AnnotationMetadata metadata, AnnotationAtributes attributes) {
+        List<String> configurations = SpringFactoriesLoader.loadFactoryNames(this.getSpringFactoriesLoaderClass(), this.getBeanClassLoader());
+        Assert.notEmpty(configurations, "file META-INF/spring.factories");
+        return configurations;
+    }
+}
 ```
 
+#### 7. 如何理解Spring Boot的starters？
+可以理解为启动器，包含了一系列可以集成到应用中的依赖包，
+
+#### 8. Spring Boot 2.x的新特性？
+配置变更
+JDK版本升级
+  至少需要JDK 8，支持JDK 9
+第三方类库升级
+  SpringFramework 5+
+  Tomcat 8.5+
+  Hibernate 5.2+
+响应式Spring编程支持
+HTTP 2支持
+配置属性绑定
 
 
 

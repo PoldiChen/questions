@@ -102,6 +102,8 @@ ApplicationContext对BeanFactory进行扩展，添加了其他功能，如国际
 &emsp;&emsp;ThreadLocal类中有一个内部类ThreadLocalMap，key为线程对象，value为线程的变量副本。<br>
 &emsp;&emsp;数据连接和会话一般是非线程安全的，
 
+管理request作用域的bean、事务管理、任务调度、AOP
+
 #### 11. Spring源码-IoC？
 BeanFactory：bean的管理工厂，所有bean都在其中创建、存储、销毁<br>
 DefaultListableBeanFactory：BeanFactory的实现类<br>
@@ -197,10 +199,13 @@ JDK基准版本为8.
 
 #### 23. Spring加载bean的过程？
 (1) 转换beanName<br>
+beanName可能是别名，需要转换
 (2) 从缓存中加载实例<br>
 一个实例在同一个容器中只会创建一次，再次获取的时候会尝试从缓存中获取，获取不到再从singletonFactories中加载<br>
 (3) 实例化bean<br>
+缓存中的bean是最原始的状态
 (4) 检测parentBeanFactory<br>
+如果缓存中没有数据会到父类工厂去加载
 (5) 存储XML配置文件的GenericBeanDefinition转换成RootBeanDefinition<br>
 (6) 初始化依赖的bean<br>
 (7) 创建bean<br>
