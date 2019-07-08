@@ -23,7 +23,7 @@ Zuul和Gateway两个组件。
 底层实现 | 构建于servlet 2.5，阻塞式API，不支持长连接 | 构建于Spring 5+，基于Spring Boot 2.x响应式的、非阻塞式的API。支持websocket
 性能 | / | /
 
-
+#### 4. Spring Cloud Sleuth分布式链路监控？
 
 #### 4. Spring Cloud和Dubbo的对比？
 微服务功能 | Spring Cloud | Dubbo
