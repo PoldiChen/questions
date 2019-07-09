@@ -40,7 +40,9 @@ Zuul和Gateway两个组件。
 
 #### 5. Eureka和Zookeeper的比较？
 Zookeeper：CP原则<br>
-Eureka：AP原则
+Eureka：AP原则<br>
+Zookeeper有一个master节点，master挂了会在30~120s内进行选举，在选举期间Zookeeper是不可用的，这就是Zookeeper的CP，保持节点的一致性，牺牲了高可用（A）。<br>
+Eureka有部分节点挂掉，其他节点还可以使用，节点间保持平级的关系，但信息可能不一致，这就是AP，牺牲了一致性（C）。
 
 
 
