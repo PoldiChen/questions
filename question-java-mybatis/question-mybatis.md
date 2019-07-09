@@ -70,7 +70,47 @@ bind
 
 #### 6. MyBatis一对多？多对一？多对多？
 
+#### 7. MyBatis接口为什么不需要实现？
+通过JDK动态代理，在启动加载配置文件的时候，根据配置mapper的xml文件去生成Dao层接口的实现。
+MapperProxy的invoke方法，调用MapperMethod的execute方法。
+MapperMethod类根据method方法的methodName和declaringInterface从xml文件中取出sql语句执行。
 
+```java
+public class MapperProxy<T> implements InvocationHandler, Serializable {
+	//
+	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+		try {
+			if (Object.class.equals(method.getDeclaringClass())) { // Object中定义的方法，直接执行
+				return method.invoke(this, args);
+			}
+			if (this.isDefaultMethod()) { // JDK 8的接口方法默认实现
+				return this.invokeDefaultMethod(proxy, method, args);
+			}
+		} catch (Throwable arg5) {
+			throw ExceptionUtil.unwrapThrowable(arg5);
+		}
+		MapperMethod mapperMethod = this.cachedMapperMethod(method);
+		return mapperMethod.execute(this.sqlSession, args);
+	}
+}
+```
+```java
+public class MapperMethod {
+	public Object execute(SqlSession sqlSession, Object[] args) {
+		//
+	}
+
+	// 静态内部类，封装了SQL标签的类型，select, insert, update, delete
+	public static class SqlCommand {
+		//
+	}
+
+	// 静态内部类。封装了方法的参数、返回类型等
+	public static class MethodSignature {
+		//
+	}
+}
+```
 
 <br>
 <br>

@@ -607,4 +607,9 @@ List：类似于Range，区别在于List分区是基于列值匹配一个离散�
 Hash：基于用户定义的表达式的返回值来进行选择的分区，
 Key：类似于Hash，区别在于Key分区只支持计算一列或多列
 
+#### 55. Oracle的事务隔离级别？
+有两种：
+read commited：读已提交（默认）
+serializable：串行读
+
 #### 100. question 100
