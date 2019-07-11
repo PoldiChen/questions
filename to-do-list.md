@@ -1,12 +1,11 @@
 # questions
 some questions, answers and codes.
 
-#### 1. servlet 3
-
+servlet 3
 分布式缓存
-memcached
-redis
+Memcached
+Redis
 GC算法调优
 book jvm
 code -> .md
-mybatis 接口不需要实现
+MyBatis 接口不需要实现

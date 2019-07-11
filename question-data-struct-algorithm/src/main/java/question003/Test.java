@@ -1,4 +1,4 @@
-package question002;
+package question003;
 
 public class Test {
 	

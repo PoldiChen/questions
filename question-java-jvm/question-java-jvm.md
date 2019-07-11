@@ -28,10 +28,12 @@ Full GC触发条件：<br>
 (4) 通过Minor GC后进入老年代的平均大小>老年代的可用空间<br>
 (5) 由Eden区、From Space区向To Space区复制时，对象大小>To Space区可用空间，则把该对象转到老年代，且老年代可用的空间小于该对象大小。<br>
 
-并行收集器（Parallel Collector, Throughput Collector）：使用多线程的方式，利用多CPU提高GC的效率，以达到一定吞吐量为目标。用户线程处于等待状态。<br>
+SerialGC: 使用简单的标记、清除、压缩方法对年轻代和老年代进行垃圾回收，即Minor GC和Major GC。
+并行收集器（Parallel Collector, Throughput Collector）：使用多线程（线程数为系统CPU的核数）的方式，利用多CPU提高GC的效率，以达到一定吞吐量为目标。用户线程处于等待状态。在进行老年代垃圾回收时使用单线程<br>
+Parallel Old GC：和Parallel GC类似，不同的是在对年轻代和老年代进行回收的时候都使用多线程。<br>
 并发收集器（Concurrent Low Pause Colllector）：垃圾回收线程和用户线程同时执行。<br>
 CMS收集器（Concurrent Mark Sweep，老年代收集器）：以获取最短回收停顿时间为目的，基于标记-清除算法。<br>
-G1（Garbage-First）：垃圾收集器的最新成果，将堆分成多个大小相等的独立区域（Region），跟踪各个区域的垃圾堆积的价值大小，维护一个优先级表，优先回收价值最大的区域。
+G1（Garbage-First）：垃圾收集器的最新成果，不区分年轻代和老年代，将堆分成多个大小相等的独立区域（Region），跟踪各个区域的垃圾堆积的价值大小，维护一个优先级表，优先回收价值最大的区域。
 
 Java 7引入了G1 GC替代CMS GC，Java 9中G1 GC为默认。
 
@@ -118,12 +120,38 @@ Java 8取消了永久代，新增了元空间（MetaSpace），使用的是物�
 - (3) 复制回收法<br>
 将现有内存分成两部分，GC的时候将可到达的对象复制到另一半空间，清空正在使用的一半空间的全部对象。可用的内存只有一半。适合短生存期的对象，持续复制长生存期的对象会导致效率降低。<br>
 - (4) 分代回收法<br>
-将内存空间分成两个或多个区域，如年轻代和老年代。年轻代的特点是对象很快会被回收，因此使用效率较高的复制回收法。当一个对象经过几次回收后仍然存活，就会被放入老年代，老年代使用标记-压缩算法。<br>
-年轻代分为Eden，Survivor from和Survivor to三个区域，比例是8:1:1，from和to有一个区域是空白的，Eden和一个Survivor区域为新创建的对象分配内存，年轻代需要回收时，将存活的对象复制到空白的survivor区，存放不下的复制到老年代，创建大对象时同样复制到老年代。
+将内存空间分成两个或多个区域，如年轻代和老年代。<br>
+年轻代的特点是对象很快会被回收，因此使用效率较高的复制回收法。<br>
+当一个对象经过几次回收后仍然存活，就会被放入老年代，老年代使用标记-压缩算法。<br>
+年轻代分为Eden，Survivor from和Survivor to三个区域，比例是8:1:1，from和to有一个区域是空白的，Eden和一个Survivor区域为新创建的对象分配内存，年轻代需要回收时，将存活的对象复制到空白的survivor区，存放不下的复制到老年代，创建大对象时同样复制到老年代。<br>
 - (5) 引用计数法<br>
 最简单古老的的方法，将资源（对象、内存或磁盘空间）的被引用次数保存起来，引用次数为0的时候就释放。<br>
 - (6) 对象引用遍历法<br>
 现在大多数JVM使用的算法，从一组根对象（GC Roots）开始，沿着整个对象图的每条链接，递归确定可到达（reachable）的对象，如果某个对象不能从这些根对象到达，则标记为回收。
+
+#### 11. Java垃圾回收统计？
+```
+jstat -gc $pid 1000
+```
+S0C：第一个survivor区的大小<br>
+S1C：第二个survivor区的大小<br>
+S0U：第一个survivor区使用的大小<br>
+S1U：第二个survivor区使用的大小<br>
+EC：Eden区的大小<br>
+EU：Eden区使用的大小<br>
+OC：老年代的大小<br>
+OU：老年代使用的大小<br>
+MC：方法区的大小<br>
+MU：方法区使用的大小<br>
+CCSC：压缩类空间的大小<br>
+CCSU：压缩类空间使用的大小<br>
+YGC：年轻代垃圾回收的次数<br>
+YGCT：年轻代垃圾回收的耗时<br>
+FGC：Full GC的次数<br>
+FGCT：Full GC的耗时<br>
+GCT：垃圾回收总耗时<br>
+
+![avatar](image/question-java-jvm-011.png)
 
 #### 11. 内存中的栈（stack）、堆（heap）、方法区（method area）？
 栈保存基本数据类型变量、对象的引用、函数调用现场；<br>
@@ -277,7 +305,16 @@ a) 类的所有实例都已经被回收，即堆中不存在类的实例<br>
 b) 加载该类的ClassLoader已经被回收<br>
 c) 该类对应的java.lang.Class对象没有被引用，无法在任何地方通过反射访问该类的方法<br>
 
-
+#### 23. 常用的JVM参数？
+参数 | 含义
+-|-
+-Xms | JVM启动时堆的初始化大小
+-Xmx | 堆最大值
+-Xmn | 设置年轻代的大小，剩下的为老年代的大小
+-XX:PermGen | 设置永久代内存的初始化大小
+-XX:MaxPermGen | 设置永久代的最大值
+-XX:SurvivorRatio | 设置eden区和survivor区的比例。默认为8，即eden : survivor1 : survivor2 = 8 : 1 : 1
+-XX:NewRatio | 设置老年代和年轻代的比例，默认是2
 
 
 
