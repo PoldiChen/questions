@@ -9,6 +9,11 @@ Bean的配置有个scope属性，有5种值：singleton、prototype、request、
 ```
 不是线程安全的。大部分的bean没有可变的状态，但View Model有多种状态，需要自行保证线程安全，一个简单的方法就是把作用域从默认的singleton改成prototype，每次请求都创建一个新的bean。<br>
 
+bean单例的好处：<br>
+(1) 减少生成新实例的消耗<br>
+(2) 减少垃圾回收<br>
+(3) 可以从缓存中快速获取到bean<br>
+
 Bean的5种作用域：<br>
 singleton：默认，在IOC容器中只有一个实例<br>
 prototype：可以有多个实例<br>
