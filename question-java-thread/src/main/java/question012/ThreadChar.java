@@ -16,7 +16,7 @@ public class ThreadChar implements Runnable {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				print(index);;
+				print(index);
 				index++;
 				Lock.LOCK.notify();
 			}

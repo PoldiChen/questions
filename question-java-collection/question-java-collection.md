@@ -24,13 +24,13 @@ HashMap |	TreeMap
 -|-
 无序 | 有序
 适用于插入、删除、定位 |	适用于有序的遍历
-JDK 1.7：Entry<K, V>数据<br>JDK 1.8：数组+链表（链表的长度达到一个阀值8后转化为红黑树） |	红黑树
+JDK 1.7：Entry<K, V>数组<br>JDK 1.8：数组+链表（链表的长度达到一个阀值8后转化为红黑树） |	红黑树
 
 不能完全替代。Hashtable的迭代器是强一致性的，ConcurrentHashMap是弱一致性的。<br>
 弱一致性是指在ConcurrentHashMap中put一个元素，对get不是立即可见的，为了提升效率，效率和一致性的权衡。<br>
 
 多线程环境下扩容会导致Node链表形成环形结构，next节点永远不为空，导致死循环。<br>
-初始容量为16，插入时如果容量不如需要扩容，整个hash表都需要重新计算，计算的时候会导致链表逆序，多线程的时候就可能导致在逆序的时候形成环形。
+初始容量为16，插入时如果容量不足需要扩容，整个hash表都需要重新计算，计算的时候会导致链表逆序，多线程的时候就可能导致在逆序的时候形成环形。
 
 #### 4. Comparable和Comparator接口
 Comparable接口 | Comparator接口
@@ -93,6 +93,8 @@ Array | ArrayList
 大小固定 | 大小动态变化
 
 处理基本数据类型的时候应该使用Array。<br>
+元素个数已知的时候用Array。
+
 #### ArrayList和LinkedList的区别？源码？？？
 ArrayList | LinkedList
 -|-

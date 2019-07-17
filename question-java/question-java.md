@@ -103,7 +103,7 @@ public Object getProxyInstance() {
 因为Java的垃圾回收时机是不可控的，所以使用不同的引用类型来适当控制对象被回收的时机。<br>
 通过软引用实现Java对象的高速缓存：软引用和HashMap的结合。？？？
 
-WeadHashMap的key使用WeakReference引用，key被标记为垃圾的时候，key对应的条目会自动被移除。
+WeakHashMap的key使用WeakReference引用，key被标记为垃圾的时候，key对应的条目会自动被移除。
 
 #### 13. 连接MySQL数据库的语句？code
 
@@ -132,7 +132,7 @@ java.lang.Runtime类，freeMemory()、totalMemory()、totalMemory()等方法
 
 #### 20. 编译期常量？
 public static final修饰的成员。<br>
-在编译时会被替换掉，因为编译器直到这些常量的值，并且知道他们在运行时是不改变的。<br>
+在编译时会被替换掉，因为编译器知道这些常量的值，并且知道他们在运行时是不改变的。<br>
 如果依赖的第三方库中有编译期常量，且引入后又发布人又修改过，则需要重新编译，否则使用的还是旧的值。
 
 #### 21. 什么时候用享元模式？
@@ -169,7 +169,6 @@ int类型溢出项目实例：<br>
 两个系统交互，传送文件，用一个int类型的值保存文件的大小，单位为B（字节）。int类型能表示的最大整数约为2,000,000,000，即int类型值表示的最大文件大约为2GB，当文件大于2GB时则发生了int类型的溢出。
 
 #### 26. Math类的三个取整的方法？
-ceil，floor和round<br>
 ceil：向上取整<br>
 floor：向下取整<br>
 round：加0.5后再向下取整<br>
@@ -195,6 +194,7 @@ static {
 (1) 类用final修饰<br>
 (2) 类的所有成员都用final修饰<br>
 (3) 如果包含可变的成员，则在获取该成员的时候返回一个拷贝<br>
+
 另一种回答：<br>
 (1) 将所有成员声明为私有的<br>
 (2) 通过构造函数初始化所有成员<br>
@@ -317,7 +317,7 @@ enum类型的构造方法只能是private或friendly，不能是public或protect
 enum类型的值是通过运行时构造出对象来表示的，所以在cluster环境下，每个虚拟机会构造出一个同义的enum对象，可能出现同一个对象值不等的情况。
 
 #### 46. JDK如何保证try-catch-finally中的finally块一定会被执行？
-通过冗余。在每个catch语句块后面都finally块的字节码。
+通过冗余。在每个catch语句块后面都复制一份finally块的字节码。
 
 #### 47. 数组的length属性和字符串的length()方法？code
 数组是一个容器对象，包含固定数量的同一类型的值，创建后长度固定，final的长度可以作为一个属性。<br>
@@ -381,7 +381,7 @@ MappedByteBuffer map(int mode, long position, long size); //
 (3) 定义抽象方法，子类中虽然有不同的实现，但定义是一致的。
 
 #### 60. Java 8，接口中可以有方法实现？code
-Java 8在接口中引入了默认方法，在方法前加default关键字就可以在接口中写方法的默认实现。
+Java 8在接口中引入了默认方法实现，在方法前加default关键字就可以在接口中写方法的默认实现。
 
 #### 61. 静态变量和实例变量的区别？
 静态变量存储在方法区，实例变量存储在堆，其引用存储在当前线程栈中。
@@ -524,10 +524,10 @@ Direct Buffer
 Native Library
 
 #### 78. Lombok
-getter setter 编译结果？
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+getter setter 编译结果？<br>
+@Data <br>
+@NoArgsConstructor <br>
+@AllArgsConstructor <br>
 
 #### 79. 如何操作堆之外的本地内存？
 sun.misc.Unsafe可以在Java中分配和回收本地内存，分配的内存不在Java堆中，并且不受垃圾回收器管理。

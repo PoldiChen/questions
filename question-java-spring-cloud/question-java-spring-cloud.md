@@ -11,7 +11,7 @@ Spring Cloud是关注全局的微服务协调整理治理框架，它将Spring B
 服务发现：Netflix Eureka<br>
 客户端负载均衡：Netflix Ribbon<br>
 断路器：Netflix Hystrix<br>
-服务网关：Netflix zuul<br>
+服务网关：Netflix Zuul<br>
 分布式配置：Spring Cloud Config<br>
 
 #### 3. Spring Cloud路由网关？
@@ -41,7 +41,10 @@ Zuul和Gateway两个组件。
 #### 5. Eureka和Zookeeper的比较？
 Zookeeper：CP原则<br>
 Eureka：AP原则<br>
-Zookeeper有一个master节点，master挂了会在30~120s内进行选举，在选举期间Zookeeper是不可用的，这就是Zookeeper的CP，保持节点的一致性，牺牲了高可用（A）。<br>
+
+Zookeeper有一个master节点，master挂了会在30~120s内进行选举，在选举期间Zookeeper是不可用的。<br>
+这就是Zookeeper的CP，保持节点的一致性，牺牲了高可用（A）。<br>
+
 Eureka有部分节点挂掉，其他节点还可以使用，节点间保持平级的关系，但信息可能不一致，这就是AP，牺牲了一致性（C）。
 
 

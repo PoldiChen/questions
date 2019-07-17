@@ -54,6 +54,7 @@ Redis 4.0引入混合持久化模式，将RDB的文件和局部增量的AOF结�
 - 取值：get key
 - 赋值：set key value
 - 设置过期时间：expire key seconds
+- 查看过期时间：pttl key (-2：key不存在；-1：key存在但未设置过期时间；毫秒数：剩余生存时间)
 - 删除：del key
 - 查看key对应value的类型：type key
 

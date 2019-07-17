@@ -10,7 +10,7 @@ some questions and answers for Spring Boot.
 (6) 需要更少的配置，没有web.xml文件。只需添加@Configuration的类，添加@Bean注释的方法<br>
 (7) 基于环境的配置<br>
 
-#### 2. 如何理解Spring Boot的“约定大于配置”？是如何实现的？
+#### 2. 如何理解Spring Boot的“约定大于配置”？是如何实现的？（question-006 源码）
 (1) 开发人员仅需规定应用中不符合约定的部分<br>
 (2) 在没有规定配置的地方，采用默认配置，以力求最简配置为核心<br>
 
@@ -103,19 +103,20 @@ public class AutoConfigurationImportSelector {
 ```
 
 #### 7. 如何理解Spring Boot的starters？
-可以理解为启动器，包含了一系列可以集成到应用中的依赖包，
+可以理解为启动器，包含了一系列可以集成到应用中的依赖包。
+起步依赖。《Spring Boot in Action》
 
 #### 8. Spring Boot 2.x的新特性？
-配置变更
-JDK版本升级
-  至少需要JDK 8，支持JDK 9
-第三方类库升级
-  SpringFramework 5+
-  Tomcat 8.5+
-  Hibernate 5.2+
-响应式Spring编程支持
-HTTP 2支持
-配置属性绑定
+- 配置变更<br>
+- JDK版本升级<br>
+  至少需要JDK 8，支持JDK 9<br>
+- 第三方类库升级<br>
+  SpringFramework 5+<br>
+  Tomcat 8.5+<br>
+  Hibernate 5.2+<br>
+- 响应式Spring编程支持<br>
+- HTTP 2支持<br>
+- 配置属性绑定<br>
 
 
 

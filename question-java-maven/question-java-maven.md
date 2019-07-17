@@ -40,7 +40,12 @@ Maven默认处理策略：<br>
 ```
 
 #### 2. 常用的Maven命令？
-mvn dependency:tree 查看依赖树
+mvn dependency:tree --查看依赖树
+mvn compile --编译类文件
+mvn package --打包（没有部署到本地仓库或私服仓库）
+mvn install --包括compile和package，并上传到本地仓库，没有上传到私服仓库
+mvn deploy --包括install，并上传到私服仓库
+mvn -version --查看版本
 
 
 #### 100.

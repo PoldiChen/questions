@@ -1,5 +1,5 @@
-# question-java-web
-some questions and answers for Java Web.
+# question-java-tomcat
+some questions and answers for Tomcat.
 
 #### 1. 部署在tomcat的web项目启动的过程？
 tomcat有三种加载程序的方式：<br>
@@ -72,8 +72,11 @@ Context：代表一个web应用，也就是ServletContext，可以包含多个Wr
 Wrapper：代表一个servlet，不能再包含其他容器，最底层。
 
 #### 6. Tomcat堆内存大小设置？默认大小？
-windows系统：catalina.bat，linux系统：catalina.sh<br>
-set JAVA_OPTS = -server -Xms512m -Xmx1024m<br>
+windows系统：catalina.bat<br>
+linux系统：catalina.sh<br>
+```
+set JAVA_OPTS = -server -Xms512m -Xmx1024m
+```
 默认为128m。<br>
 JVM默认的最大最小堆内存分别是物理内存的1/4和1/64。
 

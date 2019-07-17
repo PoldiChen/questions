@@ -7,7 +7,9 @@ Bean的配置有个scope属性，有5种值：singleton、prototype、request、
 <bean id="p1" class="com.test.Person" />
 <bean id="p2" class="com.test.Person" scope="prototype" />
 ```
-不是线程安全的。大部分的bean没有可变的状态，但View Model有多种状态，需要自行保证线程安全，一个简单的方法就是把作用域从默认的singleton改成prototype，每次请求都创建一个新的bean。<br>
+不是线程安全的。<br>
+大部分的bean没有可变的状态，但View Model有多种状态，需要自行保证线程安全。<br>
+一个简单的方法就是把作用域从默认的singleton改成prototype，每次请求都创建一个新的bean。<br>
 
 bean单例的好处：<br>
 (1) 减少生成新实例的消耗<br>
@@ -33,6 +35,8 @@ global-session：在一个全局的HTTP Session中，一个bean对应一个实�
 (9) DispatcherServlet调用ViewResolver视图解析器，返回到View对象<br>
 (10) ModelAndView将数据传递到View<br>
 (11) DispatcherServlet响应给用户
+
+![avatar](image/question-java-spring-002.png)
 
 #### 3. Spring有哪些类型的依赖注入方式？
 (1) 构造器依赖注入：通过容器触发类的一个构造器，参数可以表示对其他类的依赖<br>
@@ -155,7 +159,7 @@ MVC框架。<br>
 (1) setter对象的依赖（单例）<br>
 &emsp;&emsp;A类需要设置B类，B类需要设置C类，C类需要设置A类，形成循环。<br>
 &emsp;&emsp;Spring的解决方案是，初始化A类的时间将Bean放入缓存中，然后set B类，再把B类的Bean放入缓存中，然后set C类，初始化C类的时候需要A类的Bean，这是不需要初始化，从缓存中获取。<br>
-&emsp;&emsp;这种只对single的Bean起作用，因为prototype的Bean不做缓存。<br>
+&emsp;&emsp;这种只对singleton的Bean起作用，因为prototype的Bean不做缓存。<br>
 (2) 构造器中对其他类的依赖<br>
 &emsp;&emsp;创建A类需要在构造器中初始化B类，创建B类需要在构造器中初始化C类，创建C类需要在构造器中初始化A类，形成循环。<br>
 &emsp;&emsp;Spring的解决方案是，把创建中的Bean放入到一个“当前创建Bean池”中，初始化类的时候如果发现Bean类已经存在，抛出BeanCurrentInCreationException异常。<br>
@@ -199,18 +203,20 @@ Service也是单例。
 - ISOLATION_SERIALIZABLE：完全服从ACID
 
 #### 22. Spring 5新特性？
-JDK基准版本为8.
-响应式编程、函数式web框架、Kotlin支持
+- JDK基准版本为8
+- 响应式编程
+- 函数式web框架
+- Kotlin支持
 
 #### 23. Spring加载bean的过程？
 (1) 转换beanName<br>
-beanName可能是别名，需要转换
+beanName可能是别名，需要转换<br>
 (2) 从缓存中加载实例<br>
 一个实例在同一个容器中只会创建一次，再次获取的时候会尝试从缓存中获取，获取不到再从singletonFactories中加载<br>
 (3) 实例化bean<br>
-缓存中的bean是最原始的状态
+缓存中的bean是最原始的状态<br>
 (4) 检测parentBeanFactory<br>
-如果缓存中没有数据会到父类工厂去加载
+如果缓存中没有数据会到父类工厂去加载<br>
 (5) 存储XML配置文件的GenericBeanDefinition转换成RootBeanDefinition<br>
 (6) 初始化依赖的bean<br>
 (7) 创建bean<br>

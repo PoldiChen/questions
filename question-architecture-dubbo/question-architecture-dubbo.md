@@ -3,8 +3,8 @@ some questions and answers for Dubbo.
 
 #### 1. 什么是Dubbo？
 Dubbo是一个高性能分布式服务框架，致力于提供高性能和透明化的RPC远程服务调用方案，以及SOA服务治理方案，使得应用可以通过高性能RPC实现服务的输入和输出功能，和Spring框架可以无缝集成。<br>
-Dubbo**注册中心**和**监控中心**的引入是服务治理的关键。<br>
 
+Dubbo**注册中心**和**监控中心**的引入是服务治理的关键。<br>
 - 注册中心：<br>
 服务提供者向注册中心注册其提供的服务。<br>
 服务消费者向注册中心获取服务提供者地址列表，同时加上负载均衡的算法选择服务提供者。<br>
@@ -50,7 +50,7 @@ LeastActive: 最少活跃，慢提供者接收更少的请求<br>
 ConstantHash: 一致性hash，使相同参数请求总是发送到同一提供者，一台机器宕机，可以基于虚拟节点，分摊到其他提供者
 
 #### 5. Dubbo集群的容错方案？
-fail-over: 失败自动切换，默认的方案，，重试其他服务器，通常用于读操作，但重试会带来更长的延迟<br>
+fail-over: 失败自动切换，默认的方案，重试其他服务器，通常用于读操作，但重试会带来更长的延迟<br>
 fail-fast: 快速失败，只发起一次调用，失败立即报错，通常用于非幂等的写操作，比如新增记录<br>
 fail-safe: 失败安全，出现异常时，直接忽略，通常用于写入日志等操作<br>
 fail-back: 失败自动恢复，后台记录失败请求，定时重发，通常用于消息通知操作<br>
@@ -67,7 +67,7 @@ broadcast: 广播调用所有提供者，逐个调用，任意一个报错则报
 提供黑白名单，来控制服务允许的调用方。
 
 #### 8.Dubbox和Dubbo的区别？
-Dubbox基于Dubbo做了一些扩展，增加了服务Restful调用，更新了开源组件。
+Dubbox基于Dubbo做了一些扩展，增加了服务RESTful调用，更新了开源组件。
 
 #### 9. Dubbo和Spring Cloud的关系和区别？
 Dubbo是SOA时代的产物，关注点主要在于服务的调用、流量分发、流量监控和熔断。<br>
@@ -76,7 +76,7 @@ Dubbo定位服务治理，Spring Cloud是一个生态。
 
 项 | Dubbo | Spring Cloud
 -|-|-
-协议 | Netty NIO框架，基于TCP协议，配合以Hessian序列化完成RPC通信 | 基于HTTP协议+Restful接口
+协议 | Netty NIO框架，基于TCP协议，配合以Hessian序列化完成RPC通信 | 基于HTTP协议+RESTful接口
 服务注册中心 | Zookeeper | Spring Cloud Netflix Eureka
 服务调用方式 | RPC | REST API
 服务网关 | 无 | Spring Cloud Netflix Zuul

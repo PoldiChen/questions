@@ -2,8 +2,12 @@
 some questions and answers for Java Virtual Machine.
 
 #### 1. 堆内存溢出和栈内存溢出？
-&emsp;&emsp;堆溢出包括内存泄露和内存溢出，内存泄露是指无用的对象没有被回收，一直积累；内存溢出是指程序需要的内存大于虚拟机分配的内存。<br>
-&emsp;&emsp;栈主要存放栈帧，局部变量表、操作数栈、动态链接、方法出口信息；栈相关的内存异常包括StackOverFlowError(方法调用次数太多，栈内存不够新建栈帧，比如递归的层次太多)和OutOfMemoryError(线程太多，栈内存不够新建线程)。
+堆溢出包括内存泄露和内存溢出。<br>
+内存泄露是指无用的对象没有被回收，一直积累；<br>
+内存溢出是指程序需要的内存大于虚拟机分配的内存。<br>
+
+栈主要存放栈帧，局部变量表、操作数栈、动态链接、方法出口信息。<br>
+栈相关的内存异常包括StackOverFlowError(方法调用次数太多，栈内存不够新建栈帧，比如递归的层次太多)和OutOfMemoryError(线程太多，栈内存不够新建线程)。
 
 #### 2. 32位JVM和64位JVM的最大堆内存分别是多少？
 32位堆内存2^32，4GB，寻址的基本单位是B，2^32=4G<br>
@@ -28,8 +32,8 @@ Full GC触发条件：<br>
 (4) 通过Minor GC后进入老年代的平均大小>老年代的可用空间<br>
 (5) 由Eden区、From Space区向To Space区复制时，对象大小>To Space区可用空间，则把该对象转到老年代，且老年代可用的空间小于该对象大小。<br>
 
-SerialGC: 使用简单的标记、清除、压缩方法对年轻代和老年代进行垃圾回收，即Minor GC和Major GC。
-并行收集器（Parallel Collector, Throughput Collector）：使用多线程（线程数为系统CPU的核数）的方式，利用多CPU提高GC的效率，以达到一定吞吐量为目标。用户线程处于等待状态。在进行老年代垃圾回收时使用单线程<br>
+SerialGC: 使用简单的标记、清除、压缩方法对年轻代和老年代进行垃圾回收，即Minor GC和Major GC。<br>
+并行收集器（Parallel Collector, Throughput Collector）：使用多线程（线程数为系统CPU的核数）的方式，利用多CPU提高GC的效率，以达到一定吞吐量为目标。用户线程处于等待状态。在进行老年代垃圾回收时使用单线程。<br>
 Parallel Old GC：和Parallel GC类似，不同的是在对年轻代和老年代进行回收的时候都使用多线程。<br>
 并发收集器（Concurrent Low Pause Colllector）：垃圾回收线程和用户线程同时执行。<br>
 CMS收集器（Concurrent Mark Sweep，老年代收集器）：以获取最短回收停顿时间为目的，基于标记-清除算法。<br>
@@ -78,7 +82,7 @@ Java内存模型定义了一种多线程访问Java内存的规范。主要有几
 #### 5. Java垃圾回收GC的时机，具体做了什么事情？
 应用程序空闲（没有应用线程在运行）的时候；堆内存不足的时候。<br>
 (1) 虚拟机内存分为新生代、老年代、永久代三部分。<br>
-(2) 新生代有一个Eden区和两个Survivor区（Eden和Survivor比例8:1），首先将对象放入Eden区，如果空间不足就往其中一个Survivor区放，如果仍然不足就会引发一次新生代的minor GC，将存活的对象放入另一个Survivor区，然后清空Eden区和原来那个Survivor区的内存。在某次GC的过程中，发现仍然后放不下的对象，就将这些对象放入到老年代中。<br>
+(2) 新生代有一个Eden区和两个Survivor区（Eden和Survivor比例8:1:1），首先将对象放入Eden区，如果空间不足就往其中一个Survivor区放，如果仍然不足就会引发一次新生代的minor GC，将存活的对象放入另一个Survivor区，然后清空Eden区和原来那个Survivor区的内存。在某次GC的过程中，发现仍然后放不下的对象，就将这些对象放入到老年代中。<br>
 (3) 大对象及长期存活的对象直接放入老年区中。<br>
 (4) 每次执行Minor GC的时候对晋升到老年代的对象进行分析，如果这些对象大小超过了老年区的剩余大小，那么执行一次Full GC以尽可能的获得老年区的空间。<br>
 (5) 回收的对象：从GC Roots搜索不到，而且经过一次标记清理之后仍然没有复活的对象。<br>
@@ -252,9 +256,14 @@ jstat -class ${pid}
 jstack -l ${pid} > ${file}
 ```
 ##### jmap
-用于生成堆快照（heapdump）
+用于生成堆快照（heapdump），二进制bin文件
 ```
 jmap -dump:format=b,file=${file} ${pid}
+```
+##### jhat
+解析堆dump的bin文件，并启动一个web服务器，可以通过浏览器访问7000端口查看dump文件内容
+```
+jhat -J-Xmx512m heap.bin
 ```
 ##### jinfo
 实时查看虚拟机的各项参数
@@ -267,11 +276,6 @@ JDK的bin目录下，监控内存、thread、堆栈等.<br>
 windows下的可视化工具。
 ##### jprofile
 类似于jconsole，更全面
-##### jhat
-解析堆dump的bin文件，并启动一个web服务器，可以通过浏览器访问7000端口查看dump文件内容
-```
-jhat -J-Xmx512m heap.bin
-```
 
 #### 22. 类的生命周期？code
 - (1) 加载<br>
@@ -315,8 +319,8 @@ c) 该类对应的java.lang.Class对象没有被引用，无法在任何地方�
 -XX:MaxPermGen | 设置永久代的最大值
 -XX:SurvivorRatio | 设置eden区和survivor区的比例。默认为8，即eden : survivor1 : survivor2 = 8 : 1 : 1
 -XX:NewRatio | 设置老年代和年轻代的比例，默认是2
-
-
+-XX:+UseSerialGC | 使用Serial GC垃圾回收
+-XX:+UseParNewGC | 使用Parallel GC垃圾回收
 
 
 
