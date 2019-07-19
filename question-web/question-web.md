@@ -213,6 +213,11 @@ cookie<br>
 非对称加密：RSA、DSA<br>
 单向散列函数加密：MD5、SHA<br>
 
+MD5（Message Digest Algorithm，信息摘要算法第五版），散列函数，不可逆
+DES（Data Encrytion Standard，数据加密标准），对称加密，对应算法是DEA
+AES（Advanced Encrytion Standard，高级加密标准），对称加密
+RSA（Ron Rivest, Adi Shamir, Leonard Adleman 一起提出），非对称加密
+
 #### 22. 什么是session钝化？
 正常情况下，session是存放在服务器的内存当中的，用户较多时，服务器的开销会很大，需要把未使用到的session对象序列化到文件系统中，需要用到的时候再反序列化到内存中。
 
