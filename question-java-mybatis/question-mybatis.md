@@ -62,18 +62,62 @@ SQL注入 | 能防止sql注入 | 不能防止sql注入
 参数替换 | 发生在DBMS中 | 发生在动态解析过程中
 
 #### 5. MyBatis动态SQL？
-if
-choose
-trim
-foreach
-bind
+if<br>
+choose<br>
+trim<br>
+foreach<br>
+bind<br>
 
 #### 6. MyBatis一对多？多对一？多对多？
+一对多，使用<collection>标签，比如一个user有多个email
+```java
+public class User {
+	private int id;
+	private String userName;
+	private List<Email> email;
+}
+```
+```xml
+<mapper>
+	<resultMap>
+		<result property="id" column="id"></result>
+		<result property="userName" column="user_name"></result>
+		<collection property="email" ofType="com.poldichen.Email" column="user_id">
+			<id property="id" column="email_id"></id>
+			<result property="address" column="address"></result>
+			<result></result>
+		</collection>
+	</resultMap>
+</mapper>
+```
+多对一，使用<association>标签<br>
+多对多，使用<select>标签，比如用户User和用户组Group
+```java
+public class User {
+	private int id;
+	private String userName;
+	private List<Group> groups;
+}
+public class Group {
+	private int id;
+	private String groupName;
+	private List<User> users;
+}
+```
+```xml
+<mapper>
+	<resultMap>
+		<result></result>
+	</resultMap>
+</mapper>
+```
+
+https://www.cnblogs.com/jimisun/p/9414148.html
 
 #### 7. MyBatis接口为什么不需要实现？
-通过JDK动态代理，在启动加载配置文件的时候，根据配置mapper的xml文件去生成Dao层接口的实现。
-MapperProxy的invoke方法，调用MapperMethod的execute方法。
-MapperMethod类根据method方法的methodName和declaringInterface从xml文件中取出sql语句执行。
+通过JDK动态代理，在启动加载配置文件的时候，根据配置mapper的xml文件去生成Dao层接口的实现。<br>
+MapperProxy的invoke方法，调用MapperMethod的execute方法。<br>
+MapperMethod类根据method方法的methodName和declaringInterface从xml文件中取出sql语句执行。<br>
 
 ```java
 public class MapperProxy<T> implements InvocationHandler, Serializable {
