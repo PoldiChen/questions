@@ -118,8 +118,25 @@ public class AutoConfigurationImportSelector {
 - HTTP 2支持<br>
 - 配置属性绑定<br>
 
+#### 9. Spring Boot启动过程？源码
+https://segmentfault.com/a/1190000014525138
 
+SpringApplication.run();
 
+初始化：
+(1) 根据classpath下是否存在 web applicationcontext
+(2) 加载applicationcontextinitializer
+(3) 加载applicationlisterner
 
+调用run方法
+遍历SpringApplicationRunListeners，调用starting方法，监听SpringApplication启动
+
+加载配置环境
+
+BeanUtils实例化上下文对象
+
+#### 10. 定义filter
+https://segmentfault.com/a/1190000005907539
+https://segmentfault.com/a/1190000009728036
 
 #### 100.
