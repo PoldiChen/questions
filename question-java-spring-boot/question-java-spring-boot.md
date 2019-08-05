@@ -121,19 +121,26 @@ public class AutoConfigurationImportSelector {
 #### 9. Spring Boot启动过程？源码
 https://segmentfault.com/a/1190000014525138
 
-SpringApplication.run();
 
-初始化：
-(1) 根据classpath下是否存在 web applicationcontext
-(2) 加载applicationcontextinitializer
-(3) 加载applicationlisterner
 
-调用run方法
-遍历SpringApplicationRunListeners，调用starting方法，监听SpringApplication启动
+(1) 调用SpringApplication.run()，实例化SpringApplication对象<br>
+根据classpath中是否存在某个特征类org.springframework.web.context.ConfigurableWebApplicationContext，来决定是否应该创建一个ApplicationContext实例；<br>
+使用SpringFactoriesLoader在应用的classpath中查找并加载ApplicationContextInitializer；<br>
+使用SpringFactoriesLoader在用用的classpath中查找并加载ApplicationListener；<br>
+推断并设置main方法的定义类<br>
+(2) 执行run方法的逻辑，遍历所有SpringApplicationRunListener，调用他们的run方法<br>
+(3) 创建并配置当前应用将要使用的Environment，包括PropertySource和Profile<br>
+(4) 遍历调用所有SpringApplicationRunListener的environmentPrepared()方法<br>
+(5) 如果SpringApplication的showBanner属性为true，则打印banner<br>
+(6) 根据用户是否明确设置了applicationContextClass类型及初始化阶段推断的结果，决定为当前SpringBoot应用创建什么类型的ApplicationContext<br>
+(7) ApplicationContext创建好后，再次借助SpringFactoriesLoader，查找并加载ApplicationContextInitializer，调用其initialize方法，对创建好的ApplicationContext进一步处理<br>
+(8) 遍历调用所有SpringApplicationRunListener的contextPrepared()方法<br>
+(9) 最核心的一步，将之前通过@EnableAutoConfiguration获取的所有配置以及其他形式的IoC容器配置加载到ApplicationContext中<br>
+(10) 遍历调用SpringApplicationRunListener的contextLoaded()方法<br>
+(11) 调用ApplicationContext的refresh方法，完成IoC容器的最后一步<br>
+(12) 查找当前ApplicatonContext是否有注册CommandRunner方法，如果有则遍历执行<br>
+(13) 遍历执行SpringApplicationRunListener的finished()方法，
 
-加载配置环境
-
-BeanUtils实例化上下文对象
 
 #### 10. 定义filter
 https://segmentfault.com/a/1190000005907539

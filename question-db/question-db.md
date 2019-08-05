@@ -670,4 +670,6 @@ Key：类似于Hash，区别在于Key分区只支持计算一列或多列<br>
 read committed：读已提交（默认）
 serializable：串行读
 
+#### 56. MySQL列值为null的时候索引是否生效？
+
 #### 100. question 100

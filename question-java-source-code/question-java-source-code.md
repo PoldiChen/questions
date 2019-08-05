@@ -45,8 +45,62 @@ public class LinkedBlockingQueue<E> extends AbstractQueue<E> implements Blocking
 #### 4. String，intern()方法，substring()方法不同版本的区别（1.6和1.7）
 ```java
 public final class String implements java.io.Serializable, Comparable<String>, CharSequence {
-    private final char[] value;
+    private final char[] value; // 将string的值保存在char数组中
     public native String intern(); // 使用C++实现的native方法
+
+    public String(String original) {
+        this.value = original.value;
+        this.hash = original.hash;
+    }
+
+    public String(char[] value) {
+        this.value = Arrays.copyOf(value, value.length);
+    }
+
+    public String(StringBuffer buffer) {
+        synchronized(buffer) {
+            this.value = Arrays.copyOf(buffer.getValue(), buffer.length());
+        }
+    }
+
+    public String(StringBuilder builder) {
+        this.value = Arrays.copyOf(builder.getValue(), builder.length());
+    }
+
+    public boolean equals(Object anObject) {
+        if (this == anObject) {
+            return true;
+        }
+        if (anObject instanceof String) {
+            String anotherString = (String)anObject;
+            int n = value.length;
+            if (n == anotherString.value.length) {
+                char v1[] = value;
+                char v2[] = anString.value;
+                int i = 0;
+                while (n-- != 0) { // 逐个比较两个string的char字符
+                    if (v1[i] != v2[i]) {
+                        return false;
+                    }
+                    i++;
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int hashcode() {
+        int h = hash;
+        if (h == 0 && value.length > 0) {
+            char val[] = value;
+            for (int i = 0; i < value.length; i++) {
+                h = 31 * h + val[i]; // 31是大小适中的质数；31 = 32 - 1，方便位移运算
+            }
+            hash = h;
+        }
+        return h;
+    }
 }
 ```
 

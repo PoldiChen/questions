@@ -333,7 +333,25 @@ execute() | submit()
 静态方法的锁对象是class的meta对象；非静态方法的锁对象是当前对象this。<br>
 String的常量池的影响，，，？？？
 
-#### 55. ExecutorService类的execute()方法和submit()方法的区别？？？
+#### 55. ExecutorService类的execute()方法和submit()方法的区别？？？使用Executors创建线程池存在的问题？
+问题：《阿里巴巴Java开发手册》
+(1) 缓存队列LinkedBlockingQueue没有设置固定容量大小，可能导致OOM
+```java
+public static ExecutorService newFixedThreadPool(int nThreads) {
+    return new ThreadPoolExecutor(nThreads, nThreads, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>()); // LinkedBlockingQueue是无界的，默认是Integer.MAX_VALUE
+}
+public static ExecutorService newSingleThreadPool() {
+    return new FinalizableDelegatedExecutorService(new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>())); // 同上
+}
+```
+(2) 最大线程数是Integer.MAX_VALUE，可能导致OOM
+```java
+public static ExecutroService newCachedThreadPool() {
+    return new ThreadPoolExecutor(0, Integer.MAX_VALUE, 60L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>()); // 最大线程数是Integer.MAX_VALUE
+}
+```
+(3) 不能自定义拒绝策略
+默认丢弃并抛出异常
 
 #### 56. Java能否创建volatile的数组？
 能，但只是修饰指向数组的引用，多个线程同时改变数组的元素，并不能起到保护作用。
