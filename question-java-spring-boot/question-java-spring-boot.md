@@ -121,8 +121,6 @@ public class AutoConfigurationImportSelector {
 #### 9. Spring Boot启动过程？源码
 https://segmentfault.com/a/1190000014525138
 
-
-
 (1) 调用SpringApplication.run()，实例化SpringApplication对象<br>
 根据classpath中是否存在某个特征类org.springframework.web.context.ConfigurableWebApplicationContext，来决定是否应该创建一个ApplicationContext实例；<br>
 使用SpringFactoriesLoader在应用的classpath中查找并加载ApplicationContextInitializer；<br>
@@ -141,9 +139,28 @@ https://segmentfault.com/a/1190000014525138
 (12) 查找当前ApplicatonContext是否有注册CommandRunner方法，如果有则遍历执行<br>
 (13) 遍历执行SpringApplicationRunListener的finished()方法，
 
-
-#### 10. 定义filter
+#### 10. 如何在SpringBoot中定义filter
 https://segmentfault.com/a/1190000005907539
 https://segmentfault.com/a/1190000009728036
+
+#### 11. SpringBoot打包的jar包和普通jar包的区别？
+不可作为普通的jar包被其他项目依赖。
+普通的jar包解压后就是包名，包里面就是代码。
+SpringBoot打包的jar包解压后BOOT-INF/classes目录下才是代码。
+如果需要引用，可以在pom.xml中配置，将项目打包成两个jar包，一个可执行，一个可引用。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #### 100.

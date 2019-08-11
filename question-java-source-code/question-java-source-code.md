@@ -200,6 +200,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
 #### 8. TreeMap，和HashMap的区别
 ```java
+实现了Navigable接口，该接口继承了SortedMap接口，元素是有序的
 public class TreeMap<K, V> extends AbstractMap<K, V> implements NavigableMap<K, V>, Cloneable, Serializable {
     //
 }

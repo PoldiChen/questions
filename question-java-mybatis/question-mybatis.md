@@ -91,7 +91,9 @@ public class User {
 </mapper>
 ```
 多对一，使用<association>标签<br>
-多对多，使用<select>标签，比如用户User和用户组Group
+
+多对多，使用\<select>标签，比如用户User和用户组Group
+
 ```java
 public class User {
 	private int id;

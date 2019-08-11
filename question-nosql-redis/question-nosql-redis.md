@@ -62,6 +62,28 @@ Redis 4.0引入混合持久化模式，将RDB的文件和局部增量的AOF结�
 - 查看过期时间：pttl key (-2：key不存在；-1：key存在但未设置过期时间；毫秒数：剩余生存时间)
 - 删除：del key
 - 查看key对应value的类型：type key
+- 查看底层数据结构：object encoding key
+- 查看内存使用情况：info memory
+
+```
+127.0.0.1:6379> info memory
+# Memory
+used_memory:813824
+used_memory_human:794.75K
+used_memory_rss:4182016
+used_memory_rss_human:3.99M
+used_memory_peak:855304
+used_memory_peak_human:835.26K
+total_system_memory:1043935232
+total_system_memory_human:995.57M
+used_memory_lua:37888
+used_memory_lua_human:37.00K
+maxmemory:0
+maxmemory_human:0B
+maxmemory_policy:noeviction
+mem_fragmentation_ratio:5.14
+mem_allocator:jemalloc-3.6.0
+```
 
 #### 7. Redis的数据淘汰策略？
 volatile-lru：从已经设置过期时间的数据集中，挑选最近最少使用的数据淘汰<br>
@@ -114,9 +136,67 @@ Redis事务的特点：<br>
 
 #### 13. Redis主从数据同步？
 主从架构可以是一主多从或者是级联结构，主从复制可分为全量同步和增量同步。
-https://blog.csdn.net/weixin_42711549/article/details/83061052
 
-#### 14. Redis热点key
+全量同步，一般发生在slave的初始化阶段，slave需要将master上所有的数据都复制一份。
+(1) 从服务器连接主服务器，发送SYNC命令
+(2) 主服务器接收到SYNC命令后，执行BGSAVE命令生成RDB文件，使用缓冲区记录此后执行的写命令
+(3) 主服务器向所有从服务器发送快照文件，在发送期间持续记录被执行的写命令
+(4) 从服务器接收到快照文件后丢弃所有旧数据，载入快照
+(5) 主服务器在快照发送完毕后向从服务器发送缓冲区中的写命令
+(6) 从服务器完成快照写入，接收命令请求，执行来自主服务器缓冲区的写命令
+
+增量同步，slave初始化后开始正常工作，主服务器发生的写操作同步到从服务器。
+主服务器每执行一条写命令就会向从服务器发送同样的写命令，从服务器接收并执行写命令。
+
+主从同步策略：先尝试进行增量同步，如果不成功，要求从服务器进行全量同步。
+
+#### 14. Redis集群cluster
+Redis集群没有统一的入口，客户端可以连接集群的任意节点，集群内部节点间相互通信，每个节点都是一个Redis实例。
+Redis集群内置了16384个slot（哈希槽），把所有物理节点映射到这些槽上。
+需要在集群中存放一个数据时，先对这个key进行CRC计算，得到结果后对16384求余，决定存放到哪个节点中，所以某一个节点挂了，且没有从节点，则会导致集群无法正常工作。
+为了实现集群的高可用，Redis-cluster通过投票容错机制进行健康检查（所以集群至少需要三个节点），如果集群中超过半数的节点投票认为某个节点挂了，则认为该节点挂了。
+官方推荐将节点配置为主从架构，主节点失效，Redis Cluster会根据选举算法从slave节点中选取一个升为master，整个集群可以继续提供服务。
+
+#### 15. Redis热点key
+
+#### 16. Redis底层数据结构
+类型 | 编码 | 对象
+-|-|-
+STRING | int | 使用整数值实现
+STRING | embstr | 使用embstr编码的简单动态字符串实现
+STRING | raw | 使用简单动态字符串实现
+LIST | ziplist | 使用压缩列表实现
+LIST | linkedlist | 使用双端链表实现
+HASH | ziplist | 使用压缩列表实现
+HASH | hashtable | 使用字典实现
+SET | intset | 使用整数集合实现
+SET | hashtable | 使用字典实现
+ZSET | ziplist | 使用压缩列表实现
+ZSET | skiplist | 使用跳跃表和字典实现
+
+简单动态字符串（Simple Dynamic String, SDS）
+```c
+struct sdshdr {
+	int len; // 记录buf数组中已使用的字节数量，即字符串的长度
+	int free; // 记录buf数组中未使用的字节数量
+	char buf[]; // 字节数组，用于保存字符串
+}
+```
+https://www.cnblogs.com/jaycekon/p/6227442.html
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #### 100.

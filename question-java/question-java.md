@@ -150,11 +150,15 @@ protected | √ | √ | √ | ×
 friendly | √ | √ | × | ×
 private | √ | × | × | ×
 
-#### 23. IO操作的两种方式？InputStream、OutputStream、Writer、Reader的类关系？？？
+#### 23. IO操作的两种方式？IO包使用的设计模式？InputStream、OutputStream、Writer、Reader的类关系？？？
 面向字节（Byte） | 面向字符（Character）
 -|-
 以8位为单位对二进制数据进行操作 | 以字符为单位对数据进行操作
 InputStream和OutputStream的子类 | Reader和Writer的子类
+
+装饰器模式和适配器模式。
+https://www.cnblogs.com/wxgblogs/p/5649933.html
+ByteArrayInputStream继承了InputStream接口，封装了一个byte数组，将一个byte数组的接口适配成InputStream流处理器的接口。
 
 ![avator](image/question-java-023.png)
 <br><br>
