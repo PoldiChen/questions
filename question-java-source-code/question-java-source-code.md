@@ -206,6 +206,39 @@ public class TreeMap<K, V> extends AbstractMap<K, V> implements NavigableMap<K, 
 }
 ```
 
+#### 8. TreeSet, HashSet, LinkedHashSet
+```java
+public class TreeSet<E> extends AbstractSet implements NavigableSet<E>, Cloneable, Serializable {
+    private transient NavigableMap<E, Object> m; // 用来存储元素的map，不一定是TreeMap
+    private static final Object PRESENT = new Object(); // 虚拟的对象，用来作为value放到map中
+}
+```
+```java
+public class HashSet<E> extends AbstractSet<E> implements Set<E>, Cloneable, Serializable {
+    private transient HashMap<E, Object> map; // 使用HashMap来存储元素
+    private static final Object PRESENT = new Object(); // 虚拟的对象，用来作为value放到map中
+    HashSet(int initialCapacity, float loadFactor, boolean dummy) { // 被LinkedHashSet构造时调用
+        map = new LinkedHashMap<>(initialCapacity, loadFactor);
+    }
+}
+```
+```java
+public class LinkedHashSet<E> extends HashSet<E> implements Set<E>, Cloneable, Serializable {
+    //
+}
+```
+```java
+public interface NavigableMap<E> extends SortedMap<E> {
+    //
+}
+```
+```java
+public interface SortedMap<E> extends Set<E> {
+    //
+}
+```
+
+
 #### 8. Runtime
 
 #### 9. TreeList（Apache）
