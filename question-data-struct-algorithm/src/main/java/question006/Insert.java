@@ -1,4 +1,4 @@
-package question004;
+package question006;
 
 /**
  * @author poldi.chen
