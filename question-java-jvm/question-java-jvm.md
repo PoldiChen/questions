@@ -33,11 +33,12 @@ Full GC触发条件：<br>
 (5) 由Eden区、From Space区向To Space区复制时，对象大小>To Space区可用空间，则把该对象转到老年代，且老年代可用的空间小于该对象大小。<br>
 
 SerialGC: 使用简单的标记、清除、压缩方法对年轻代和老年代进行垃圾回收，即Minor GC和Major GC。<br>
-并行收集器（Parallel Collector, Throughput Collector）：使用多线程（线程数为系统CPU的核数）的方式，利用多CPU提高GC的效率，以达到一定吞吐量为目标。用户线程处于等待状态。在进行老年代垃圾回收时使用单线程。<br>
 Parallel Old GC：和Parallel GC类似，不同的是在对年轻代和老年代进行回收的时候都使用多线程。<br>
+
+并行收集器（Parallel Collector, Throughput Collector）：使用多线程（线程数为系统CPU的核数）的方式，利用多CPU提高GC的效率，以达到一定吞吐量为目标。用户线程处于等待状态。在进行老年代垃圾回收时使用单线程。<br>
 并发收集器（Concurrent Low Pause Colllector）：垃圾回收线程和用户线程同时执行。<br>
 CMS收集器（Concurrent Mark Sweep，老年代收集器）：以获取最短回收停顿时间为目的，基于标记-清除算法。<br>
-G1（Garbage-First）：垃圾收集器的最新成果，不区分年轻代和老年代，将堆分成多个大小相等的独立区域（Region），跟踪各个区域的垃圾堆积的价值大小，维护一个优先级表，优先回收价值最大的区域。
+G1收集器（Garbage-First）：垃圾收集器的最新成果，不区分年轻代和老年代，将堆分成多个大小相等的独立区域（Region），跟踪各个区域的垃圾堆积的价值大小，维护一个优先级表，优先回收价值最大的区域。
 
 Java 7引入了G1 GC替代CMS GC，Java 9中G1 GC为默认。
 

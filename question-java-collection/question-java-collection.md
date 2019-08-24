@@ -15,7 +15,7 @@ ListIterator实现了Iterator接口，并包含其他功能，比如增加元素
 HashMap |	Hashtable |	ConcurrentHashMap
 -| - | -
 非线程安全 |	线程安全 | 线程安全
-/ | 实现基于锁 |	锁分段
+/ | 实现基于锁 |	锁分段（Java 7）、CAS（Java 8）
 key和value允许为null | key和value不允许为null | /
 
 HashMap和TreeMap的区别？

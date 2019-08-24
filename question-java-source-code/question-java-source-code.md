@@ -200,7 +200,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 
 #### 8. TreeMap，和HashMap的区别
 ```java
-实现了Navigable接口，该接口继承了SortedMap接口，元素是有序的
+// 实现了Navigable接口，该接口继承了SortedMap接口，元素是有序的
 public class TreeMap<K, V> extends AbstractMap<K, V> implements NavigableMap<K, V>, Cloneable, Serializable {
     //
 }
@@ -308,8 +308,8 @@ public interface Comparator<T> {
 
 }
 ```
-Comparable是排序接口，一个类实现了Comparable接口，意味着该类支持排序。
-Comparator是比较器，如果需要控制某个类的顺序，可以建立一个该类的比较器来排序。
+Comparable是排序接口，一个类实现了Comparable接口，意味着该类支持排序。<br>
+Comparator是比较器，如果需要控制某个类的顺序，可以建立一个该类的比较器来排序。<br>
 Comparable相当于内部比较器，Comparator相当于外部比较器。
 
 #### 21. MyBatis设计模式

@@ -191,12 +191,12 @@ AtomicInteger类提供的具有原子性的getAndIncrement方法。
 sleep()和yield()方法将在当前正在运行的线程上执行，在其他等待状态的线程上调用是没有意义的。
 
 #### 32.什么是守护线程？如何创建守护线程？
-守护线程（daemon thread）是个服务线程，服务于用户线程
+守护线程（daemon thread）是个服务线程，服务于用户线程。<br>
 在调用start()方法之前调用setDaemon(true)方法。
 
-#### 33. 什么是线程的Callable和Future？code
+#### 33. 什么是线程的Callable和Future？Callable和Runnable的区别？code
 Callable类似于Runnable，Callable执行后可以返回值，这个值可以被Future拿到。<br>
-适用于复杂的计算，主线程开启子线程去执行计算，用future获取计算结果。
+适用于复杂的计算，主线程开启子线程去执行计算，用Future获取计算结果。
 
 #### 34. 在静态方法上使用同步会怎样？
 &emsp;&emsp;同步静态方法时会获取该类的Class对象，当一个线程进入同步的静态方法时，线程监视器获取类本身的对象锁，其他线程不能进入这个类的其他静态同步方法。<br>
@@ -306,7 +306,7 @@ start()方法启动新创建的线程，使创建的线程的状态变成可运�
 可重入。某个线程试图获取一个由它自己持有的锁时，请求会成功。
 
 #### 49. 线程运行时发生异常会怎样？
-&emsp;&emsp;如果异常没有捕获线程将会停止执行。<br>
+&emsp;&emsp;如果异常没有捕获线程将会停止执行。如果线程持有某个对象的监视器，会立即释放。<br>
 &emsp;&emsp;Thread.UncaughtExceptionHandler是用于处理未捕获异常造成线程意外中断的一个内嵌接口，一个未捕获异常造成线程意外中断的时候，JVM会使用线程的Thread.getUncaughtExceptionHandler()来获取UncaughtExceptionHandler，并将线程和异常作为参数传递给handler的uncaughtException()方法处理。
 
 #### 50. 如何在线程间共享数据？？？

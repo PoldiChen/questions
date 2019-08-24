@@ -159,7 +159,7 @@ public class MapperMethod {
 ```
 
 #### 8. MyBatis和Hibernate的对比？
-Hibernate是ORM框架，MyBatis是半ORM框架，需要自己编写sql语句。
+Hibernate是ORM框架，MyBatis是半ORM框架，需要自己编写sql语句。<br>
 Hibernate对象/关系映射能力强，数据库无关性好，对关系模型要求高。
 
 

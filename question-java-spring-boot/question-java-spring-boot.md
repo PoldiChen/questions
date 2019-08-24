@@ -144,9 +144,9 @@ https://segmentfault.com/a/1190000005907539
 https://segmentfault.com/a/1190000009728036
 
 #### 11. SpringBoot打包的jar包和普通jar包的区别？
-不可作为普通的jar包被其他项目依赖。
-普通的jar包解压后就是包名，包里面就是代码。
-SpringBoot打包的jar包解压后BOOT-INF/classes目录下才是代码。
+不可作为普通的jar包被其他项目依赖。<br>
+普通的jar包解压后就是包名，包里面就是代码。<br>
+SpringBoot打包的jar包解压后BOOT-INF/classes目录下才是代码。<br>
 如果需要引用，可以在pom.xml中配置，将项目打包成两个jar包，一个可执行，一个可引用。
 
 

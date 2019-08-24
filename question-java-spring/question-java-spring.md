@@ -43,19 +43,35 @@ global-session：在一个全局的HTTP Session中，一个bean对应一个实�
 (2) setter方法依赖注入：通过容器调用无参构造器或无参static工厂方法实例化bean，调用bean的set方法<br>
 (3) 接口注入
 
-#### 4. Spring框架中bean的生命周期？
-一个bean实例初始化时，需要执行一系列的初始化操作以达到可用状态；不再被调用时需要执行相关的析构操作，从bean容器移除。<br>
-BeanFactory负责管理bean的生命周期，bean的生命周期由两组回调函数组成：初始化之后调用的回调方法和销毁之前调用的回调方法。<br>
-Spring框架提供了4种方式来管理bean的生命周期：<br>
+#### 4. Spring框架中bean的生命周期和IoC容器的生命周期？
 
-(1) Spring容器从XML文件中读取bean的定义，并实例化bean<br>
-(2) 根据bean的定义填充所有属性<br>
-(3) 如果bean实现了BeanNameAware接口，传递bean的ID到setBeanName方法<br>
-(4) 如果bean实现了BeanFactoryAware接口，传递beanFactory给setBeanFactory方法<br>
-(5) 如果有与bean关联的BeanPostProcessors，Spring会在postProcessorBeforeInitialization()方法内调用它们<br>
-(6) 如果实现了InitializingBean，调用它的afterPropertySet方法，如果bean声明了初始化方法，调用此初始化方法<br>
-(7) 如果有与bean关联的BeanPostProcessors，这些bean的postProcessorAfterInitialization()方法将被调用<br>
-(8) 如果bean实现了DisposableBean方法，它将调用destroy方法
+实例化之前
+实例化
+实例化之后
+设置属性之前
+设置属性
+初始化之前
+初始化
+初始化之后
+缓存
+销毁
+
+(1) 调用者通过getBean()向容器请求bean，如果容器注册了**InstantiationAwareBeanPostProcessor**接口，在实例化bean之前，调用该接口的**postProcessBeforeInstantiation**方法<br>
+(2) 根据配置调用bean的构造函数或工厂方法实例化bean<br>
+(3) 如果容器注册了**InstantiationAwareBeanPostProcessor**接口，都在实例化bean之后，调用该接口的**postProcessAfterInstantiation**方法，对已经实例化的对象做一些操作<br>
+(4) 如果bean配置了属性信息，在设置每个属性之前调用InstantiationAwareBeanPostProcessor接口的**postProcessPropertyValues**方法<br>
+(5) 设置属性<br>
+(6) 如果bean实现了**BeanNameAware**接口，将调用bean的**setBeanName**方法，传入bean的id<br>
+(7) 如果bean实现了**BeanFactoryAware**接口，将调用**setBeanFactory**方法，传入工厂自身<br>
+(8) 如果bean和**BeanPostProcessor**关联，将调用**BeanPostProcessor**的**postProcessBeforeInitialzation**方法，对bean进行加工，和Spring的AOP相关<br>
+(9) 如果bean实现了**IntializingBean**接口，将调用**afterPropertiesSet**方法<br>
+(10) 如果bean指定了**init-method**方法，将会被调用<br>
+(11) 如果bean和**BeanPostProcessor**关联，将调用BeanPostProcessor的**postProcessAfterInitialzation**方法，这时bean已经可以被应用程序使用<br>
+(12) 如果bean的作用域为prototype，bean的调用者将管理bean的生命周期；<br>
+如果bean的作用域为singleton，将放入SpringIoC的缓存池中，触发Spring对bean的生命周期进行管理<br>
+(13) 如果bean实现了**DisposableBean**接口，将调用**afterPropertiesSet**方法<br>
+(14) 通过**destory-method**方法销毁bean<br>
+如果是prototype的bean，由bean的管理者销毁
 
 #### 5. Spring的bean装配？自动装配？
 bean装配是指在spring容器中把bean组装在一起，前提是容器需要知道bean的依赖关系，通过依赖注入装配到一起。<br>
@@ -146,14 +162,6 @@ MVC框架。<br>
 <map></map><!-- 注入一组键值对，键和值可以是任意类型 -->
 <props></props><!-- 注入一组键值对，键和值都是字符串 -->
 ```
-
-#### 15. Spring初始化bean的过程？
-(1) 容器寻找bean的定义信息并实例化<br>
-(2) 使用依赖注入，按照bean定义信息配置其属性<br>
-(3) 如果实现了BeanNameAware接口，调用bean的setBeanName()方法传递bean的id<br>
-(4) 如果实现了BeanFactoryAware接口，调用setBeanFactory()方法传入工厂自身<br>
-(5) 如果BeanPostProcessor和bean关联，调用postProcessBeforeInitialization()方法<br>
-(6) 如果bean指定了init-method方法，将被调用
 
 #### 16. Spring如何解决类循环依赖？
 (1) setter对象的依赖（单例）<br>
