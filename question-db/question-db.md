@@ -156,7 +156,7 @@ varchar(50)，最多存储50个字符，varchar(50)和varchar(200)存储“hello
 
 #### 13. MySQL主从复制？主主复制？原因？应用场景？？实际项目经验？
 主要有三个步骤：<br>
-(1) master将更新记录到二进制mvccbinary log（也叫二进制mvcc事件binary log events）中<br>
+(1) master将更新记录到二进制日志binary log（也叫二进制日志事件binary log events）中<br>
 (2) slave通过I/O线程将master的二进制日志拷贝到自己的中继日志<br>
 (3) slave通过SQL线程重做中继日志中的事件<br>
 

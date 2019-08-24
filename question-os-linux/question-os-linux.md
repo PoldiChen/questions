@@ -20,22 +20,22 @@ epoll模型：基于内核的反射机制，有活跃的socket时，系统会调
 
 #### 5. 常用的Linux命令？
 资源使用情况：<br>
-uptime 查看负载load average，1分钟、5分钟、15分钟内系统的平均负载<br>
-top<br>
-netstat<br>
-ps 查看进程（process）<br>
-tcpdump 抓包<br>
-free 查看内存<br>
+**uptime** 查看负载load average，1分钟、5分钟、15分钟内系统的平均负载<br>
+**top** CPU负载数值小于0.7\*CPU个数则表示正常<br>
+**netstat** <br>
+**ps** 查看进程（process）<br>
+**tcpdump** 抓包<br>
+**free** 查看内存<br>
 
 文件操作：<br>
-cd<br>
-ls<br>
-mkdir<br>
-touch<br>
-rm<br>
-cp<br>
-df -h 查看磁盘空间<br>
-dir 列出文件<br>
+**cd**<br>
+**ls**<br>
+**mkdir**<br>
+**touch**<br>
+**rm**<br>
+**cp**<br>
+**df -h** 查看磁盘空间<br>
+**dir** 列出文件<br>
 
 #### 6. linux文件名颜色含义？
 - 蓝色：目录
