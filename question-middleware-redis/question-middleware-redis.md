@@ -184,7 +184,9 @@ struct sdshdr {
 ```
 https://www.cnblogs.com/jaycekon/p/6227442.html
 
-
+#### 17. Redis实现乐观锁？
+使用watch key命令监听key的变化
+使用multi命令开启一个事务，使用exec命令执行事务，如果有冲突会返回nil
 
 
 
