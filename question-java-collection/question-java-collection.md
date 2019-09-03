@@ -22,7 +22,7 @@ HashMap和TreeMap的区别？
 
 HashMap |	TreeMap
 -|-
-无序 | 有序
+无序 | 有序（默认升序）
 适用于插入、删除、定位 |	适用于有序的遍历
 JDK 1.7：Entry<K, V>数组<br>JDK 1.8：数组+链表（链表的长度达到一个阀值8后转化为红黑树） |	红黑树
 
@@ -132,16 +132,19 @@ API | 可修饰方法和代码块 | 只可修饰方法
 (9) 容器为空的时候返回长度是0的集合或者数组，不要返回null。
 
 #### 16. Java同步集合和并发集合的区别？
-&emsp;&emsp;都能实现线程安全，区别在于性能和可扩展性，还有实现线程安全的方法。<br>
-&emsp;&emsp;同步集合有：HashMap、Hashtable、HashSet、Vector、ArrayList<br>
-&emsp;&emsp;并发集合有：ConcurrentHashMap、CopyOnWriteArrayList、CopyOnWriteHashSet<br>
-&emsp;&emsp;同步集合会把整个List或Map锁起来，而并发集合使用了较先进的技术，如锁分离，比如ConcurrentHashMap把Map分成几个片段，只对几个加锁，允许其他线层访问未加锁的片段。<br>
-&emsp;&emsp;CopyOnWriteArrayList允许多个线程以非同步的方式读，有线程需要写的时候复制一个副本。<br>
-&emsp;&emsp;在读多写少的情况下使用并发集合比同步集合能获得更好的性能。
+都能实现线程安全，区别在于性能和可扩展性，还有实现线程安全的方法。<br>
+
+同步集合有：HashMap、Hashtable、HashSet、Vector、ArrayList<br>
+并发集合有：ConcurrentHashMap、CopyOnWriteArrayList、CopyOnWriteHashSet<br>
+
+同步集合会把整个List或Map锁起来，而并发集合使用了较先进的技术，如锁分离，比如ConcurrentHashMap把Map分成几个片段，只对几个加锁，允许其他线层访问未加锁的片段。<br>
+CopyOnWriteArrayList允许多个线程以非同步的方式读，有线程需要写的时候复制一个副本。<br>
+
+在读多写少的情况下使用并发集合比同步集合能获得更好的性能。
 
 #### 17. Hashtable的size()方法只有一条语句”return count”，为什么还需要同步？
-1) 同一时间只能有一个线程执行类的同步方法，但可以有多个线程执行类的非同步方法。Hashtable的put和size方法可能冲突。对size()方法同步确保在put()方法执行完成后调用，得到正确的个数<br>
-2) Java代码只有一行，编译后的字节码也只有一行，但CPU执行的机器码可能有多行，可能执行完一行CPU就切换了。
+(1) 同一时间只能有一个线程执行类的同步方法，但可以有多个线程执行类的非同步方法。Hashtable的put和size方法可能冲突。对size()方法同步确保在put()方法执行完成后调用，得到正确的个数。<br>
+(2) Java代码只有一行，编译后的字节码也只有一行，但CPU执行的机器码可能有多行，可能执行完一行CPU就切换了。
 
 #### 18. Java的fail-fast机制？fail-safe机制？
 &emsp;&emsp;Java集合（Collection）中的一种错误机制。当多个线程对同一个集合中的内容进行操作时，就可能引发fail-fast事件。<br>
@@ -241,6 +244,11 @@ key值计算得到的hash大于容量，可以通过求余得到插入的数组�
 #### 36. 空接口RandomAccess的作用？
 接口中没有任何方法，只是起标记作用。
 ArrayList实现了这个接口，表明是支持根据下标快速随机访问的
+
+#### 37. ArrayList在多线程环境下的问题？
+add
+容量比预期小
+扩容，数组越界
 
 
 #### 100. question 100.

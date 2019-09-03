@@ -31,7 +31,7 @@ Extra | 十分重要的额外信息，是否使用了索引，是否需要排序
 
 #### 4. MySQL索引原理？索引的类型？如何合理创建索引？索引的缺点？
 索引是一种数据结构，由B树或B+树实现（另外还有hash、full-text）。<br>
-B树叶子节点和非叶子节点都保存数据，导致非叶子节点能保存的指针数量变少，需要保存大量数据的时候只能增加树的高度，导致I/O操作变多，查询效率低。
+B树叶子节点和非叶子节点都保存数据，导致非叶子节点能保存的指针数量变少，需要保存大量数据的时候只能增加树的高度，导致I/O操作变多，查询效率低。<br>
 B+树只需要遍历叶子节点就能遍历所有值，在数据库查询中遍历元素是很常见的，解决了B树遍历元素效率低的问题。
 
 https://cloud.tencent.com/developer/news/373193
@@ -126,6 +126,17 @@ https://blog.csdn.net/qq_27007251/article/details/70016787
 
 next-key锁包含了行锁和间隙锁，即同时锁定行和一个范围。<br>
 InnoDB默认加锁方式是next-key锁。
+
+#### 9. MySQL多版本并发控制MVCC？
+每一行存储额外的三个字段：
+DB_TRX_ID：自增的事务ID
+DB_ROLL_PTR：指向写到rollback segment的一条undo log记录
+DB_ROW_ID：主键列ID，或者唯一索引列的ID，或系统生成的隐藏ID
+
+READ UNCOMMITTED：不适用于MVCC。
+READ COMMITTED：不完全适用于MVCC，已提交的其他事务对数据库的修改，当前事务可以读到，和事务开始顺秀无关。
+REPEATABLE READ：完全使用MVCC，只能读取在它之前已经提交的事务对数据库的修改。
+SERIALIZABLE：完全不适用于MVCC。
 
 #### 9. 数据库连接池的工作机制？
 
@@ -367,12 +378,20 @@ Hash索引的缺点：<br>
 (7) 尽量不要在where字句中进行null值判断，给字段设置默认值。<br>
 (8) 尽量不要使用where 1 = 1的条件
 
-#### 28. 事务的数据读问题，数据脏读、幻读和不可重复读？数据更新问题，第一类丢失更新，第二类丢失更新？
+#### 28. MySQL解决幻读问题？
+快照读（历史版本）：通过MVCC解决
+```sql
+select * from table where xxx;
+```
 
-#### 29. 数据库查询left join、right join和inner join？
-left：以左表为准，右表不存在的字段为null<br>
-right：以右表为准，左表不存在的字段为null<br>
-inner：取左右两张表都存在的字段
+当前读（当前版本）：通过间隙锁解决
+```sql
+select * from table where xxx lock in share mode;
+select * from table where xxx for update;
+insert into table (xxx) values (xxx);
+update table set xxx where xxx;
+delete from table where xxx;
+```
 
 #### 30. 不使用框架的情况下的分页查询？
 select * from table limit 300, 100;<br>
@@ -680,5 +699,9 @@ read committed：读已提交（默认）
 serializable：串行读
 
 #### 56. MySQL列值为null的时候索引是否生效？
+
+#### 57. select count(\*), select count(1), select count(column)的区别？
+如果没有主键，count(1)比count(\*)快
+count(主键) > count(有索引列) > count(无索引列)
 
 #### 100. question 100

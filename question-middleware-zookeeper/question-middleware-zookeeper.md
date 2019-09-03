@@ -35,7 +35,7 @@ leader是集群中事务请求的唯一调度者和处理者，所谓事务请�
 (2) 比较server.id，大的优先成为leader<br>
 (3) 过半原则：leader选举投票、事务提议投票<br>
 事务提议投票：<br>
-客户端请求添加一个节点，leader接收到请求后给所有follower发送创建节点的提议投票，如果收到超过一半数量的反馈，则给所有follower发送commit<br>
+客户端请求添加一个节点，leader接收到请求后给所有follower发送创建节点的提议投票，如果收到超过一半数量的反馈，则给所有follower发送commit（两阶段提交）<br>
 leader选举投票：<br>
 第一轮，每个follow投处自己的事务ID和server ID，并接收其他follow的投票，如果ID比自己的大，则变更自己第二轮的投票<br>
 第二轮，follow投出自己不变的票或变更的票

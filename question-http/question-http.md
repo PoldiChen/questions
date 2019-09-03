@@ -143,7 +143,7 @@ HTTP | webSocket
 响应首部<br>
 响应实体
 
-#### 14. 常见的http首部字段？
+#### 14. 常见的HTTP首部字段？
 通用首部字段<br>
 Date：创建报文的时间<br>
 Connection：连接的管理<br>
