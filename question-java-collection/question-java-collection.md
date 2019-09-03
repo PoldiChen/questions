@@ -147,10 +147,11 @@ CopyOnWriteArrayList允许多个线程以非同步的方式读，有线程需要
 (2) Java代码只有一行，编译后的字节码也只有一行，但CPU执行的机器码可能有多行，可能执行完一行CPU就切换了。
 
 #### 18. Java的fail-fast机制？fail-safe机制？
-&emsp;&emsp;Java集合（Collection）中的一种错误机制。当多个线程对同一个集合中的内容进行操作时，就可能引发fail-fast事件。<br>
-&emsp;&emsp;比如线程A通过iterator去遍历集合时，集合的内容被其他线程改变了，会抛出ConcurrentModificationException，产生fail-fast事件。<br>
-&emsp;&emsp;集合中保存了一个modCount变量，即修改次数，每次对集合的修改会增加这个计数。迭代器初始化的时候将这个值赋给迭代器的expectedModCount，迭代的时候判断modCount和expectedModCount是否相等，不等则表明有其他线程修改了集合。<br>
-&emsp;&emsp;fail-safe，安全失败，迭代的时候会在底层对集合做一个拷贝，修改上层集合不会有影响，不会抛出ConcurrentModficationException。java.util.concurrent包下的集合都是安全失败的。
+Java集合（Collection）中的一种错误机制。当多个线程对同一个集合中的内容进行操作时，就可能引发fail-fast事件。<br>
+比如线程A通过iterator去遍历集合时，集合的内容被其他线程改变了，会抛出ConcurrentModificationException，产生fail-fast事件。<br>
+集合中保存了一个modCount变量，即修改次数，每次对集合的修改会增加这个计数。迭代器初始化的时候将这个值赋给迭代器的expectedModCount，迭代的时候判断modCount和expectedModCount是否相等，不等则表明有其他线程修改了集合。<br>
+
+fail-safe，安全失败，迭代的时候会在底层对集合做一个拷贝，修改上层集合不会有影响，不会抛出ConcurrentModficationException。java.util.concurrent包下的集合都是安全失败的。
 
 #### 19. 有序的Map实现类？怎样保证有序？
 TreeMap和LinkedHashMap是有序的，TreeMap默认升序，LinkedHashMap记录了插入的顺序。<br>
@@ -158,16 +159,21 @@ TreeMap基于红黑树实现，有序。<br>
 LinkedHashMap，HashMap和双向链表LinkedList的结合，将所有Entry节点链入一个双向链表，用于保证插入的顺序。<br>
 
 #### 20. HashMap实现原理？
-&emsp;&emsp;Java中最常用的两种数据结构是数组和模拟引用（指针），几乎所有的数据结构都可以用这两种组合来实现。<br>
-&emsp;&emsp;HashMap是一种散列链表，有一个数组，数组中的每一个元素都是一个链表，链表中的每一个元素都是entry。<br>
-&emsp;&emsp;调用put(key, value)存储元素时，对key调用hashCode()方法，返回的hashCode用于找到bucket位置，存储entry对象。<br>
-&emsp;&emsp;两个key的hashCode相同时，bucket位置相同，会发生碰撞，这个包含有键值对的Map.Entry对象会存储在链表中。调用get()方法的时候，如果hashCode相同，找到bucket位置后会调用key.equals()方法在链表中找到正确的节点。<br>
-&emsp;&emsp;有几个重要特性，容量（capacity，默认值为16）、负载因子（load factor，默认值为0.75）、扩容极限（threshold resizing），元素个数大于capacity*load factor的时候会扩容为2n。
+Java中最常用的两种数据结构是数组和模拟引用（指针），几乎所有的数据结构都可以用这两种组合来实现。<br>
+**数据结构：**<br>
+HashMap是一种散列链表，有一个数组，数组中的每一个元素都是一个链表，链表中的每一个元素都是entry。<br>
+**put和get：**<br>
+调用put(key, value)存储元素时，对key调用hashCode()方法，返回的hashCode用于找到bucket位置，存储entry对象。<br>
+两个key的hashCode相同时，bucket位置相同，会发生碰撞，这个包含有键值对的Map.Entry对象会存储在链表中。<br>
+调用get()方法的时候，如果hashCode相同，找到bucket位置后会调用key.equals()方法在链表中找到正确的节点。<br>
+**特性：**<br>
+有几个重要特性，容量（capacity，默认值为16）、负载因子（load factor，默认值为0.75）、扩容极限（threshold resizing），元素个数大于capacity*load factor的时候会扩容为2n。
 
 #### 21. AQS队列同步器？
 全称是AbstractQueuedSychronizer，抽象队列同步器。<br>
 如果说CAS是java.util.concurrent的基础，那么AQS则是整个并法包的核心。<br>
 ReentrantLock、CountDownLatch、Semaphore等都用到了AQS。<br>
+
 以双向队列的形式连接所有的Entry，比如ReentrantLock，所有等待线程都放在一个Entry中并连成双向队列，前一个线程使用完ReentrantLock，则双向队列实际上的第一个Entry开始执行。<br>
 AQS定义了对双向队列的所有操作，只开放了tryLock和tryRelease给开发者重写。
 
@@ -175,9 +181,11 @@ AQS定义了对双向队列的所有操作，只开放了tryLock和tryRelease给
 将元素作为HashMap的key，借助HashMap的key不能重复来判断。
 
 #### 23. ConcurrentHashMap的并发度是什么？实现原理？
-&emsp;&emsp;ConcurrentHashMap把map分成若干部分来实现可扩展性和线程安全，这种划分是使用并发度获得的，是构造函数的一个可选参数，默认值是16。<br>
-&emsp;&emsp;将一个map分为多个Hashtable，根据key.hashCode()决定将key放到哪个Hashtable中。<br>
-&emsp;&emsp;JDK 1.8中不再使用segment锁分离，而是使用乐观锁CAS算法来实现同步。底层还是数组+链表->红黑树。不需要对segment或者全局加锁，只需对单行加锁（hashCode相同）。对单个值的修改使用CAS。
+ConcurrentHashMap把map分成若干部分来实现可扩展性和线程安全，这种划分是使用并发度获得的，是构造函数的一个可选参数，默认值是16。<br>
+将一个map分为多个Hashtable，根据key.hashCode()决定将key放到哪个Hashtable中。<br>
+
+JDK 1.8中不再使用segment锁分离，而是使用乐观锁CAS算法来实现同步。底层还是数组+链表->红黑树。<br>
+不需要对segment或者全局加锁，只需对单行加锁（hashCode相同）。对单个值的修改使用CAS。
 
 #### 24. 阻塞队列BlockingQueue的作用？
 java.util.concurrent.BlockingQueue的特性是：队列是空的时，获取或删除元素的操作会被阻塞，队列是满的时，添加元素的操作会被阻塞。<br>
@@ -196,7 +204,8 @@ JDK7提供了7个阻塞队列：
 
 #### 25. ArrayBlockingQueue的原理和应用？
 实现了BlockingQueue接口。<br>
-一个基于数组实现的阻塞队列，构造需要指定容量。当试图向满队列添加元素或从空队列删除元素时，当前线程会被阻塞。
+一个基于数组实现的阻塞队列，构造需要指定容量。<br>
+当试图向满队列添加元素或从空队列删除元素时，当前线程会被阻塞。
 
 #### 26. WeakHashMap的工作原理？
 和HashMap类似，但是使用弱引用作为key，当key对象没有任何引用时，key/value会被回收。
@@ -205,6 +214,7 @@ JDK7提供了7个阻塞队列：
 基于优先级堆的无界队列，元素按照自然顺序排序。<br>
 在创建的时候可以传入一个给元素排序的比较器，不允许null值，因为null没有自然顺序，没有任务相关联的比较器。<br>
 PriorityQueue不是线程安全的（类似的PriorityBlockingQueue是线程安全的），入队和出队的时间复杂度是O(log(n))。<br>
+
 构造最大值堆或最小值堆的过程：先按照顺序生成一个满二叉树，再对节点siftDown或siftUp。
 
 #### 28. 什么是优先级堆？
@@ -219,8 +229,8 @@ Enumeration | Iterator
 / | 允许删除集合的元素
 
 #### 30. hashCode()和equals()方法对于集合的作用？
-&emsp;&emsp;根据Java规范，equals()判断相等的两个对象，必须有相同的hashCode。<br>
-&emsp;&emsp;将对象放入集合的时候，先判断对象的hashCode在集合中是否已存在，不存在则直接放入，存在（hashCode相等，equals()不一定相等）则判断equals()方法和集合中的其他对象是否相等，都不相等则放入，否则不放入。
+根据Java规范，equals()判断相等的两个对象，必须有相同的hashCode。<br>
+将对象放入集合的时候，先判断对象的hashCode在集合中是否已存在，不存在则直接放入，存在（hashCode相等，equals()不一定相等）则判断equals()方法和集合中的其他对象是否相等，都不相等则放入，否则不放入。
 
 #### 31. LinkedHashMap和PriorityQueue的区别？
 PriortyQueue是优先级队列，保证优先级最高或最低的元素在队头。<br>
@@ -242,7 +252,7 @@ key值计算得到的hash大于容量，可以通过求余得到插入的数组�
 ![avator](image/question-java-collection-035-map.png)
 
 #### 36. 空接口RandomAccess的作用？
-接口中没有任何方法，只是起标记作用。
+接口中没有任何方法，只是起标记作用。<br>
 ArrayList实现了这个接口，表明是支持根据下标快速随机访问的
 
 #### 37. ArrayList在多线程环境下的问题？

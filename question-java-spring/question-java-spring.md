@@ -43,18 +43,18 @@ global-session：在一个全局的HTTP Session中，一个bean对应一个实�
 (2) setter方法依赖注入：通过容器调用无参构造器或无参static工厂方法实例化bean，调用bean的set方法<br>
 (3) 接口注入
 
-#### 4. Spring框架中bean的生命周期和IoC容器的生命周期？
+#### 4. Spring框架中bean的生命周期？IoC容器的生命周期？
 
-实例化之前
-实例化
-实例化之后
-设置属性之前
-设置属性
-初始化之前
-初始化
-初始化之后
-缓存
-销毁
+实例化之前<br>
+实例化<br>
+实例化之后<br>
+设置属性之前<br>
+设置属性<br>
+初始化之前<br>
+初始化<br>
+初始化之后<br>
+缓存<br>
+销毁<br>
 
 (1) 调用者通过getBean()向容器请求bean，如果容器注册了**InstantiationAwareBeanPostProcessor**接口，在实例化bean之前，调用该接口的**postProcessBeforeInstantiation**方法<br>
 (2) 根据配置调用bean的构造函数或工厂方法实例化bean<br>

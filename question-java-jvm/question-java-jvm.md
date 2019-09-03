@@ -7,7 +7,7 @@ some questions and answers for Java Virtual Machine.
 内存溢出是指程序需要的内存大于虚拟机分配的内存。<br>
 
 栈主要存放栈帧，局部变量表、操作数栈、动态链接、方法出口信息。<br>
-栈相关的内存异常包括StackOverFlowError(方法调用次数太多，栈内存不够新建栈帧，比如递归的层次太多)和OutOfMemoryError(线程太多，栈内存不够新建线程)。
+栈相关的内存异常包括StackOverFlowError（方法调用次数太多，栈内存不够新建栈帧，比如递归的层次太多（和OutOfMemoryError（线程太多，栈内存不够新建线程）。
 
 #### 2. 32位JVM和64位JVM的最大堆内存分别是多少？
 32位堆内存2^32，4GB，寻址的基本单位是B，2^32=4G<br>
@@ -45,41 +45,41 @@ Java 7引入了G1 GC替代CMS GC，Java 9中G1 GC为默认。
 
 #### 4. 什么是Java内存模型？code
 a) 程序计数器<br>
-一个数据结构，用于保存当前正在执行的程序的内存地址。
-Java虚拟机的多线程就是通过线程轮流切换并分配处理器时间来实现的，为了线程切换后能恢复到原来的位置，每个线程需要一个独立的程序计数器，该区域为线程私有。
-在Java虚拟机规范中唯一没有规定OutOfMemoryError的区域。
+一个数据结构，用于保存当前正在执行的程序的内存地址。<br>
+Java虚拟机的多线程就是通过线程轮流切换并分配处理器时间来实现的，为了线程切换后能恢复到原来的位置，每个线程需要一个独立的程序计数器，该区域为线程私有。<br>
+在Java虚拟机规范中唯一没有规定OutOfMemoryError的区域。<br>
 
 b) 虚拟机栈<br>
-线程私有，与线程生命周期相同，用于存储局部变量表，操作栈，方法返回值。
-局部变量表存放基本数据类型和对象的引用。
-当栈的调用深度大于JVM虚拟机允许的范围，会抛出StackOverflowError错误，这个深度不是一个固定的值。
+线程私有，与线程生命周期相同，用于存储局部变量表，操作栈，方法返回值。<br>
+局部变量表存放基本数据类型和对象的引用。<br>
+当栈的调用深度大于JVM虚拟机允许的范围，会抛出StackOverflowError错误，这个深度不是一个固定的值。<br>
 动态扩展时无法申请足够的内存，会抛出OutOfMemoryeError。
 
 c) 本地方法栈<br>
-和虚拟机栈很像，为虚拟机使用的Native方法服务。
-也会抛出StackOverflowError和OutOfMemoryError。
+和虚拟机栈很像，为虚拟机使用的Native方法服务。<br>
+也会抛出StackOverflowError和OutOfMemoryError。<br>
 
 d) Java堆<br>
-虚拟机中最大的一块内存，所有线程共享的内存区域，存放对象实例。
-垃圾收集器管理的主要区域。
-申请不到空间时会抛出OutOfMemoryError。
+虚拟机中最大的一块内存，所有线程共享的内存区域，存放对象实例。<br>
+垃圾收集器管理的主要区域。<br>
+申请不到空间时会抛出OutOfMemoryError。<br>
 
 e) 方法区<br>
-各个线程共享的区域。
+各个线程共享的区域。<br>
 存储虚拟机加载的类信息、常量、静态变量，编译后的代码。
 
 f) 运行时常量池<br>
 运行时每个class文件中的常量表，包括编译时的数字常量、方法、	域的引用。
 
 Java内存模型定义了一种多线程访问Java内存的规范。主要有几个部分：<br>
-1) 将内存分为主内存和工作内存。<br>
+(1) 将内存分为主内存和工作内存。<br>
 类的状态存储在主内存中，即类之间共享的变量。<br>
 线程需要使用这些变量的时候，从主存中读取，并在自己的工作内存拷贝一份。<br>
 操作这些变量的时候操作的是自己工作内存的那一份。<br>
 执行完后将最新的值更新到主内存中。<br>
-2) 定义了几个原子操作，用于操作主内存和工作内存中的变量。<br>
-3) 定义了volatile变量的使用规则<br>
-4) happens-before，即先行发生原则。
+(2) 定义了几个原子操作，用于操作主内存和工作内存中的变量。<br>
+(3) 定义了volatile变量的使用规则<br>
+(4) happens-before，即先行发生原则。
 
 #### 5. Java垃圾回收GC的时机，具体做了什么事情？
 应用程序空闲（没有应用线程在运行）的时候；堆内存不足的时候。<br>
@@ -165,6 +165,7 @@ GCT：垃圾回收总耗时<br>
 堆保存new关键字和构造器创建的对象，堆是垃圾收集的主要区域，可以分为新生代和老年代；<br>
 方法区和堆都是各个线程共享的内存区域，用于存储已经被JVM加载的类信息、常量、静态变量、JIT编辑器编译后的代码。<br>
 常量池是方法区的一部分。<br>
+
 栈空间操作起来最快但是空间很小，通常大量的对象都放在堆空间，栈和堆的大小可以通过JVM的启动参数来调整。<br>
 栈空间用完了会引发StackOverflowError，堆和常量池空间不足会引发OutOfMemoryError。
 
@@ -176,11 +177,11 @@ HotSpot虚拟机使用PermGen来实现方法区，方法区是虚拟机的一个
 元空间和永久代都是对方法区的实现，不同的是元空间不在虚拟机中，而是使用本地内存，默认情况下，元空间只受本地内存大小限制。
 
 #### 13. 反射中，Class.forName和ClassLoader.loadClass的区别？加载数据库驱动为什么用Class.forName()？？？（question 147 类加载过程）
-&emsp;&emsp;Class.forName(className);内部调用的是Class.forName(className, true, classLoader);第二个参数表示是否需要初始化（执行static代码块，设置static变量值），默认是true。<br>
-&emsp;&emsp;ClassLoader.loadClass(className);内部去调用的是ClassLoader.loadClass(className, false);第二个参数表示是否需要进行链接，默认为false。<br>
-&emsp;&emsp;动态加载一个类时，如果有静态代码块或静态变量，而且想在加载的时候初始化，应该使用Class.forName()。<br>
+Class.forName(className);内部调用的是Class.forName(className, true, classLoader);第二个参数表示是否需要初始化（执行static代码块，设置static变量值），默认是true。<br>
+ClassLoader.loadClass(className);内部去调用的是ClassLoader.loadClass(className, false);第二个参数表示是否需要进行链接，默认为false。<br>
+动态加载一个类时，如果有静态代码块或静态变量，而且想在加载的时候初始化，应该使用Class.forName()。<br>
 
-&emsp;&emsp;DriverManager中有一段需要执行的static代码块，用Class.forName(“com.mysql.DriverManager”);调用才能令其执行。
+DriverManager中有一段需要执行的static代码块，用Class.forName(“com.mysql.DriverManager”);调用才能令其执行。
 
 #### 14. 32位/64位的操作系统？CPU？JVM？？？
 32位操作系统只能安装32位的JVM，64位的操作系统两种JVM都可以安装。<br>
@@ -195,9 +196,9 @@ HotSpot虚拟机使用PermGen来实现方法区，方法区是虚拟机的一个
 方法区（永久代）溢出：不断创建字符串常量<br>
 
 #### 16. Java虚拟机的锁粗化？？？
-&emsp;&emsp;一般来说同步的范围越小越好，效率越高，但Java虚拟机中有一种“锁粗化”的优化方法，把同步范围变大。<br>
-&emsp;&emsp;比如线程安全的StringBuffer，append()方法是同步的，反复的append字符串的时候需要反复的加锁解锁，对性能不利，因为虚拟机需要在这条线程上反复在内核态和用户态之间切换。<br>
-&emsp;&emsp;虚拟机会将多个append方法的调用进行锁粗化操作，将多个的append的操作扩展至append方法的首尾，变成一个大的同步块，减少加锁解锁的次数，提升执行效率。
+一般来说同步的范围越小越好，效率越高，但Java虚拟机中有一种“锁粗化”的优化方法，把同步范围变大。<br>
+比如线程安全的StringBuffer，append()方法是同步的，反复的append字符串的时候需要反复的加锁解锁，对性能不利，因为虚拟机需要在这条线程上反复在内核态和用户态之间切换。<br>
+虚拟机会将多个append方法的调用进行锁粗化操作，将多个的append的操作扩展至append方法的首尾，变成一个大的同步块，减少加锁解锁的次数，提升执行效率。
 
 #### 17. JVM的内存分配规则？
 (1) 基本数据类型和对象的引用在栈分配。<br>
@@ -325,6 +326,7 @@ c) 该类对应的java.lang.Class对象没有被引用，无法在任何地方�
 -XX:+UseSerialGC | 使用Serial GC垃圾回收
 -XX:+UseParNewGC | 使用Parallel GC垃圾回收
 
+#### 24. JVM调优实例？
 
 
 
