@@ -115,17 +115,18 @@ ApplicationContext对BeanFactory进行扩展，添加了其他功能，如国际
 (7) 适配器模式：SpringMVC的HandlerAdapter
 
 #### 9. Spring的依赖注入（DI，Dependency Injection）和控制反转（IoC，Inversion of Control Container）？
-&emsp;&emsp;依赖注入：在运行时将类的依赖注入到代码中，将依赖定义为接口，将实现了这个接口的实体类注入到主类的构造器中。<br>
-&emsp;&emsp;依赖注入可以通过单一责任原则来提高代码的内聚，因为依赖的对象通常都是能独立完成一个功能的对象。<br>
-&emsp;&emsp;控制反转容器：一个支持依赖注入的中心容器，如spring框架，定义哪个依赖应该使用哪个实体类。<br>
-&emsp;&emsp;不实际生成对象，而是定义如何生成对象。<br>
-&emsp;&emsp;依赖注入和控制反转能够在运行时绑定类之间的关系，而不是编译时。<br>
-&emsp;&emsp;松耦合也更易于单元测试。
+依赖注入：在运行时将类的依赖注入到代码中，将依赖定义为接口，将实现了这个接口的实体类注入到主类的构造器中。<br>
+依赖注入可以通过单一责任原则来提高代码的内聚，因为依赖的对象通常都是能独立完成一个功能的对象。<br>
+控制反转容器：一个支持依赖注入的中心容器，如spring框架，定义哪个依赖应该使用哪个实体类。<br>
+不实际生成对象，而是定义如何生成对象。<br>
+
+依赖注入和控制反转能够在运行时绑定类之间的关系，而不是编译时。<br>
+松耦合也更易于单元测试。
 
 #### 10. Spring如何使用ThreadLocal解决线程安全问题？
-&emsp;&emsp;ThreadLocal是线程的一个本地化对象。多线程环境的对象使用ThreadLocal维护变量时，为每个线程分配一个变量副本，每个线程可以独立的改变自己的副本，相当于线程的本地变量。<br>
-&emsp;&emsp;ThreadLocal类中有一个内部类ThreadLocalMap，key为线程对象，value为线程的变量副本。<br>
-&emsp;&emsp;数据连接和会话一般是非线程安全的，
+ThreadLocal是线程的一个本地化对象。多线程环境的对象使用ThreadLocal维护变量时，为每个线程分配一个变量副本，每个线程可以独立的改变自己的副本，相当于线程的本地变量。<br>
+ThreadLocal类中有一个内部类ThreadLocalMap，key为线程对象，value为线程的变量副本。<br>
+数据连接和会话一般是非线程安全的，
 
 管理request作用域的bean、事务管理、任务调度、AOP
 
@@ -165,14 +166,14 @@ MVC框架。<br>
 
 #### 16. Spring如何解决类循环依赖？
 (1) setter对象的依赖（单例）<br>
-&emsp;&emsp;A类需要设置B类，B类需要设置C类，C类需要设置A类，形成循环。<br>
-&emsp;&emsp;Spring的解决方案是，初始化A类的时间将Bean放入缓存中，然后set B类，再把B类的Bean放入缓存中，然后set C类，初始化C类的时候需要A类的Bean，这是不需要初始化，从缓存中获取。<br>
-&emsp;&emsp;这种只对singleton的Bean起作用，因为prototype的Bean不做缓存。<br>
+A类需要设置B类，B类需要设置C类，C类需要设置A类，形成循环。<br>
+Spring的解决方案是，初始化A类的时间将Bean放入缓存中，然后set B类，再把B类的Bean放入缓存中，然后set C类，初始化C类的时候需要A类的Bean，这是不需要初始化，从缓存中获取。<br>
+这种只对singleton的Bean起作用，因为prototype的Bean不做缓存。<br>
 (2) 构造器中对其他类的依赖<br>
-&emsp;&emsp;创建A类需要在构造器中初始化B类，创建B类需要在构造器中初始化C类，创建C类需要在构造器中初始化A类，形成循环。<br>
-&emsp;&emsp;Spring的解决方案是，把创建中的Bean放入到一个“当前创建Bean池”中，初始化类的时候如果发现Bean类已经存在，抛出BeanCurrentInCreationException异常。<br>
+创建A类需要在构造器中初始化B类，创建B类需要在构造器中初始化C类，创建C类需要在构造器中初始化A类，形成循环。<br>
+Spring的解决方案是，把创建中的Bean放入到一个“当前创建Bean池”中，初始化类的时候如果发现Bean类已经存在，抛出BeanCurrentInCreationException异常。<br>
 (3) setter方法原型，prototype<br>
-&emsp;&emsp;对于作用域为prototype的bean，Spring容器无法完成依赖注入，因为这种作用域的bean不进行缓存，因此无法提前暴露一个正在创建的bean。
+对于作用域为prototype的bean，Spring容器无法完成依赖注入，因为这种作用域的bean不进行缓存，因此无法提前暴露一个正在创建的bean。
 
 #### 17. Spring的核心容器？
 应用上下文模块，提供Spring框架的基础功能，BeanFacory是任何以Spring为基础的应用的核心。<br>
@@ -184,19 +185,47 @@ tearDown方法，容器卸载类的时候被调用
 
 #### 19. Spring常用的注解？
 - @Configuration
+
 - @Bean
+
 - @Component
+所有受Spring管理的组件的通用形式，泛指组件，不好归类的时候使用
+
 - @Service
+类的注解，声明类的对象是一个bean，且bean的id是小写开头的类名，对应业务层的bean
+
+- @Repository
+对应数据访问层的bean
+
 - @ComponentScan
 - @Required<br>
 bean的属性必须在配置的时候设置，通过一个bean定义的显式的属性值或通过自动装配<br>
+
 - @Autowired <br>
+自动装配，默认按类型匹配的方式，在容器中查找匹配的Bean。<br>
 提供了更细粒度的控制，包括在何处以及如何完成自动装配<br>
+
 - @Qualifier <br>
+如果容器中有一个以上匹配的bean，可以通过@Qualifier限定bean的名称。
 有多个相同类型的bean但只有一个需要自动装配，将@Qualifier和@Autowired结合消除这种混淆，指定需要装配的确切的bean
-- @Resource
+```java
+public class CarFactory {
+	@Autowired
+	@Qualifier("benzCar") // 指定bean的id
+	private ICar car;
+}
+```
+
+- @Resource <br>
+和@Autowired类似，默认按name属性匹配，匹配不到再匹配type，也可指定按name或者type匹配。
+
 - @PostConstruct
+
 - @PreDestroy
+
+#### 20. 注解@Autowired和@Resource的区别？
+(1) @Autowired默认按byType的方式匹配bean，@Resource默认按byName的方式匹配bean<br>
+(2) @Autowired是Spring的注解，@Resource是J2EE的注解
 
 #### 20. Spring的controller是单例还是多例？如何保证线程安全？
 单例。<br>

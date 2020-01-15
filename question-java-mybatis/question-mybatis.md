@@ -62,11 +62,11 @@ SQL注入 | 能防止sql注入 | 不能防止sql注入
 参数替换 | 发生在DBMS中 | 发生在动态解析过程中
 
 #### 5. MyBatis动态SQL？
-if<br>
-choose<br>
-trim<br>
-foreach<br>
-bind<br>
+\<if\><br>
+\<choose\><br>
+\<trim\><br>
+\<foreach\><br>
+\<bind\><br>
 
 #### 6. MyBatis一对多？多对一？多对多？
 一对多，使用<collection>标签，比如一个user有多个email

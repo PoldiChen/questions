@@ -44,9 +44,9 @@ Ribbon的作用：<br>
 
 Feign使用Java的动态代理，将需要调用其他服务的方法定义成抽象方法，不需要自己构建HTTP请求，和Ribbon配合提供RPC远程调用功能。
 
-#### 4. Spring Cloud Sleuth分布式链路监控？
+#### 5. Spring Cloud Sleuth分布式链路监控？
 
-#### 4. Spring Cloud和Dubbo的对比？
+#### 6. Spring Cloud和Dubbo的对比？
 微服务功能 | Spring Cloud | Dubbo
 -| - | -
 服务注册和发现 | Eureka | Zookeeper
@@ -59,7 +59,7 @@ Feign使用Java的动态代理，将需要调用其他服务的方法定义成�
 集群选主 | Spring Cloud Cluster | 无
 分布式消息 | Spring Cloud Stream | 无
 
-#### 5. Eureka和Zookeeper的比较？
+#### 7. Eureka和Zookeeper的比较？
 Zookeeper：CP原则<br>
 Eureka：AP原则<br>
 
