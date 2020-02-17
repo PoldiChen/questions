@@ -22,7 +22,14 @@ epoll模型：基于内核的反射机制，有活跃的socket时，系统会调
 资源使用情况：<br>
 **uptime** 查看负载load average，1分钟、5分钟、15分钟内系统的平均负载<br>
 **top** CPU负载数值小于0.7\*CPU个数则表示正常<br>
-**netstat** <br>
+**netstat** 网络相关<br>
+- -l, --listening 显示监听的socket<br>
+- -p, --programs 显示socket的PID/Program name<br>
+```bash
+netstat -nltp | grep 8080 # 查看占用8080端口的进程
+netstat -nltp | grep {pid} # 查看某进程占用的端口
+```
+
 **ps** 查看进程（process）<br>
 **tcpdump** 抓包<br>
 **free** 查看内存<br>
