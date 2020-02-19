@@ -38,6 +38,9 @@ Spring Cloud是关注全局的微服务协调整理治理框架，它将Spring B
   <optional>true</optional>
 </dependency>
 ```
+如果使用idea，需要以下配置：
+(1) File-Settings-Compiler-Build Project automatically<br>
+(2) ctrl + shift + alt + / 选择Registry,勾上 Compiler autoMake allow when app running
 
 #### 4. Spring Boot的监视器是什么？
 Spring Boot Actuator，可以访问生产环境中正在运行的应用的状态。
