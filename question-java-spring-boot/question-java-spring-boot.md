@@ -159,6 +159,11 @@ FilterRegistrationBean
 SpringBoot打包的jar包解压后BOOT-INF/classes目录下才是代码。<br>
 如果需要引用，可以在pom.xml中配置，将项目打包成两个jar包，一个可执行，一个可引用。
 
+#### 12. 部署SpringBoot的命令？
+```bash
+java -jar xxx.jar # 关闭窗口后程序会退出
+nohup java -jar xxx.jar & # nohup不挂断运行命令，账户退出或终端关闭时，程序仍然运行
+```
 
 
 
