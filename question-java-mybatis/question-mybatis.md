@@ -162,7 +162,12 @@ public class MapperMethod {
 Hibernate是ORM框架，MyBatis是半ORM框架，需要自己编写sql语句。<br>
 Hibernate对象/关系映射能力强，数据库无关性好，对关系模型要求高。
 
-
+#### 9. 配置时区、编码（SpringBoot）？
+- 时区：serverTimezone
+- 编码：useUnicode、characterEncoding
+```
+jdbc:mysql://localhost:3306/db_name?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8
+```
 
 
 #### 100.
