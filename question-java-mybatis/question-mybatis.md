@@ -169,5 +169,10 @@ Hibernate对象/关系映射能力强，数据库无关性好，对关系模型�
 jdbc:mysql://localhost:3306/db_name?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8
 ```
 
+#### 10. 设置属性的时间格式？
+在实体类的属性添加注解：
+```java
+@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+```
 
 #### 100.
