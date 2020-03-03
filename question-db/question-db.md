@@ -20,14 +20,14 @@ explain结果的各个item的含义：
 
 item | 含义
 -|-
-select_type | 查询中每个select字句的类型
+select_type | 查询中每个select子句的类型
 type | 在表中找到所需行的方式，又称“访问类型”。<br>index：表示全索引扫描<br>all：表示全表扫描，性能最差<br>range：表示区间查询<br>ref, eq_ref：常量或等值查询<br>const：主键等值查询
 possible_keys | 能使用哪个索引在表中找到行。<br>查询涉及到的字段如果有索引，该索引会被列出，但不一定被查询使用
 key | 查询的时候实际使用的索引
 key_len | 索引中使用的字节数，可以计算出查询中使用的索引的长度。<br>数字等于索引列类型的字节数，int类型4 bytes，bigint类型8 bytes。<br>字符串类型和字符集相关，char(30) UTF-8至少是90 bytes。<br>允许null，加1 byte<br>varchar，加2 bytes
 ref | 上述表的连接匹配条件，即哪些列或常量被用于查找索引列上的值
 rows | 预估需要检测的行数
-Extra | 十分重要的额外信息，是否使用了索引，是否需要排序，是否会用到临时表。<br>using index表示覆盖索引扫描，说明性能较好。
+extra | 十分重要的额外信息，是否使用了索引，是否需要排序，是否会用到临时表。<br>using index表示覆盖索引扫描，说明性能较好。
 
 #### 4. MySQL索引原理？索引的类型？如何合理创建索引？索引的缺点？
 索引是一种数据结构，由B树或B+树实现（另外还有hash、full-text）。<br>
@@ -94,6 +94,12 @@ MySQL中主键列就是聚集索引，不能对其他列创建聚集索引。
 索引中不重复的索引值的数量，基数越高索引的效果越好。
 ```sql
 show index from table_name;
++-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+
+| Table | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment |
++-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+
+| movie |          0 | PRIMARY  |            1 | id          | A         |        1446 |     NULL | NULL   |      | BTREE      |         |               |
++-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+
+
 ```
 cardinality列中即为索引基数，是一个估计值。<br>
 更新索引基数：
@@ -101,7 +107,7 @@ cardinality列中即为索引基数，是一个估计值。<br>
 analyze table table_name;
 ```
 
-#### 6. 事务的ACID特性？
+#### 7. 事务的ACID特性？
 A，atomic，原子性，事务要么提交，要么失败，不能一半成功一半失败。<br>
 C，consistent，一致性，事务开始和结束后，数据的一致性约束没有被破坏。<br>
 I，isolation，隔离性，并发事务之间互不干扰，互不影响。<br>
@@ -128,23 +134,26 @@ next-key锁包含了行锁和间隙锁，即同时锁定行和一个范围。<br
 InnoDB默认加锁方式是next-key锁。
 
 #### 9. MySQL多版本并发控制MVCC？
-每一行存储额外的三个字段：
-DB_TRX_ID：自增的事务ID
-DB_ROLL_PTR：指向写到rollback segment的一条undo log记录
-DB_ROW_ID：主键列ID，或者唯一索引列的ID，或系统生成的隐藏ID
+每一行存储额外的三个字段：<br>
+DB_TRX_ID：自增的事务ID<br>
+DB_ROLL_PTR：指向写到rollback segment的一条undo log记录<br>
+DB_ROW_ID：主键列ID，或者唯一索引列的ID，或系统生成的隐藏ID<br>
 
-READ UNCOMMITTED：不适用于MVCC。
-READ COMMITTED：不完全适用于MVCC，已提交的其他事务对数据库的修改，当前事务可以读到，和事务开始顺秀无关。
-REPEATABLE READ：完全使用MVCC，只能读取在它之前已经提交的事务对数据库的修改。
-SERIALIZABLE：完全不适用于MVCC。
+隔离级别：<br>
+READ UNCOMMITTED：不适用于MVCC。<br>
+READ COMMITTED：不完全适用于MVCC，已提交的其他事务对数据库的修改，当前事务可以读到，和事务开始顺序无关。<br>
+REPEATABLE READ：完全使用MVCC，只能读取在它之前已经提交的事务对数据库的修改。<br>
+SERIALIZABLE：完全不适用于MVCC。<br>
 
-#### 9. 数据库连接池的工作机制？
+#### 10. 数据库连接池的工作机制？
 
-#### 10. MySQL维护常用的命令。
-show processlist; # 列出所有进程<br>
-Kill？？？
+#### 11. MySQL维护常用的命令。
+```sql
+show processlist; # 列出所有进程
+Kill {processId}; # 杀死进程
+```
 
-#### 11. MySQL有哪些日志？如何开启？如何查看？
+#### 12. MySQL有哪些日志？如何开启？如何查看？
 错误日志。<br>
 查询日志。<br>
 慢查询日志。<br>
@@ -154,18 +163,21 @@ Kill？？？
 
 redo log, bin log, undo log：<br>
 - binlog<br>
-MySQL服务层产生的日志，常用于数据恢复、数据库复制。MySQL主从架构就是采用slave同步master的binlog实现的，通过解析binlog也能够实现MySQL到其他数据源（如ElasticSearch）的数据复制。<br>
+MySQL服务层产生的日志，常用于数据恢复、数据库复制。<br>
+MySQL主从架构就是采用slave同步master的binlog实现的，通过解析binlog也能够实现MySQL到其他数据源（如ElasticSearch）的数据复制。<br>
 - redo log<br>
-记录了数据在物理层面的修改，MySQL大量使用内存中的缓存，修改时直接修改缓存，而不是磁盘。当缓存和磁盘的数据不一致时，称缓存中的数据为脏页。<br>
+记录了数据在物理层面的修改，MySQL大量使用内存中的缓存，修改时直接修改缓存，而不是磁盘。<br>
+当缓存和磁盘的数据不一致时，称缓存中的数据为脏页。<br>
 为了保证数据的安全性，事务的在进行的过程中会不断产生redo log日志，在事务提交时进行flush，保存到磁盘中。数据库重启时，会根据redo log进行数据恢复，如果redo log中有事务提交，则进行事务提交修改数据，从而实现了事务的原子性、一致性和持久性。<br>
 - undo log<br>
-除了记录redo log外，在修改数据时还会记录undo log，记录了数据的反向操作，用于回撤。比如插入对应删除，修改对应修改为原来的数据。通过undo log可以实现事务的回滚，并且可以根据undo log回溯到某个特定版本的数据，实现MVCC。
+除了记录redo log外，在修改数据时还会记录undo log，记录了数据的反向操作，用于回撤。比如插入对应删除，修改对应修改为原来的数据。<br>
+通过undo log可以实现事务的回滚，并且可以根据undo log回溯到某个特定版本的数据，实现MVCC。
 
-#### 12. MySQL字段定义varchar(50)和int(10)，数字50和10的含义？
+#### 13. MySQL字段定义varchar(50)和int(10)，数字50和10的含义？
 int(M)，M表示最大显示宽度，与存储的大小范围无关，都是4 bytes的存储空间。<br>
 varchar(50)，最多存储50个字符，varchar(50)和varchar(200)存储“hello”所占空间一样，但后者在排序时会消耗更多的内存，因为order by col使用fixed_length计算col长度。<br>
 
-#### 13. MySQL主从复制？主主复制？原因？应用场景？？实际项目经验？
+#### 14. MySQL主从复制？主主复制？原因？应用场景？？实际项目经验？
 主要有三个步骤：<br>
 (1) master将更新记录到二进制日志binary log（也叫二进制日志事件binary log events）中<br>
 (2) slave通过I/O线程将master的二进制日志拷贝到自己的中继日志<br>
@@ -198,7 +210,7 @@ MySQL支持的复制类型：<br>
 
 ![avatar](image/question-db-013.gif)
 
-#### 14. 事务的4种隔离级别？
+#### 15. 事务的4种隔离级别？
 (1) Read uncommitted，读未提交，最弱的隔离级别，事务中的修改即使未提交，对其他事务也是可见的，即脏读。<br>
 (2) Read committed，读已提交，不可重复读，大多数据库默认的事务隔离级别。解决的脏读的问题，一个事务从开始到提交前，所做的修改对其他事务是不可见的。一个事务两次执行同样的查询，可能得到不同的结果。<br>
 (3) Reatable read，可重复读，MySQL默认的隔离级别。解决了脏读，且保证了同一个事务中多次读取同样记录的结果是一致的，但无法解决幻读的问题。InnoDB和xtradb存储引擎通过多版本并发控制（MVCC, Multiversion Concurrency Control）解决了幻读的问题。<br>
@@ -211,14 +223,14 @@ Read committed | × | √ | √
 Repeatable read | × | × | √
 Serializable | × | × | ×
 
-&emsp;&emsp;不可重复读和幻读都是读取了另一条已经提交的事务，不可重复读重点在于update，幻读重点在于insert和delete。<br>
-&emsp;&emsp;可重复读隔离级别，事务读取到数据后加锁，其他事务无法对这些数据进行修改，但可以insert，再次读取会多出其他数据，即幻读，不能通过行锁来避免，只能用serializable隔离级别，会降低数据库的并发能力。<br>
+不可重复读和幻读都是读取了另一条已经提交的事务，不可重复读重点在于update，幻读重点在于insert和delete。<br>
+可重复读隔离级别，事务读取到数据后加锁，其他事务无法对这些数据进行修改，但可以insert，再次读取会多出其他数据，即幻读，不能通过行锁来避免，只能用serializable隔离级别，会降低数据库的并发能力。<br>
 
-#### 15. InnoDB引擎如何通过日志实现事务？
+#### 16. InnoDB引擎如何通过日志实现事务？
 事务日志是通过redo和InnoDB的日志缓冲（Innodb log buffer）来实现的。<br>
 开始一个事务的时候，会记录该事务的lsn（log sequence number）号，事务执行时，往InnoDB的日志缓存写入事务日志，事务提交时，将日志缓存写入磁盘（通过innodb_flush_log_at_trx_commit来控制），也就是写数据前需要先写日志，这种方式称为“预写日志方式”。
 
-#### 16. MySQL profile性能分析？
+#### 17. MySQL profile性能分析？
 查看profile是否开启：
 ```
 mysql> show variables like '%profiling%';
@@ -268,13 +280,13 @@ mysql> show profile block io, cpu for query 2;
 +--------------------+----------+----------+------------+--------------+---------------+
 ```
 
-#### 17. MySQL InnoDB引擎的行锁是如何实现的？
+#### 18. MySQL InnoDB引擎的行锁是如何实现的？
 基于索引来实现行锁。<br>
 select * from table where id = 1 for update;<br>
 for update可以根据条件进行行锁定，id是有索引键的列，如果id不是索引键那么innodb会进行表锁定，无法支持并发。<br>
 MySQL InnoDB默认使用行级锁，行级锁基于索引，如果SQL语句用不到索引，不会使用行级锁，而是使用表锁。
 
-#### 18. MySQL删除数据delete和truncate的区别？
+#### 19. MySQL删除数据delete和truncate的区别？
 项 | delete | truncate
 -|-|-
 类型 | DML（data maintain language） | DDL（data define language）
@@ -282,7 +294,7 @@ MySQL InnoDB默认使用行级锁，行级锁基于索引，如果SQL语句用�
 空间 | 不会减少表或索引所占空间 | 表和索引所占空间恢复到初始大小
 触发器 | / | 不会触发触发器
 
-#### 19. 数据库三范式？
+#### 20. 数据库三范式？
 第一范式（1NF）：关系型数据库的基本要求，表的每一列都是不可分割的基本数据项，同一列不能有多个值。第一范式就是无重复的列。<br>
 第二范式（2NF）：满足第二范式必须先满足第一范式，要求数据库表中的每一行都可以被唯一区分，要求实体的属性完全依赖于主键。第二范式就是非主属性依赖于主键字。<br>
 第三范式（3NF）：要求一个数据库表不包含已在其他表中包含的非主键信息。比如有一张部门表，字段有id、名称、简介，另外有一张员工表，列出了部门id后，不能再列出部门名称、简介，即消除冗余。<br>
@@ -292,18 +304,18 @@ MySQL InnoDB默认使用行级锁，行级锁基于索引，如果SQL语句用�
 第三范式：一个表中不能包含已经在其他表中存在的非主键字段，即不能冗余<br>
           非主键字段不能相互依赖？
 
-#### 20. 存储过程（producer）和触发器（trigger）的区别？存储过程和函数（function）的区别？
+#### 21. 存储过程（producer）和触发器（trigger）的区别？存储过程和函数（function）的区别？
 (1) 存储过程可以用EXECUTE语句调用，触发器不能。<br>
 (2) 触发器是一个在修改了指定数据后执行的存储过程。<br>
 (3) 函数必须有返回值，存储过程没有，但是有传出参数<br>
 (4) 函数注重的是结果，存储过程注重的是过程？？？<br>
 (5) 函数可以在select语句直接调用，存储过程不能<br>
 
-#### 21. 视图的数据能否删除、修改？
+#### 22. 视图的数据能否删除、修改？
 来自同一个基本表的行列子集视图一般是可更新的。<br>
 如果视图的字段来自于集合函数、表达式，或者是多个表导出，则不能更新。
 
-#### 22. MySQL中MyISAM和InnoDB的区别？
+#### 23. MySQL中MyISAM和InnoDB的区别？
 项 | InnoDB | MyISAM
 -|-|-
 事务 | 支持 | 不支持
@@ -316,7 +328,7 @@ MVCC | 支持 | 不支持
 InnoDB的四大特性：插入缓冲（insert buffer）、二次写（double write）、自适应哈希索引（ahi）、预读（read ahead）。<br>
 执行select count(\*)，MyISAM更快，因为其内部维护了一个计数器，可以直接调用。
 
-#### 23. 如何分表？如何查询？如何实现id字段多个表自增？
+#### 24. 如何分表？如何查询？如何实现id字段多个表自增？
 ##### 垂直拆分
 拆分列，将一张列比较多的表拆分成多张表，一般用于拆分大字段和访问频率较低的字段。<br>
 优点：使行数据变小，在查询时减少读块和I/O的次数。简化表的结构，易于维护。<br>
@@ -327,9 +339,9 @@ InnoDB的四大特性：插入缓冲（insert buffer）、二次写（double wri
 分表只是解决单一表数据量过大，表的数据还是在同一机器上，对提升MySQL的并发作用不大，水平拆分最好是分库。<br>
 水平拆分需要考虑数据的增长速度，适用于稳定增长但历史数据不常用的场景，比如账单、日志。
 
-#### 24. 如何分页查询？MySQL和Oracle的区别？
+#### 25. 如何分页查询？MySQL和Oracle的区别？
 
-#### 25. Hash索引和B-Tree索引的区别？
+#### 26. Hash索引和B-Tree索引的区别？
 Hash索引效率高，可以一次定位。<br>
 B-Tree索引需要从根节点到枝节点，最后才能访问到叶子节点，效率较低。<br>
 
@@ -340,16 +352,17 @@ Hash索引的缺点：<br>
 (4) 任何时候都不能避免全表扫描。<br>
 (5) 在大量hash值相等的时候效率降低
 
-#### 26. MySQL连接过程和连接状态？
-&emsp;&emsp;MySQL客户端和服务端的通信是半双工的，任意时刻，要么是服务端向客户端发送数据，要么是客户端向服务端发送数据，不能同时发生。<br>
-&emsp;&emsp;对于任意时刻，可以用命令show full processlist来查看连接状态。<br>
-&emsp;&emsp;Sleep：线程正在等待客户端发送新的请求。<br>
-&emsp;&emsp;Query：线程正在执行查询或者正在将数据发送给客户端。<br>
-&emsp;&emsp;Locked：在MySQL服务器层，线程正在等待表锁。<br>
-&emsp;&emsp;Sorting result：线程正在对结果集进行排序。<br>
-&emsp;&emsp;Copying to tmp table [on disk]：线程正在执行查询，并将结果复制到一个临时表中。这种状态要么是在做GROUP BY，要么是文件排序操作，或者是UNION操作。如果有on disk，表示正在将一张临时放到磁盘上。<br>
-&emsp;&emsp;Analyzing and statistics：线程正在收集存储引擎的统计信息，并生成查询的执行计划。<br>
-&emsp;&emsp;Sending data：线程或者在多个状态之间传送数据，或者在生成结果集，或者在向客户端返回数据。<br>
+#### 27. MySQL连接过程和连接状态？
+MySQL客户端和服务端的通信是半双工的，任意时刻，要么是服务端向客户端发送数据，要么是客户端向服务端发送数据，不能同时发生。<br>
+
+对于任意时刻，可以用命令show full processlist来查看连接状态。<br>
+Sleep：线程正在等待客户端发送新的请求。<br>
+Query：线程正在执行查询或者正在将数据发送给客户端。<br>
+Locked：在MySQL服务器层，线程正在等待表锁。<br>
+Sorting result：线程正在对结果集进行排序。<br>
+Copying to tmp table [on disk]：线程正在执行查询，并将结果复制到一个临时表中。这种状态要么是在做GROUP BY，要么是文件排序操作，或者是UNION操作。如果有on disk，表示正在将一张临时放到磁盘上。<br>
+Analyzing and statistics：线程正在收集存储引擎的统计信息，并生成查询的执行计划。<br>
+Sending data：线程或者在多个状态之间传送数据，或者在生成结果集，或者在向客户端返回数据。<br>
 
 连接过程：<br>
 (1) 客户端发送一个查询给服务端。<br>
@@ -358,7 +371,7 @@ Hash索引的缺点：<br>
 (4) 根据优化器生成的执行计划，调用存储引擎的API执行查询。<br>
 (5) 将查询结果返回给客户端。
 
-#### 27. MySQL查询优化？优化数据库访问？
+#### 28. MySQL查询优化？优化数据库访问？
 (1) 使用explain+sql语句可以查看查询的效率。<br>
 (2) Mysql使用基于成本的优化器。使用show status like “last_query_cost”可以得知mysql计算的当前查询的成本。<br>
 (3) MySQL自带一种“嵌套循环”能够对大多数的查询进行优化，调整表关联的顺序。<br>
@@ -378,7 +391,7 @@ Hash索引的缺点：<br>
 (7) 尽量不要在where字句中进行null值判断，给字段设置默认值。<br>
 (8) 尽量不要使用where 1 = 1的条件
 
-#### 28. MySQL解决幻读问题？
+#### 29. MySQL解决幻读问题？
 快照读（历史版本）：通过MVCC解决
 ```sql
 select * from table where xxx;

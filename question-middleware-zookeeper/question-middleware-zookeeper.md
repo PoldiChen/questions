@@ -12,7 +12,7 @@ some questions and answers for Zookeeper.
 原语： 操作系统或计算机网络用语范畴。它是由若干条指令组成的，用于完成一定功能的一个过程。具有不可分割性，即原语的执行必须是连续的，在执行过程中不允许被中断。
 
 #### 2. Zookeeper的leader选举算法？
-Zookeeperr没有master/slave的概念，而是将集群的节点分为三类：<br>
+Zookeeper没有master/slave的概念，而是将集群的节点分为三类：<br>
 - leader<br>
 一个集群中只能存在一个leader，存在多个leader的现象称为脑裂。<br>
 leader是集群中事务请求的唯一调度者和处理者，所谓事务请求是指会改变集群状态的请求。leader根据事务ID可以保证事务处理的顺序性。<br>
