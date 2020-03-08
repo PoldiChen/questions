@@ -162,6 +162,9 @@ exchange、queue、message均可以持久化到磁盘。<br>
 缺点：降低系统性能；同步会消耗集群内部的网络带宽。<br>
 适合在对可靠性要求较高的场景中使用。<br>
 
+#### 13. 消息如何延迟消费？
+RocketMQ: 支持定时消息，可以指定延迟的级别，各个级别可以在配置文件broker.conf中配置
+RabbitMQ: 利用Time-To-Live Extensions和Dead Letter Exchange，设置过期时间为需要延迟的时间，过期后通过Dead Letter Exchange路由到其他队列，被消费。
 
 
 

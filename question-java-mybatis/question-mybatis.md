@@ -175,4 +175,11 @@ jdbc:mysql://localhost:3306/db_name?serverTimezone=GMT%2B8&useUnicode=true&chara
 @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 ```
 
+#### 11. resultMap、resultType、parameterMap、parameterType、handleType的作用？
+resultMap: 描述如何将结果集映射到Java对象，可以通过handlerType转换查询结果的类型，比如0/1和布尔类型的转换<br>
+resultType: 直接表示返回的类型<br>
+parameterMap: 参数集合<br>
+parameterType: 参数映射实体类<br>
+handleType: 对查询结果进行转换<br>
+
 #### 100.
