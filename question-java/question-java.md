@@ -536,5 +536,17 @@ getter setter 编译结果？<br>
 #### 79. 如何操作堆之外的本地内存？
 sun.misc.Unsafe可以在Java中分配和回收本地内存，分配的内存不在Java堆中，并且不受垃圾回收器管理。
 
+#### 80. 多个异常并列在一个catch中采取同样的解决措施
+多个异常之间不能有直接或间接的继承关系
+```java
+public static void main(String[] args) {
+    try {
+        1/0;
+    } catch (NullPointerException | ArithmeticException e) {
+        e.printStacktrace();
+    }
+}
+```
+
 
 #### 100. question100
