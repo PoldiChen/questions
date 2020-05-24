@@ -71,11 +71,49 @@ tar -xvf file.tar
 ```
 
 #### 8. 什么是僵尸进程？
+父进程调用fork创建子进程，子进程运行直到终止，立即从内存中移除，但进程描述符仍保留在内存中。子进程的状态变成EXIT_ZOMBIE，并且向父进程发送SIGCHILD信号，父进程此时应该调用wait()来获取子进程的退出状态及其他信息。<br>
+在wait()调用后，僵尸进程就完全从内存中移除。<br>
+因此一个僵尸进程存在于其终止到父进程调用wait()函数的间隙，一般很快消失。<br>
+如果编程不合理，父进程不调用wait()收集僵尸进程，那么这些进程就会一直存在内存中。<br>
+不能使用kill加SIGKILL信号的命令去杀死僵尸进程，因为进程进程本身已经死掉了，不能再接收任何信号。<br>
+```shell
+ps aux | grep Z
+```
+可以杀死其父进程，使其变成孤儿进程，进而被系统中管理孤儿进程的进程清理。<br>
 
 #### 9. 如何查看一个进程使用的文件？
+```shell
+lsof -p pid
+```
 
 #### 10. crontab一个任务没运行完，如何让下一个任务不运行？
+crontab默认不会检查上一个命令执行的状态，下一个任务也会运行。<br>
+可以通知设置标志位，运行前检查标志位，决定是否运行。
 
+#### 11. kill -9
+9是信号，强制终止，默认信号为15。<br>
+接收到默认信号，程序在退出前一般会做一些准备工作，比如释放资源、清理临时文件等，如果在准备工作时遇到阻塞或其他问题导致无法成功，程序可以选择忽略该信号，所以有时kill命令无法停止程序。<br>
+接收到-9的信号，程序应该立即结束运行，不能被阻塞或忽略，可能会带来一些副作用，导致数据丢失。<br><br>
+
+Java程序的终止是基于JVM的关闭实现的，JVM关闭有三种：<br>
+正常关闭：最后一个非守护进程结束，或者调用了System.exit()，或者通过其他特定平台的方法关闭。<br>
+强制关闭：通过调用Runtime.halt()方法或者是在操作系统中强制kill<br>
+异常关闭：运行中遇到RuntimeException异常<br>
+
+可以自定义JVM在接收到kill -15信号时的清理动作，通过JDK提供的Java.Runtime.addShutdownHook(Thread hook)实现.
+```java
+public class Test {
+	public static void main(String[] args) {
+		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+			System.out.println("execute shutdown hook.");
+		}));
+		while (true) {
+			//
+		}
+		System.out.println("main thread end.");
+	}
+}
+```
 
 
 
