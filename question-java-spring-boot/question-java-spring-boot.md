@@ -165,7 +165,12 @@ java -jar xxx.jar # 关闭窗口后程序会退出
 nohup java -jar xxx.jar & # nohup不挂断运行命令，账户退出或终端关闭时，程序仍然运行
 ```
 
-
+#### 13. SpringBoot如何优雅停机？
+2.3版本内置功能，web容器关闭时，不再接收新请求，并将等待活动请求完成的缓冲期。
+```yaml
+server:
+  shutdown: graceful # 默认是IMMEDIATE
+```  
 
 
 

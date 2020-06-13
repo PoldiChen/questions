@@ -717,4 +717,49 @@ serializable：串行读
 如果没有主键，count(1)比count(\*)快
 count(主键) > count(有索引列) > count(无索引列)
 
+#### 58. 常用配置参数
+```bash
+max_allowed_packet # 语句大小限制，默认1M
+max_connections # 最大连接数
+```
+
+#### 59. MHA高可用架构
+MHA Master High Availability
+MySQL高可用解决方案，高可用环境下故障切换和主从提升。
+由两部分组成：MHA Manager（管理节点）和MHA Node（数据节点），manager管理多个master-slave集群，可以单独部署，也可以部署在一台slave节点，node运行在每台MySQL服务器上。
+manager定时探测集群中的master节点，master故障时，自动将数据最新的slave提升为master，其他的slave指向新的master，应用配置虚拟IP，对应用透明。
+目前支持一主多从结构，一个复制集群中至少有三台数据库服务器，一台充当master，一台充当备用master，另外一台充当从库。
+MHA能够在较短的时间内实现自动故障检测和故障转移，通常在10-30秒内，能在最大程度上保持数据一致性
+
+#### Hikari连接池
+普通连接池在ConnectionProxy中使用ArrayList存储Statement对象，HikariCP改用FastList存储对象。ArrayList在get(index)方法时，需要对List的范围进行检查，而FastList不需要，在能确保范围合法的情况下，省去范围检查的开销。
+关于connection的操作，在使用之后从头到尾遍历进行关闭，HikariCP则是从尾部对connection集合进行扫描，整体上说，从尾部开始的性能好一些。
+内部使用无锁的集合存储，并对其中的切换操作进行优化。
+从字节码指令的角度优化：建立statements、results的语句
+```java
+PROXY_FACTORY.getProxyPreparedStatement(this, delegate.prepareStatement(sql, columnNames)); // 优化前
+ProxyFactory.getProxyPreparedStatement(this, delegate.prepareStatement(sql, columnNames)); // 优化后
+```
+```shell
+### 优化前
+0: getstatic
+15: invokevirtual #69
+### 优化后
+12: invokestatic #67 不需要getstatic，且更容易被JIT优化
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #### 100. question 100
