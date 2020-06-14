@@ -160,9 +160,9 @@ InputStream和OutputStream的子类 | Reader和Writer的子类
 https://www.cnblogs.com/wxgblogs/p/5649933.html
 ByteArrayInputStream继承了InputStream接口，封装了一个byte数组，将一个byte数组的接口适配成InputStream流处理器的接口。
 
-![avator](image/question-java-023.png)
+![avator](image/question-java-023-idea.png)
 <br><br>
-![avator](image/question-java-023-Reader.png)
+![avator](image/question-java-023-Reader-idea.png)
 
 #### 24. 如何跳出当前的多重嵌套循环？code
 使用标号。

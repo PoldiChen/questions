@@ -172,9 +172,38 @@ server:
   shutdown: graceful # 默认是IMMEDIATE
 ```  
 
+#### 14. 为什么springboot的jar可以直接运行？
+springboot提供了一个插件spring-boot-maven-plugin，用于将程序打包成可运行的jar包：
+```xml
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>springboot-maven-plugin</artifactId>
+        </plugin>
+    </plugins>
+</build>
+```
+打包后的jar包有4种类型的文件：
+- META-INF目录：程序入口，其中MAINFEST.MF用于描述jar包的信息
+- lib目录：第三方依赖的jar包，比如springboot的一些jar包
+- springboot loader相关的代码
+- 模块自身的代码
 
-
-
+MAINFEST.MF文件的内容，Main-Clss是JarLauncher，使用java -jar命令执行jar包时会调用JarLauncher的main方法。
+```
+Manifest-Version: 1.0
+Implementation-Title: movie
+Implementation-Version: 0.0.1-SNAPSHOT
+Start-Class: com.poldichen.movie.MovieApplication
+Spring-Boot-Classes: BOOT-INF/classes/
+Spring-Boot-Lib: BOOT-INF/lib/
+Build-Jdk-Spec: 1.8
+Spring-Boot-Version: 2.1.7.RELEASE
+Created-By: Maven Archiver 3.4.0
+Main-Class: org.springframework.boot.loader.JarLauncher
+```
+![avatar](image/question-java-spring-boot-014.png)
 
 
 
