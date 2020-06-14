@@ -166,8 +166,23 @@ exchange、queue、message均可以持久化到磁盘。<br>
 RocketMQ: 支持定时消息，可以指定延迟的级别，各个级别可以在配置文件broker.conf中配置
 RabbitMQ: 利用Time-To-Live Extensions和Dead Letter Exchange，设置过期时间为需要延迟的时间，过期后通过Dead Letter Exchange路由到其他队列，被消费。
 
+#### 14. RocketMQ
 
+##### 优势
+支持事务性消息
+支持多个系统之间的数据最终一致性
+支持指定次数和时间间隔的失败消息重发
+支持consumer端tag过滤，减少不必要的网络传输
+支持重复消费
 
+##### Nameserver和Broker
+Nameserver负责维护producer和consumer的配置信息、状态信息，并且协调各个角色的协同执行。
+通过Nameserver各个角色可以了解到集群的整体信息，并且他们会定期向nameserver上报状态。
+
+为什么不用Zookeeper？
+Zookeeper是Apache旗下用于分布式服务协调的开源软件，并且拥有选举机制，能够在master宕机时从slave中通过选举机制选出一个slave变成master。
+但是在nameserver的设计中，masterBroker中没有一台拥有全部的topic信息，消息分布平均，失去选举机制的意义。
+其次，nameserver仅仅被用于存储集群的配置信息、元数据信息，不需要太复杂的功能，所以放弃重量级的Zookeeper，选择轻量级的nameserver。
 
 
 
