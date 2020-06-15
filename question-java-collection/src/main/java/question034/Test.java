@@ -17,7 +17,7 @@ public class Test {
         Set<Person> persons = new HashSet<>();
         persons.add(new Person("tom", 20));
         persons.add(new Person("jack", 21));
-        persons.add(new Person("thoe", 24));
+        persons.add(new Person("theo", 24));
         // 传统写法
         persons.stream().filter(new Predicate<Person>() {
             @Override

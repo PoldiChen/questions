@@ -19,14 +19,14 @@ Error和RuntimeException及其子类是unchecked exception，其他的Exception�
 #### 3. 数据库语句Statement、PreparedStatement和CallableStatement
 Statement | PreparedStatement | CallableStatement
 -|-|-
-/ | 预编译，性能更好<br>可以重用<br>安全，减少SQL注入攻击 | 执行存储过程。<br>存储过程可以接收参数，也可以返回结果。<br>提供了安全性和模块化。<br>CallableStatement.prepareCall();
+/ | 1. 预编译，性能更好<br>2. 可以重用<br>3. 安全，减少SQL注入攻击 | 1. 执行存储过程<br>2. 存储过程可以接收参数，也可以返回结果<br>3. 提供了安全性和模块化<br>4. CallableStatement.prepareCall();
 
 #### 4. PreparedStatement如何减少SQL注入攻击？
 PreparedStatement使用预编译机制，参数用占位符?代替，setXX传入参数的时候已经过了预编译，所以传入特殊值不会起作用。<br>
 PreparedStatement不允许在插入参数时改变查询的逻辑结构，只是把输入参数作为数据处理，不需要再进行解析。
 
 #### 5. 数据库连接池有哪些？各自的优缺点？
-C3P0、DBCP、tomcat-jdbc-pool、Druid<br>
+C3P0、DBCP、tomcat-jdbc-pool、Druid、Hikari<br>
 C3P0和DBCP是单线程的，tomcat-jdbc-pool支持高并发
 
 #### 6. 类加载器的双亲委派模型？
@@ -76,7 +76,7 @@ public Object getProxyInstance() {
 }
 ```
 **CGlib动态代理**：通过底层的字节码技术为目标类创建一个子类，在子类中拦截父类的方法调用，织入横切逻辑。<br>
-**应用**：spring框架的AOP。如果目标对象实现了接口，默认用JDK动态代理，否则用CGlib动态代理。
+**应用**：Spring框架的AOP。如果目标对象实现了接口，默认用JDK动态代理，否则用CGlib动态代理。
 ![avatar](image/question-java-009.png)
 
 #### 10. 深复制和浅复制？code
@@ -106,12 +106,48 @@ public Object getProxyInstance() {
 WeakHashMap的key使用WeakReference引用，key被标记为垃圾的时候，key对应的条目会自动被移除。
 
 #### 13. 连接MySQL数据库的语句？code
+```java
+public static void test() throws SQLException {
+		Connection connection = null;
+		Statement statement = null;
+		ResultSet resultSet = null;
+		try {
+			Class.forName("com.mysql.DriverManager");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/performance",
+					"root", "123456");
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery("select * from season");
+			while (resultSet.next()) {
+				System.out.println(resultSet.getString("year"));
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (resultSet != null) {
+				resultSet.close();
+			}
+			if (statement != null) {
+				statement.close();
+			}
+			if (connection != null) {
+				connection.close();
+			}
+		}
+
+	}
+```
 
 #### 14. JDK 1.6和JDK 1.7的substring方法的区别？
 1.7版本的substring方法会new String()创建一个新的字符串，1.6不会
 
 #### 15. 子类能否覆盖（override）父类的static方法？能否覆盖private方法？code
-不能。覆盖是运行时动态绑定的，而static方法是在编译时静态绑定的。子类中可以有和父类中签名一样的方法，但不能用@override声明，一般称为隐藏。<br>
+不能。<br>
+覆盖是运行时动态绑定的，而static方法是在编译时静态绑定的。<br>
+子类中可以有和父类中签名一样的方法，但不能用@override声明，一般称为隐藏。<br>
 不能。也不能被继承。
 
 #### 16. a = a + b;和a += b;的区别？
@@ -156,8 +192,8 @@ private | √ | × | × | ×
 以8位为单位对二进制数据进行操作 | 以字符为单位对数据进行操作
 InputStream和OutputStream的子类 | Reader和Writer的子类
 
-装饰器模式和适配器模式。
-https://www.cnblogs.com/wxgblogs/p/5649933.html
+装饰器模式和适配器模式。<br>
+https://www.cnblogs.com/wxgblogs/p/5649933.html<br>
 ByteArrayInputStream继承了InputStream接口，封装了一个byte数组，将一个byte数组的接口适配成InputStream流处理器的接口。
 
 ![avator](image/question-java-023-idea.png)
@@ -403,7 +439,7 @@ Java 7新特性：<br>
 Java 8新特性：<br>
 (1) Lambda表达式，允许像对象一样传递匿名函数<br>
 (2) Stream API，充分利用现代多核CPU，可以写出很简洁的代码<br>
-(3) Optional类，解决空指针异常？？？<br>
+(3) Optional类，比较简洁的判断类型是否为空<br>
 (4) Date和Time API，线程安全吗？？？<br>
 (5) 扩展方法，接口中可以有静态、默认方法、带有实现的方法<br>
 (6) 重复注解，相同的注解在同一类型上多次使用。<br>
@@ -417,10 +453,9 @@ Java 9新特性：<br>
 
 Java 10新特性：<br>
 (1) 本地变量（局部变量）类型推断<br>
-使用var保留类型名称
-(2) 统一JDK仓库<br>
-(3) 垃圾回收器接口<br>
-(4)
+(2) 使用var保留类型名称<br>
+(3) 统一JDK仓库<br>
+(4) 垃圾回收器接口<br>
 
 Java 11新特性：<br>
 (1) 本地变量类型推断（使用var关键字定义）<br>
@@ -490,7 +525,9 @@ System.out.println(a3 == a4); // false
 
 #### 73. Java泛型？
 能够进行编译期的类型检查，避免不必要的类型错误，加强安全性验证。<br>
-Java的泛型是伪泛型。使用泛型的时候加上的类型参数，会在编译的时候去掉，这个过程称为类型擦除。泛型只在编译器有效。
+Java的泛型是伪泛型。<br>
+使用泛型的时候加上的类型参数，会在编译的时候去掉，这个过程称为类型擦除。<br>
+泛型只在编译器有效。
 
 #### 74. 一个Java对象占多大内存？code
 一个对象包括三部分：对象头、实例数据、对齐填充。

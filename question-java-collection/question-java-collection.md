@@ -56,13 +56,13 @@ Collection | Collections
 -|-
 接口 | 工具类，提供了很多静态方法
 
-#### 8. 创建只读的集合、同步的集合？
+#### 8. 创建只读的集合、同步的集合？源码？？？
 Collections.unmodifiableCollection(Collection c);<br>
 Collections.synchronizedCollection(Collection c);
 
 #### 9. 遍历ArrayList时删除一个元素，什么时候会抛出ConcurrentModificationException？code
-直接调用ArrayList的remove方法，导致内部维护的modCount(修改次数)和expectedModCount(预期修改次数)不等，抛出异常。<br>
-调用Iterator的remove方法不会抛出异常，有一步设置expectedModCount = modCount。<br>
+直接调用ArrayList的remove方法，导致内部维护的modCount（修改次数）和expectedModCount（预期修改次数）不等，抛出异常。<br>
+调用Iterator的remove方法不会抛出异常，有一步设置expectedModCount = modCount。<br><br>
 只有两个元素，删除任一不会报异常。内部维护一个cursor的变量，指向下一个元素，删除一个元素后，cursor == size，hasNext()为false，循环结束，不会执行到检查modCount == expectedModCount.<br>
 for(Object obj : list)循环等价于Iterator，也会抛出异常。for(int i = 0; i < list.size(); i++)循环不依赖于Iterator，不会抛出异常。<br>
 
@@ -247,9 +247,9 @@ key值计算得到的hash大于容量，可以通过求余得到插入的数组�
 #### 34. Java集合stream的聚合操作？code
 
 #### 35. Java集合类图？
-![avator](image/question-java-collection-035-collection.png)
+![avator](image/question-java-collection-035-collection-idea.png)
 <br><br>
-![avator](image/question-java-collection-035-map.png)
+![avator](image/question-java-collection-035-map-idea.png)
 
 #### 36. 空接口RandomAccess的作用？
 接口中没有任何方法，只是起标记作用。<br>
