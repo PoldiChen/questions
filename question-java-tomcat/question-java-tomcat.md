@@ -41,7 +41,7 @@ destroy()：仅执行一次，在服务端停止且卸载servlet时执行。
 Connector有BIO、NIO、APR三种模式。<br>
 BIO：一个线程处理一个请求。传统的Java IO，同步且阻塞。<br>
 NIO：JDK1.4开始可以用少量的线程处理大量的请求。同步阻塞或同步非阻塞IO。<br>
-AIO：JDK7开始支持，异步非阻塞IO
+AIO：JDK7开始支持，异步非阻塞IO。<br>
 APR：tomcat以JNI的形式调用Apache HTTP服务器的核心动态链接库来处理文件读取或网络传输的操作，大大提高tomcat对静态文件的处理性能，从操作系统级别解决异步IO的问题。
 ```xml
 <Connector port="8080"
