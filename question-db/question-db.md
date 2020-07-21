@@ -142,7 +142,7 @@ DB_ROW_ID：主键列ID，或者唯一索引列的ID，或系统生成的隐藏I
 隔离级别：<br>
 READ UNCOMMITTED：不适用于MVCC。<br>
 READ COMMITTED：不完全适用于MVCC，已提交的其他事务对数据库的修改，当前事务可以读到，和事务开始顺序无关。<br>
-REPEATABLE READ：完全使用MVCC，只能读取在它之前已经提交的事务对数据库的修改。<br>
+REPEATABLE READ：完全适用于MVCC，只能读取在它之前已经提交的事务对数据库的修改。<br>
 SERIALIZABLE：完全不适用于MVCC。<br>
 
 #### 10. 数据库连接池的工作机制？
@@ -150,7 +150,7 @@ SERIALIZABLE：完全不适用于MVCC。<br>
 #### 11. MySQL维护常用的命令。
 ```sql
 show processlist; # 列出所有进程
-Kill {processId}; # 杀死进程
+kill {processId}; # 杀死进程
 ```
 
 #### 12. MySQL有哪些日志？如何开启？如何查看？
