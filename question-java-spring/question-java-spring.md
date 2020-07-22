@@ -24,15 +24,15 @@ session：在一个HTTP Session中，一个bean对应一个实例<br>
 global-session：在一个全局的HTTP Session中，一个bean对应一个实例
 
 #### 2. SpringMVC工作流程？
-(1) 请求request到达DispatcherServlet（DispatcherServlet能够拦截所有请求）<br>
-(2) DispatcherServlet查找HandleMapping，将功能代理给HandleMapping<br>
-(3) HandleMapping找到具体的处理器，生成处理器对象及处理器拦截器一并返回给DispatcherServlet<br>
-(4) DispatcherServlet调用HandleAdapter处理器适配器<br>
-(5) HandleAdapter经过适配调用具体的处理器，找到Controller和HandleInterceptor<br>
-(6) 把Controller和HandleInterception制作成一个可执行的链条，也就是HandleAdapter<br>
+(1) 请求request到达**DispatcherServlet**（DispatcherServlet能够拦截所有请求）<br>
+(2) DispatcherServlet查找**HandleMapping**，将功能代理给HandleMapping<br>
+(3) HandleMapping找到具体的处理器，生成**处理器**对象及处理器**拦截器**一并返回给DispatcherServlet<br>
+(4) DispatcherServlet调用**HandleAdapter处理器适配器**<br>
+(5) HandleAdapter经过适配调用具体的处理器，找到**Controller**和**HandleInterceptor**<br>
+(6) 把Controller和HandleInterception制作成一个**可执行的链条**，也就是HandleAdapter<br>
 (7) HandleAdapter将信息返回给DispatcherServlet，DispatcherServlet开始调用这个一般化的处理器<br>
-(8) Controller生成ModelAndView，返回给DispatcherServlet<br>
-(9) DispatcherServlet调用ViewResolver视图解析器，返回到View对象<br>
+(8) Controller生成**ModelAndView**，返回给DispatcherServlet<br>
+(9) DispatcherServlet调用**ViewResolver视图解析器**，返回到View对象<br>
 (10) ModelAndView将数据传递到View<br>
 (11) DispatcherServlet响应给用户
 
@@ -235,8 +235,8 @@ Service也是单例。
 #### 21. Spring事务隔离级别？
 - ISOLATION_DEFAULT：使用后端数据库默认的隔离级别
 - ISOLATION_READ_UNCOMMITTED：允许读取未提交的数据变更，可能会导致脏读、幻读或不可重复读
-- ISOLATION_READ_COMMITTED：允许读取未提交的数据，可以阻止脏读，但是幻读和不可重复读仍可能发生
-- ISOLATION_REPEATABLE_READ：对同一字段多次读取结果是一样的，除非数据是被本事务修改，可以阻止脏读、幻读，但不可重复读仍可能发生。
+- ISOLATION_READ_COMMITTED：允许读取未提交的数据，可以阻止脏读，但是不可重复读和幻读仍可能发生
+- ISOLATION_REPEATABLE_READ：对同一字段多次读取结果是一样的，除非数据是被本事务修改，可以阻止脏读、不可重复读，但幻读仍可能发生。
 - ISOLATION_SERIALIZABLE：完全服从ACID
 
 #### 22. Spring 5新特性？

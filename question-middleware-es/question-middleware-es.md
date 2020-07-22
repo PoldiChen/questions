@@ -9,10 +9,10 @@ some questions and answers for Elasticsearch
 
 面向文档，可以存储整个对象或者文档，并且索引每个文档的内容使之可被搜索。
 
-库（Databases）-> 表（Tables）-> 行（Rows）-> 列（Columns）
+库（Databases）-> 表（Tables）-> 行（Rows）-> 列（Columns）<br>
 索引（Indices）-> 类型（Types）-> 文档（Documents）-> 字段（Fields）
 
-Elasticsearch提供丰富且灵活的查询语言，DSL查询（Query DSL），可以构建复杂、强大的查询.
+Elasticsearch提供丰富且灵活的查询语言，DSL查询（Query DSL），可以构建复杂、强大的查询.<br>
 DSL（Domain Specific Language）特定领域语言，以JSON格式构建查询请求。
 
 ```json

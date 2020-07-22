@@ -38,7 +38,7 @@ Spring Cloud是关注全局的微服务协调整理治理框架，它将Spring B
   <optional>true</optional>
 </dependency>
 ```
-如果使用idea，需要以下配置：
+如果使用idea，需要以下配置：<br>
 (1) File-Settings-Compiler-Build Project automatically<br>
 (2) ctrl + shift + alt + / 选择Registry,勾上 Compiler autoMake allow when app running
 
@@ -122,10 +122,10 @@ public class AutoConfigurationImportSelector {
 - 配置属性绑定<br>
 
 #### 9. Spring Boot启动过程？源码
-https://segmentfault.com/a/1190000014525138
-实例化SpringApplication
-创建ApplicationContext实例
-加载ApplicationContextInitializer和ApplicationListener
+https://segmentfault.com/a/1190000014525138<br>
+实例化SpringApplication<br>
+创建ApplicationContext实例<br>
+加载ApplicationContextInitializer和ApplicationListener<br>
 
 (1) 调用SpringApplication.run()，实例化**SpringApplication对象**<br>
 根据classpath中是否存在某个特征类org.springframework.web.context.ConfigurableWebApplicationContext，来决定是否应该创建一个**ApplicationContext实例**；<br>
@@ -172,8 +172,8 @@ server:
   shutdown: graceful # 默认是IMMEDIATE
 ```  
 
-#### 14. 为什么springboot的jar可以直接运行？
-springboot提供了一个插件spring-boot-maven-plugin，用于将程序打包成可运行的jar包：
+#### 14. 为什么Springboot的jar可以直接运行？
+Springboot提供了一个插件spring-boot-maven-plugin，用于将程序打包成可运行的jar包：
 ```xml
 <build>
     <plugins>

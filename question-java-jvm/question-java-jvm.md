@@ -179,10 +179,20 @@ HotSpot虚拟机使用PermGen来实现方法区，方法区是虚拟机的一个
 元空间和永久代都是对方法区的实现，不同的是元空间不在虚拟机中，而是使用本地内存，默认情况下，元空间只受本地内存大小限制。
 
 #### 13. 反射中，Class.forName和ClassLoader.loadClass的区别？加载数据库驱动为什么用Class.forName()？？？（question 147 类加载过程）
-Class.forName(className);内部调用的是Class.forName(className, true, classLoader);第二个参数表示是否需要初始化（执行static代码块，设置static变量值），默认是true。<br>
-ClassLoader.loadClass(className);内部去调用的是ClassLoader.loadClass(className, false);第二个参数表示是否需要进行链接，默认为false。<br>
-动态加载一个类时，如果有静态代码块或静态变量，而且想在加载的时候初始化，应该使用Class.forName()。<br>
+```java
+Class.forName(className);
+Class.forName(className, true, classLoader);
+```
+内部调用的是Class.forName(className, true, classLoader);<br>
+第二个参数表示是否需要初始化（执行static代码块，设置static变量值），默认是true。<br>
+```java
+ClassLoader.loadClass(className);
+ClassLoader.loadClass(className, false);
+```
+内部去调用的是ClassLoader.loadClass(className, false);<br>
+第二个参数表示是否需要进行链接，默认为false。<br>
 
+动态加载一个类时，如果有静态代码块或静态变量，而且想在加载的时候初始化，应该使用Class.forName()。<br>
 DriverManager中有一段需要执行的static代码块，用Class.forName(“com.mysql.DriverManager”);调用才能令其执行。
 
 #### 14. 32位/64位的操作系统？CPU？JVM？？？

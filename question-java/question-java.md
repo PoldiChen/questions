@@ -30,22 +30,25 @@ C3P0、DBCP、tomcat-jdbc-pool、Druid、Hikari<br>
 C3P0和DBCP是单线程的，tomcat-jdbc-pool支持高并发
 
 #### 6. 类加载器的双亲委派模型？
-&emsp;&emsp;除了顶层的启动类加载器，其他的类加载器都有自己的父类加载器。<br>
-&emsp;&emsp;如果一个类加载器收到了加载类的请求，首先会将请求委派给父类加载器，所有的请求最终都会传递到顶层的启动类加载器。父类加载器反馈无法加载时，子类加载器才自己去加载类。<br>
-&emsp;&emsp;Java类随着它的类加载器具备了一个优先级的层次关系，比如Object类只能由顶层的启动类加载器加载。<br>
-&emsp;&emsp;类加载器的层级关系：启动类加载器（Bootstrap ClassLoader）->扩展类加载器（Extension ClassLoader）->应用程序类加载器（Application ClassLoader）->自定义类加载器（User ClassLoader）。<br>
+除了顶层的**启动类加载器**，其他的类加载器都有自己的父类加载器。<br>
+如果一个类加载器收到了加载类的请求，首先会将请求委派给父类加载器，所有的请求最终都会传递到顶层的启动类加载器。<br>
+父类加载器反馈无法加载时，子类加载器才自己去加载类。<br>
+
+Java类随着它的类加载器具备了一个优先级的层次关系，比如Object类只能由顶层的启动类加载器加载。<br>
+
+类加载器的层级关系：启动类加载器（Bootstrap ClassLoader）->扩展类加载器（Extension ClassLoader）->应用程序类加载器（Application ClassLoader）->自定义类加载器（User ClassLoader）。<br>
 - Bootstrap ClassLoader: 启动类加载器，是Java类加载层次中最顶层的加载器，负责加载JDK中的核心类库，如rt.jar, resources.jar, charsets.jar等。<br>
 - Extension ClassLoader: 扩展类加载器，负载加载Java的扩展类库，默认加载JAVA_HOME/jre/lib/ext目录下的所有jar.<br>
 - Application ClassLoader: 系统类加载器，负责加载应用程序classpath目录下的所有jar和class文件。
 - 自定义ClassLoader: 用户自定义，必须继承自java.lang.ClassLoader
 
-#### 7. 类实例化的顺序？code question041 question064
+#### 7. 类实例化的顺序？code
 (1)	初始化父类的静态代码块，包括静态变量<br>
 (2)	初始化子类的静态代码块<br>
 (3)	初始化父类的非静态代码，包括非静态变量<br>
 (4)	执行父类的构造函数<br>
 (5)	初始化子类的非静态代码<br>
-(6)	执行子类的构造函数<br>
+(6)	执行构造函数<br>
 
 #### 8. Java的BIO、NIO和AIO？code
 BIO | NIO | AIO
@@ -55,7 +58,8 @@ BIO | NIO | AIO
 面向流 | 面向缓冲<br>多通道 | 基于事件和回调机制
 适用于连接数量比较小且固定的场景 | 适用于连接数量多，但连接比较短的场景 | 适用于连接数量多且连接长的场景
 
-Java NIO中有一个选择器（selector），可以将多个通道（channel）注册到一个选择器上，然后使用一个线程来监视这些线程：如果这些通道中有某个可以进行读写操作，则进行相应的读写操作。在等待通道变为可读写的时候，请求的线程可以去做别的事情。
+Java NIO中有一个选择器（selector），可以将多个通道（channel）注册到一个选择器上，然后使用一个线程来监视这些线程：如果这些通道中有某个可以进行读写操作，则进行相应的读写操作。<br>
+在等待通道变为可读写的时候，请求的线程可以去做别的事情。
 
 #### 9. Java静态代理和动态代理？动态代理的实现方式？实际的应用？？？code
 **静态代理**：自己创建一个代理类。定义一个抽象角色（接口），真实角色和代理角色都去实现这个接口，将真实角色的对象传入到代理角色中。<br>
@@ -331,12 +335,7 @@ Java是静态语言，或“准动态语言”，主要体现在反射和动态�
 (3) 安全性，调用系统级的操作之前可能有一些校验，如果是可变类，校验之后内部值被改变，可能引起严重的问题。<br>
 (4) 线程安全
 
-#### 41. 父类与子类之间的调用顺序。code question007 question064
-父类静态代码块<br>
-子类静态代码块<br>
-父类构造函数<br>
-子类构造函数<br>
-子类普通方法
+#### 41. xxx
 
 #### 42. Float类型的变量定义float f = 2.3;是否正确？
 不正确。精度不准确，应该加强制类型转换，float f = (float)2.3;或者float f = 2.3f;<br>
@@ -467,13 +466,7 @@ Java 11新特性：<br>
 (7) HTTP Client API<br>
 (8) 一个命令编译运行源码，java JavaClass.java
 
-#### 64. 父类、子类、static修饰执行顺序？question007 question041
-(1) 父类静态变量和静态代码块<br>
-(2) 子类静态变量和静态代码块<br>
-(3) 父类成员变量和非静态代码块<br>
-(4) 父类构造方法<br>
-(5) 子类成员变量和非静态代码块<br>
-(6) 类构造方法
+#### 64. xxx
 
 #### 65. JDO是什么？
 JDO是Java对象持久化的新规范，Java Data Object的简称，一个用于存取某种数据仓库中的对象的标准化API。<br>

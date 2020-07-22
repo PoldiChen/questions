@@ -49,7 +49,7 @@ mvn deploy --包括install，并上传到私服仓库
 mvn -version --查看版本
 ```
 
-#### 3. 安装本地jar包到本地仓库
+#### 3. 安装本地jar包到本地仓库和远程仓库
 ```shell
 mvn install:install-file -Dfile=F:\mavenproject\task6\jnshu\lib\Sdk4J.jar -DgroupId=com.mycom.myapp -DartifactId=sdk4j -Dversion=1.0 -Dpackaging=jar
 ```

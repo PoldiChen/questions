@@ -373,7 +373,7 @@ Sending data：线程或者在多个状态之间传送数据，或者在生成�
 
 #### 28. MySQL查询优化？优化数据库访问？
 (1) 使用explain+sql语句可以查看查询的效率。<br>
-(2) Mysql使用基于成本的优化器。使用show status like “last_query_cost”可以得知mysql计算的当前查询的成本。<br>
+(2) MySQL使用基于成本的优化器。使用show status like “last_query_cost”可以得知mysql计算的当前查询的成本。<br>
 (3) MySQL自带一种“嵌套循环”能够对大多数的查询进行优化，调整表关联的顺序。<br>
 
 优化数据访问：关键在于减少数据访问量<br>
@@ -707,14 +707,16 @@ Hash：基于用户定义的表达式的返回值来进行选择的分区<br>
 Key：类似于Hash，区别在于Key分区只支持计算一列或多列<br>
 
 #### 55. Oracle的事务隔离级别？
-有两种：
-read committed：读已提交（默认）
-serializable：串行读
+有两种：<br>
+read committed：读已提交（默认）<br>
+serializable：串行读<br>
 
 #### 56. MySQL列值为null的时候索引是否生效？
+对于not null的字段，where条件无论是null还是not null索引都失效；<br>
+对于可以是null的字段，where条件无论是null还是not null索引都生效
 
 #### 57. select count(\*), select count(1), select count(column)的区别？
-如果没有主键，count(1)比count(\*)快
+如果没有主键，count(1)比count(\*)快<br>
 count(主键) > count(有索引列) > count(无索引列)
 
 #### 58. 常用配置参数
@@ -724,17 +726,23 @@ max_connections # 最大连接数
 ```
 
 #### 59. MHA高可用架构
-MHA Master High Availability
-MySQL高可用解决方案，高可用环境下故障切换和主从提升。
-由两部分组成：MHA Manager（管理节点）和MHA Node（数据节点），manager管理多个master-slave集群，可以单独部署，也可以部署在一台slave节点，node运行在每台MySQL服务器上。
-manager定时探测集群中的master节点，master故障时，自动将数据最新的slave提升为master，其他的slave指向新的master，应用配置虚拟IP，对应用透明。
-目前支持一主多从结构，一个复制集群中至少有三台数据库服务器，一台充当master，一台充当备用master，另外一台充当从库。
+MHA Master High Availability<br>
+MySQL高可用解决方案，高可用环境下故障切换和主从提升。<br>
+
+由两部分组成：MHA Manager（管理节点）和MHA Node（数据节点），manager管理多个master-slave集群，可以单独部署，也可以部署在一台slave节点，node运行在每台MySQL服务器上。<br>
+manager定时探测集群中的master节点，master故障时，自动将数据最新的slave提升为master，其他的slave指向新的master，应用配置虚拟IP，对应用透明。<br>
+
+目前支持一主多从结构，一个复制集群中至少有三台数据库服务器，一台充当master，一台充当备用master，另外一台充当从库。<br>
 MHA能够在较短的时间内实现自动故障检测和故障转移，通常在10-30秒内，能在最大程度上保持数据一致性
 
-#### Hikari连接池
-普通连接池在ConnectionProxy中使用ArrayList存储Statement对象，HikariCP改用FastList存储对象。ArrayList在get(index)方法时，需要对List的范围进行检查，而FastList不需要，在能确保范围合法的情况下，省去范围检查的开销。
-关于connection的操作，在使用之后从头到尾遍历进行关闭，HikariCP则是从尾部对connection集合进行扫描，整体上说，从尾部开始的性能好一些。
-内部使用无锁的集合存储，并对其中的切换操作进行优化。
+#### 60. Hikari连接池
+普通连接池在ConnectionProxy中使用ArrayList存储Statement对象，HikariCP改用FastList存储对象。<br>
+ArrayList在get(index)方法时，需要对List的范围进行检查，而FastList不需要，在能确保范围合法的情况下，省去范围检查的开销。<br>
+
+关于connection的操作，普通连接池在使用之后从头到尾遍历进行关闭，HikariCP则是从尾部对connection集合进行扫描，整体上说，从尾部开始的性能好一些。<br>
+
+内部使用无锁的集合存储，并对其中的切换操作进行优化。<br>
+
 从字节码指令的角度优化：建立statements、results的语句
 ```java
 PROXY_FACTORY.getProxyPreparedStatement(this, delegate.prepareStatement(sql, columnNames)); // 优化前

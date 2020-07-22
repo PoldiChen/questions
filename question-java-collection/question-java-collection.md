@@ -7,9 +7,9 @@ Iterator只能向前遍历，ListIterator可以双向遍历。<br>
 ListIterator实现了Iterator接口，并包含其他功能，比如增加元素、替换元素、获取前一个和后一个元素的索引。<br>
 
 #### 2. 为什么集合类没有实现Cloneable和Serializable接口？
-&emsp;&emsp;克隆(cloning)或者是序列化(serialization)的语义和含义是跟具体的实现相关的。因此，应该由集合类的具体实现来决定如何被克隆或者是序列化。<br>
-&emsp;&emsp;Collection接口指定一组对象，对象即是它的元素，如何维护这些元素由Collection的具体实现决定，比如List的元素允许重复而Set不允许。Collection只是一个抽象表现。<br>
-&emsp;&emsp;涉及到具体实现时，clone和serialize的语义和含义才发挥作用。<br>
+克隆(cloning)或者是序列化(serialization)的语义和含义是跟具体的实现相关的。因此，应该由集合类的具体实现来决定如何被克隆或者是序列化。<br>
+Collection接口指定一组对象，对象即是它的元素，如何维护这些元素由Collection的具体实现决定，比如List的元素允许重复而Set不允许。Collection只是一个抽象表现。<br>
+涉及到具体实现时，clone和serialize的语义和含义才发挥作用。<br>
 
 #### 3. HashMap、Hashtable和ConcurrentHashMap的区别？ConcurrentHashMap能否完全替代Hashtable？HashMap为什么是线程不安全的？
 HashMap |	Hashtable |	ConcurrentHashMap

@@ -183,9 +183,9 @@ AtomicInteger类提供的具有原子性的getAndIncrement方法。
 时间分片是指将可用的CPU时间分配给可用的runnable线程的过程。<br>
 
 #### 30. 为什么wait()、notify()、notifyAll()必须在同步方法或同步代码块中调用？
-&emsp;&emsp;当一个线程需要调用一个对象的wait方法的时候，必须拥有该对象的锁，调用后会释放锁并进入等待状态，直到其他线程调用这个对象的notify方法。<br>
-&emsp;&emsp;同样的，线程调用对象的notify方法时，会释放对象的锁，其他等待的线程可以得到这个对象的锁。<br>
-&emsp;&emsp;所有的这些方法都需要线程持有对象的锁，只能通过同步来实现。
+当一个线程需要调用一个对象的wait方法的时候，必须拥有该对象的锁，调用后会释放锁并进入等待状态，直到其他线程调用这个对象的notify方法。<br>
+同样的，线程调用对象的notify方法时，会释放对象的锁，其他等待的线程可以得到这个对象的锁。<br>
+所有的这些方法都需要线程持有对象的锁，只能通过同步来实现。
 
 #### 31. 为什么Thread类的sleep()和yield()方法是静态的？
 sleep()和yield()方法将在当前正在运行的线程上执行，在其他等待状态的线程上调用是没有意义的。
@@ -199,8 +199,8 @@ Callable类似于Runnable，Callable执行后可以返回值，这个值可以�
 适用于复杂的计算，主线程开启子线程去执行计算，用Future获取计算结果。
 
 #### 34. 在静态方法上使用同步会怎样？
-&emsp;&emsp;同步静态方法时会获取该类的Class对象，当一个线程进入同步的静态方法时，线程监视器获取类本身的对象锁，其他线程不能进入这个类的其他静态同步方法。<br>
-&emsp;&emsp;在实例方法上使用同步，多个线程可以同时访问不同实例的同步方法。
+同步静态方法时会获取该类的Class对象，当一个线程进入同步的静态方法时，线程监视器获取类本身的对象锁，其他线程不能进入这个类的其他静态同步方法。<br>
+在实例方法上使用同步，多个线程可以同时访问不同实例的同步方法。
 
 #### 35. 两个线程可以同时调用同一个对象的两个不同的同步方法吗？
 不能。当一个线程进入该对象的一个同步方法时，线程获取了该对象的对象锁，只有执行完了同步方法释放了对象锁，才能执行其他同步方法。
@@ -251,15 +251,17 @@ TIME_WAITING：超时等待状态，不同于WAITING，可以在指定的时间�
 TERMINATED：终止状态，表示线程已执行完毕。<br>
 
 #### 43. ThreadLocal的设计理念和作用？使用场景？
-&emsp;&emsp;提供线程内的局部变量，在多线程环境下访问时能保证每个线程内的局部变量独立。<br>
-&emsp;&emsp;常用于以下场景：多线程环境下存在对非线程安全的对象的并发访问，而且该对象不需在线程间共享，也不想加锁，则可以用ThreadLocal来使得每个线程拥有这个对象的一个副本。<br>
-&emsp;&emsp;消除了竞态条件，不需要同步就保证了线程安全。<br>
-&emsp;&emsp;每个线程内部有一个ThreadLocal.ThreadLocalMap（ThreadLocal的静态内部类）类型的成员变量threadLocals，用来存储实际的变量副本，key是当前ThreadLocal变量，value是变量副本。<br>
-&emsp;&emsp;在web服务器中，工作线程的生命周期比应用变量的生命周期长，线程局部变量没有释放的话应用有内存泄露的风险。<br>
-&emsp;&emsp;ThreadLocalMap没有使用链表或红黑树解决hash冲突的问题，只用数组来维护哈希表，通过线性探测的开放地址法解决冲突。<br>
+提供线程内的局部变量，在多线程环境下访问时能保证每个线程内的局部变量独立。<br>
+常用于以下场景：多线程环境下存在对非线程安全的对象的并发访问，而且该对象不需在线程间共享，也不想加锁，则可以用ThreadLocal来使得每个线程拥有这个对象的一个副本。<br>
 
-&emsp;&emsp;使用场景：<br>
-&emsp;&emsp;web系统的session存储。Web容器采用线程隔离的多线程模型，一个请求一个线程，没有共享数据。请求到达时将session存储在ThreadLocal中，在请求过程中可以随意使用session，每个请求之间的session不相互影响。
+消除了竞态条件，不需要同步就保证了线程安全。<br>
+每个线程内部有一个ThreadLocal.ThreadLocalMap（ThreadLocal的静态内部类）类型的成员变量threadLocals，用来存储实际的变量副本，key是当前ThreadLocal变量，value是变量副本。<br>
+
+在web服务器中，工作线程的生命周期比应用变量的生命周期长，线程局部变量没有释放的话应用有内存泄露的风险。<br>
+ThreadLocalMap没有使用链表或红黑树解决hash冲突的问题，只用数组来维护哈希表，通过线性探测的开放地址法解决冲突。<br>
+
+使用场景：<br>
+web系统的session存储。Web容器采用线程隔离的多线程模型，一个请求一个线程，没有共享数据。请求到达时将session存储在ThreadLocal中，在请求过程中可以随意使用session，每个请求之间的session不相互影响。
 
 #### 44. 3个线程A、B、C，循环打印ABCABCABC......，使用进程间通信？？？code
 
@@ -306,21 +308,21 @@ start()方法启动新创建的线程，使创建的线程的状态变成可运�
 可重入。某个线程试图获取一个由它自己持有的锁时，请求会成功。
 
 #### 49. 线程运行时发生异常会怎样？
-&emsp;&emsp;如果异常没有捕获线程将会停止执行。如果线程持有某个对象的监视器，会立即释放。<br>
-&emsp;&emsp;Thread.UncaughtExceptionHandler是用于处理未捕获异常造成线程意外中断的一个内嵌接口，一个未捕获异常造成线程意外中断的时候，JVM会使用线程的Thread.getUncaughtExceptionHandler()来获取UncaughtExceptionHandler，并将线程和异常作为参数传递给handler的uncaughtException()方法处理。
+如果异常没有捕获线程将会停止执行。如果线程持有某个对象的监视器，会立即释放。<br>
+Thread.UncaughtExceptionHandler是用于处理未捕获异常造成线程意外中断的一个内嵌接口，一个未捕获异常造成线程意外中断的时候，JVM会使用线程的Thread.getUncaughtExceptionHandler()来获取UncaughtExceptionHandler，并将线程和异常作为参数传递给handler的uncaughtException()方法处理。
 
 #### 50. 如何在线程间共享数据？？？
 通过共享对象，或者是阻塞队列这样的数据结构。
 
 #### 51. 什么是FutureTask？code
-&emsp;&emsp;一个可以取消的异步运算。<br>
-&emsp;&emsp;运算结束的时候结果才能取回，如果未结束的时候调用get会阻塞。<br>
-&emsp;&emsp;实现了Runnable接口，可以通过线程池来执行，或传递给Thread对象执行。如果主线程遇到比较耗时的操作，又不想阻塞时，可以交给FutureTask执行，将结果返回。
+一个可以取消的异步运算。<br>
+运算结束的时候结果才能取回，如果未结束的时候调用get会阻塞。<br>
+实现了Runnable接口，可以通过线程池来执行，或传递给Thread对象执行。如果主线程遇到比较耗时的操作，又不想阻塞时，可以交给FutureTask执行，将结果返回。
 
 #### 52. 线程池ThreadPoolExecutor已满的时候，提交一个任务，会发生什么？question 45
-&emsp;&emsp;ThreadPoolExecutor的构造函数可以传入一个BlockingQueue workQueue。<br>
-&emsp;&emsp;如果使用的是无界队列LinkedBlockingQueue，近乎认为是无限大的队列，任务可以添加到阻塞队列中。<br>
-&emsp;&emsp;如果使用的是有界队列ArrayBlockingQueue，会使用拒绝策略RejectedExceptionHandler处理，默认是AbortPolicy，submit()方法将会抛出一个RejectedExecutionException。
+ThreadPoolExecutor的构造函数可以传入一个BlockingQueue workQueue。<br>
+如果使用的是无界队列LinkedBlockingQueue，近乎认为是无限大的队列，任务可以添加到阻塞队列中。<br>
+如果使用的是有界队列ArrayBlockingQueue，会使用拒绝策略RejectedExceptionHandler处理，默认是AbortPolicy，submit()方法将会抛出一个RejectedExecutionException。
 
 #### 53. Java线程池execute()方法和submit()方法的区别？？？
 execute() | submit()
@@ -334,7 +336,7 @@ execute() | submit()
 String的常量池的影响，，，？？？
 
 #### 55. ExecutorService类的execute()方法和submit()方法的区别？？？使用Executors创建线程池存在的问题？
-问题：《阿里巴巴Java开发手册》
+问题：《阿里巴巴Java开发手册》<br>
 (1) 缓存队列LinkedBlockingQueue没有设置固定容量大小，可能导致OOM
 ```java
 public static ExecutorService newFixedThreadPool(int nThreads) {
@@ -357,12 +359,12 @@ public static ExecutroService newCachedThreadPool() {
 能，但只是修饰指向数组的引用，多个线程同时改变数组的元素，并不能起到保护作用。
 
 #### 57. 什么是多线程环境下的伪共享（false sharing）？
-&emsp;&emsp;缓存系统中是以缓存行（cache line）为单位存储区的，当多线程修改相互独立的变量时，如果这些变量共享同一个缓存行，会影响彼此的性能，这就是伪共享。<br>
-&emsp;&emsp;访问同一块内存区域时是共享，但这里应用程序要访问的独立的变量，是因为缓存行的存在才造成了共享，所以叫伪共享。<br>
-&emsp;&emsp;缓存行是2的整数幂个连续字节，一般为32~256字节，最常见的是64字节。<br>
-&emsp;&emsp;JDK 1.6中解决办法是使用缓存行填充，使一个对象占用的内存大小为64字节或整数倍，保证一个缓存行里不会有多个对象。<br>
-&emsp;&emsp;JDK 1.7会优化掉无用的字段。<br>
-&emsp;&emsp;JDK 1.8 缓存行填充被Java原生支持，添加@Contented注解会自动进行缓存行填充。
+缓存系统中是以缓存行（cache line）为单位存储区的，当多线程修改相互独立的变量时，如果这些变量共享同一个缓存行，会影响彼此的性能，这就是伪共享。<br>
+访问同一块内存区域时是共享，但这里应用程序要访问的独立的变量，是因为缓存行的存在才造成了共享，所以叫伪共享。<br>
+缓存行是2的整数幂个连续字节，一般为32~256字节，最常见的是64字节。<br>
+JDK 1.6中解决办法是使用缓存行填充，使一个对象占用的内存大小为64字节或整数倍，保证一个缓存行里不会有多个对象。<br>
+JDK 1.7会优化掉无用的字段。<br>
+JDK 1.8 缓存行填充被Java原生支持，添加@Contented注解会自动进行缓存行填充。
 
 #### 58. CyclicBarrier和CountDownLatch的区别？
 都是java.util.concurrent包下的类，表示代码运行到某个点上。
@@ -390,9 +392,9 @@ wait()会立即放弃，notify()/notifyAll()会等线程剩余代码执行完才
 run方法是线程类自身调用。
 
 #### 63. Fork/Join框架？工作窃取算法？
-&emsp;&emsp;Java 7提供的一个用于并行执行任务的框架，将一个大任务分割成多个小任务，汇总小任务的结果得到大任务的结果。<br>
-&emsp;&emsp;工作窃取算法：将大任务分割成多个互不依赖的子任务，为了减少线程间竞争，将子任务分到多个队列，每个队列由一个线程来执行。<br>
-&emsp;&emsp;有的线程执行完自己的任务后，会从其他队列窃取任务来执行，会访问同一个队列，为了减少竞争，会使用双端队列，分配的线程从队头取任务，窃取的线程从队尾取任务。
+Java 7提供的一个用于并行执行任务的框架，将一个大任务分割成多个小任务，汇总小任务的结果得到大任务的结果。<br>
+工作窃取算法：将大任务分割成多个互不依赖的子任务，为了减少线程间竞争，将子任务分到多个队列，每个队列由一个线程来执行。<br>
+有的线程执行完自己的任务后，会从其他队列窃取任务来执行，会访问同一个队列，为了减少竞争，会使用双端队列，分配的线程从队头取任务，窃取的线程从队尾取任务。
 
 #### 64. 同步方法和同步代码块的区别？
 同步方法默认使用this或者当前类的Class对象作为锁。<br>
@@ -439,9 +441,9 @@ java.util.concurrent.atomic下面的原子变量类就是乐观锁，使用CAS�
 在等待获取锁的过程中可以中断
 
 #### 66. ThreadLocal内存泄露问题？
-&emsp;&emsp;ThreadLocal有一个ThreadLocalMap的内部类，由一个个Entry组成，Entry继承自WeakReference<ThreadLocal<?>>，一个Entry由Threadlocal（key，弱引用）和Object构成，没有指向key的强引用时，key就会被回收。<br>
-&emsp;&emsp;Key是弱引用，但value是强引用，当线程的ThreadLocal使用完，没有强引用指向key时，key的对象会被回收，变成null，但value和value指向的对象仍是强引用关系，不会被回收。<br>
-&emsp;&emsp;每次调用ThreadLocal的get，set，remove方法时，会将key为null的Entry删除，避免内存泄露。但如果将对象放入ThreadLocalMap后就不再调用这些方法，仍可能导致内存泄露，需要在使用完ThreadLocal后手动remove。
+ThreadLocal有一个ThreadLocalMap的内部类，由一个个Entry组成，Entry继承自WeakReference<ThreadLocal<?>>，一个Entry由Threadlocal（key，弱引用）和Object构成，没有指向key的强引用时，key就会被回收。<br>
+Key是弱引用，但value是强引用，当线程的ThreadLocal使用完，没有强引用指向key时，key的对象会被回收，变成null，但value和value指向的对象仍是强引用关系，不会被回收。<br>
+每次调用ThreadLocal的get，set，remove方法时，会将key为null的Entry删除，避免内存泄露。但如果将对象放入ThreadLocalMap后就不再调用这些方法，仍可能导致内存泄露，需要在使用完ThreadLocal后手动remove。
 
 #### 67. happens-before规则：
 程序顺序规则：一个线程中的每个操作，happens-before于该线程的任意后续操作<br>
