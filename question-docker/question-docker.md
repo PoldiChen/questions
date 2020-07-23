@@ -41,6 +41,12 @@ Docker的优点：<br>
 (5) 云构建<br>
 (6) 省钱
 
+#### 2. K8S和helm
+Helm是Kubernetes应用的包管理工具，主要用来管理Charts，类似于centos的yum
+Helm Chart 是用来封装 Kubernetes 原生应用程序的一系列 YAML 文件。
+chart 是创建一个应用的信息集合，包括各种 Kubernetes 对象的配置模板、参数定义、依赖关系、文档说明等。chart 是应用部署的自包含逻辑单元。可以将 chart 想象成 apt、yum 中的软件安装包。
+release 是 chart 的运行实例，代表了一个正在运行的应用。当 chart 被安装到 Kubernetes 集群，就生成一个 release。chart 能够多次安装到同一个集群，每次安装都是一个 release。
+
 
 
 
