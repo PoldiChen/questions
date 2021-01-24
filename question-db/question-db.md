@@ -20,14 +20,14 @@ explain结果的各个item的含义：
 
 item | 含义
 -|-
-select_type | 查询中每个select子句的类型
-type | 在表中找到所需行的方式，又称“访问类型”。<br>index：表示全索引扫描<br>all：表示全表扫描，性能最差<br>range：表示区间查询<br>ref, eq_ref：常量或等值查询<br>const：主键等值查询
+select_type | 查询中每个select子句的类型<br> SIMPLE：简单select，不用union或子查询<br> PRIMARY：包含子查询，最外层标记为primary<br> UNION<br> DEPENDENT UNION<br> UNION RESULT<br> SUBQUERY<br> DEPENDENT SUBQUERY<br> DERIVED<br> UNCACHEABLE SUBQUERY
+type | 在表中找到所需行的方式，又称“访问类型”。<br>index：表示全索引扫描<br>ALL：表示全表扫描，性能最差<br>range：表示区间查询<br>ref, eq_ref：常量或等值查询<br>const：主键等值查询
 possible_keys | 能使用哪个索引在表中找到行。<br>查询涉及到的字段如果有索引，该索引会被列出，但不一定被查询使用
 key | 查询的时候实际使用的索引
 key_len | 索引中使用的字节数，可以计算出查询中使用的索引的长度。<br>数字等于索引列类型的字节数，int类型4 bytes，bigint类型8 bytes。<br>字符串类型和字符集相关，char(30) UTF-8至少是90 bytes。<br>允许null，加1 byte<br>varchar，加2 bytes
 ref | 上述表的连接匹配条件，即哪些列或常量被用于查找索引列上的值
 rows | 预估需要检测的行数
-extra | 十分重要的额外信息，是否使用了索引，是否需要排序，是否会用到临时表。<br>using index表示覆盖索引扫描，说明性能较好。
+extra | 十分重要的额外信息，是否使用了索引，是否需要排序，是否会用到临时表。<br>using filesort：使用一个外部的索引排序，而不是按照表内的索引顺序进行读取<br>using temporary：使用了临时表保存中间结果，常见于order by和group by<br>using index：表示覆盖索引扫描，说明性能较好<br>using where：使用了where条件<br>using join buffer：使用了连接缓存<br>impossible where：where字句的值总是false，不能用来获取任何元组<br>distinct：一旦找到了与行相联合匹配的行，就不再搜索<br>select tables optimized away：select操作已经优化到不能再优化了<br>
 
 #### 4. MySQL索引原理？索引的类型？如何合理创建索引？索引的缺点？
 索引是一种数据结构，由B树或B+树实现（另外还有hash、full-text）。<br>
@@ -431,7 +431,7 @@ Oracle的索引有聚集索引、非聚集索引、唯一索引。<br>
 (d) 尽量使用TIMESTAMP而非DATETIME<br>
 (e) 单表不要有太多字段，保持在20以内<br>
 (f) 避免使用NULL字段，很难优化查询且占用额外索引空间<br>
-(g) 用整型存IP<br>
+(g) 用整型存IP inet_aton(), inet_ntoa()<br>
 
 **索引**<br>
 (a) 有针对性的建索引，对WHERE和ORDER BY涉及的字段<br>
@@ -582,6 +582,7 @@ select distinct(salary) from employee order by salary desc limit n-1, 1;
 MySQL分为上层的服务层和下层的数据存储层。<br>
 server层主要包括连接器、查询缓存、分析器、优化器、执行器。<br>
 存储层主要用来存储和查询数据。<br>
+
 (1) 客户端发送一条查询命令给服务端<br>
 (2) 服务器先检查查询缓存，如果命中，则直接返回缓存中的结果。<br>
 (3) 服务器端进行SQL解析、预处理，再由优化器生成对应的执行计划<br>
@@ -712,8 +713,9 @@ read committed：读已提交（默认）<br>
 serializable：串行读<br>
 
 #### 56. MySQL列值为null的时候索引是否生效？
-对于not null的字段，where条件无论是null还是not null索引都失效；<br>
-对于可以是null的字段，where条件无论是null还是not null索引都生效
+对于not null的字段，where条件无论是null还是not null索引都失效<br>
+对于可以是null的字段，where条件无论是null还是not null索引都生效<br>
+where xxx is null索引生效
 
 #### 57. select count(\*), select count(1), select count(column)的区别？
 如果没有主键，count(1)比count(\*)快<br>
@@ -729,7 +731,8 @@ max_connections # 最大连接数
 MHA Master High Availability<br>
 MySQL高可用解决方案，高可用环境下故障切换和主从提升。<br>
 
-由两部分组成：MHA Manager（管理节点）和MHA Node（数据节点），manager管理多个master-slave集群，可以单独部署，也可以部署在一台slave节点，node运行在每台MySQL服务器上。<br>
+由两部分组成：MHA Manager（管理节点）和MHA Node（数据节点）<br>
+manager管理多个master-slave集群，可以单独部署，也可以部署在一台slave节点，node运行在每台MySQL服务器上。<br>
 manager定时探测集群中的master节点，master故障时，自动将数据最新的slave提升为master，其他的slave指向新的master，应用配置虚拟IP，对应用透明。<br>
 
 目前支持一主多从结构，一个复制集群中至少有三台数据库服务器，一台充当master，一台充当备用master，另外一台充当从库。<br>
