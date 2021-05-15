@@ -87,6 +87,26 @@ Dubbo定位服务治理，Spring Cloud是一个生态。
 数据流 | 无 | Spring Cloud Stream
 批量任务 | 无 | Spring Cloud Task
 
+#### 10. RPC和HTTP的区别？
+RPC（Remote Procedure Call）远程过程调用。
+RPC主要是基于TPC/IP协议，TCP是传输层协议。
+HTTP主要是基于HTTP协议，HTTP是应用层协议。
+
+完整的RPC框架包含4个核心组件：
+Client：服务的调用方
+Server：真正的服务提供者
+Client Stub：存放服务端的地址消息，再将客户端的请求参数打包成网络消息，然后通过网络远程发送给服务方
+Server Stub：接收客户端发送过来的消息，将消息解包，并调用本地方法
+（stub可以理解为存根）
+
+RPC主要用于大型企业，系统繁多，业务线复杂，RPC有明显的效率优势，不需要三次握手，减少了网络开销
+HTTP适用于接口不多，系统间交互较少的场景，优点是简单、直接、开发方便
+
+实现方式：
+1、声明服务的所有接口（Java中的Interface）
+2、将项目打包成jar包
+3、服务端引入这个第二方库，实现相应的接口
+4、客户端也引入这个第二方库，即可调用接口
 
 
 
