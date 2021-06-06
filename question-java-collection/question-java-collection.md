@@ -107,7 +107,8 @@ ArrayList | LinkedList
 HashSet内部维护了一个HashMap，将集合作为构造函数的参数时，会调用HashMap的put方法，通过hash值检查是否重复。
 
 #### 14. synchronized和ReentrantLock的区别？为什么要设计可重入锁ReentrantLock？？？
-重入性：同一个线程多次试图获取它占有的锁，都会成功。相应的，释放锁时，重入计数为零才释放成功。
+重入性：同一个线程多次试图获取它占有的锁，都会成功。<br>
+相应的，释放锁时，重入计数为零才释放成功。
 
 项 | synchronized | ReentrantLock
 -| - | -
@@ -184,8 +185,10 @@ AQS定义了对双向队列的所有操作，只开放了tryLock和tryRelease给
 ConcurrentHashMap把map分成若干部分来实现可扩展性和线程安全，这种划分是使用并发度获得的，是构造函数的一个可选参数，默认值是16。<br>
 将一个map分为多个Hashtable，根据key.hashCode()决定将key放到哪个Hashtable中。<br>
 
-JDK 1.8中不再使用segment锁分离，而是使用乐观锁CAS算法来实现同步。底层还是数组+链表->红黑树。<br>
-不需要对segment或者全局加锁，只需对单行加锁（hashCode相同）。对单个值的修改使用CAS。
+JDK 1.8中不再使用segment锁分离，而是使用乐观锁CAS算法来实现同步。<br>
+底层还是数组+链表->红黑树。<br>
+不需要对segment或者全局加锁，只需对单行加锁（hashCode相同）。<br>
+对单个值的修改使用CAS。
 
 #### 24. 阻塞队列BlockingQueue的作用？
 java.util.concurrent.BlockingQueue的特性是：队列是空的时，获取或删除元素的操作会被阻塞，队列是满的时，添加元素的操作会被阻塞。<br>
