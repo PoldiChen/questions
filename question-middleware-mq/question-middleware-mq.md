@@ -179,6 +179,10 @@ RabbitMQ: 利用Time-To-Live Extensions和Dead Letter Exchange，设置过期时
 Nameserver负责维护producer和consumer的配置信息、状态信息，并且协调各个角色的协同执行。<br>
 通过Nameserver各个角色可以了解到集群的整体信息，并且他们会定期向nameserver上报状态。<br>
 
+Broker是RocketMQ的核心，提供了消息的接收，存储，拉取等功能，一般都需要保证Broker的高可用，所以会配置Broker Slave，当Master挂掉之后，Consumer然后可以消费Slave
+
+Broker分为Master和Slave，一个Master可以对应多个Slave，Master与Slave的对应关系通过指定相同的BrokerName，不同的BrokerId来定义，BrokerId为0表示Master，非0表示Slave
+
 为什么不用Zookeeper？<br>
 Zookeeper是Apache旗下用于分布式服务协调的开源软件，并且拥有选举机制，能够在master宕机时从slave中通过选举机制选出一个slave变成master。<br>
 但是在nameserver的设计中，masterBroker中没有一台拥有全部的topic信息，消息分布平均，失去选举机制的意义。<br>
